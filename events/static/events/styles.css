@@ -1,0 +1,11 @@
+.event:hover {
+  transform: scale(1.01);
+}
+
+.side-text {
+  color: #8000d0;
+}
+
+.side-text:hover {
+  color: #a020f0;
+}

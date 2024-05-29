@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container mx-auto pt-5">
-    <div class="px-5 pt-5 mb-3 text-center">
+    <div class="hero px-5 pt-5 mb-3 text-center">
         <h1 class="display-4 fw-bold text-body-emphasis mx-3">Community. Connection. Shared Passions.</h1>
 
         <div class="col-lg-9 mx-auto">
@@ -22,6 +22,37 @@
             <img src="https://plus.unsplash.com/premium_photo-1706061121393-ca0a11ff4885?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 class="border rounded-3 shadow-lg mb-4 w-25 mx-3" alt="Community Event" loading="lazy">
         </div>
+    </div>
+</div>
+<div class="container p-3 mb-5">
+    <div class="row mb-0">
+        <span class="display-6 fw-bold text-start w-75">Featured Events</span>
+        {% if events %}
+        <span class="w-25 text-end h5 text-decoration-none mt-3 side-text" role="button">
+            <p class="ms-auto side-text" role="button">See all events</p>
+        </span>
+        {% endif %}
+    </div>
+    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 mt-2">
+        {% for event in events %}
+        <div class="event col mb-3" role="button">
+            <div class="card">
+                <img src="{{ event.image }}" class="card-img-top" alt="event-image">
+                <div class="card-body">
+                    <h4 class="card-title h4 overflow-hidden" style="height: 130px;">
+                        {{ event.title }}
+                    </h4>
+                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.organizer }}</p>
+                    <p class="card-text text-secondary fw-bold">
+                        <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
+                        <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
