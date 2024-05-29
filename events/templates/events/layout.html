@@ -16,15 +16,19 @@
     <header class="p-3 bg-dark text-white">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0">
-                    <i class="bi bi-people text-warning fs-3"></i>
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none">
+                    <i class="bi bi-people-fill text-warning fs-3"></i>
+                    <span class="text-warning ms-2">Community Event Board</span>
+                    
                 </a>
 
-                <form id="search-form" class="col-12 col-lg-auto ms-4 mb-3 mb-lg-0 me-lg-3" role="search">
+                <form id="search-form" class="col-12 col-lg-auto ms-4 mb-3 mb-lg-0 me-lg-3" style="min-width: 400px;"
+                    role="search">
                     <div class="input-group">
-                        <input type="text" aria-label="Search" class="form-control" placeholder="Search events or location">
-                        <button class="btn btn-secondary" type="submit">
-                            <i class="bi bi-search text-warning"></i>
+                        <input type="text" aria-label="Search" class="form-control"
+                            placeholder="Find events by keyword, category, or location">
+                        <button class="btn btn-warning" type="submit">
+                            <i class="bi bi-search text-dark"></i>
                         </button>
                     </div>
                 </form>
@@ -36,7 +40,7 @@
                     </ul>         -->
 
                 <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
+                    <button type="button" class="btn btn-outline-warning me-2">Login</button>
                     <button type="button" class="btn btn-warning">Sign-up</button>
                 </div>
             </div>
