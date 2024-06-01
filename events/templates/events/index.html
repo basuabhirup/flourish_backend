@@ -25,6 +25,7 @@
         </div>
     </div>
 </div>
+
 <div class="container p-3 mb-5">
     <div class="row mb-0">
         <span class="display-6 fw-bold text-start w-75">Featured Events</span>
@@ -34,7 +35,7 @@
         </span>
         {% endif %}
     </div>
-    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 mt-2">
+    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 mt-2 justify-content-sm-center">
         {% for event in events %}
         <div class="event col mb-3" role="button">
             <div class="card">
@@ -54,6 +55,88 @@
         {% empty %}
         <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
         {% endfor %}
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row mb-0">
+        <span class="display-6 fw-bold text-start w-75">Explore top categories</span>
+    </div>
+    <div class="categories row d-flex justify-content-sm-center mt-2">
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/mountain.png' %}" alt="" width="48">
+            </span>
+            <span class="d-block fw-bold">Travel and Outdoor</span>
+        </span>
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/groups.png' %}" alt="" width="48">
+            </span>
+            <span class="d-block fw-bold">Social Activities</span>
+        </span>
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/origami.png' %}" alt="" width="48">
+            </span>
+            <span class="d-block fw-bold">Hobbies and Passions</span>
+        </span>
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/running.png' %}" alt="" width="48">
+            </span>
+            <span class="d-block fw-bold">Sports and Fitness</span>
+        </span>
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/virtual-reality.png' %}" alt="" width="48">
+            </span>
+            <span class="d-block fw-bold">Technology</span>
+        </span>
+        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block mb-2">
+                {% load static %}
+                <img src="{% static 'events/images/joystick.png' %}" alt="" width="40">
+            </span>
+            <span class="d-block fw-bold">Games</span>
+        </span>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row mb-0">
+        <span class="display-6 fw-bold text-start w-75">How Flourish works</span>
+    </div>
+    <div class="row d-flex justify-content-sm-center mt-2">
+        <span class="col-md-6 p-3">
+            <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
+                <span class="ms-2 me-4">
+                    {% load static %}
+                    <img src="{% static 'events/images/search.png' %}" alt="" width="40">
+                </span>
+                <span class="d-flex flex-column">
+                    <div class="fs-4 fw-bold">Discover events and groups</div>
+                    <span class="text-secondary d-block w-75">See who's hosting local events for all the things you love, attend and make new friends</span>
+                </span>
+            </div>
+        </span>
+        <span class="col-md-6 p-3">
+            <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
+                <span class="ms-2 me-4">
+                    {% load static %}
+                    <img src="{% static 'events/images/plus.png' %}" alt="" width="40">
+                </span>
+                <span class="d-flex flex-column">
+                    <div class="fs-4 fw-bold">Host your events</div>
+                    <span class="text-secondary d-block w-75">Create and host your own events, and connect with people over shared interests</span>
+                </span>
+            </div>
+        </span>
     </div>
 </div>
 {% endblock %}

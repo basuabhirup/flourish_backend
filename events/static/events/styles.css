@@ -9,3 +9,8 @@
 .side-text:hover {
   color: #a020f0;
 }
+
+.category {
+  width: 10rem;
+  border: 5px solid red;
+}
