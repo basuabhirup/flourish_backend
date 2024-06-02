@@ -31,17 +31,17 @@
         <span class="display-6 fw-bold text-start w-75">Featured Events</span>
         {% if events %}
         <span class="w-25 text-end h5 text-decoration-none mt-3 side-text" role="button">
-            <p class="ms-auto side-text" role="button">See all events</p>
+            <a href="{% url 'all_events' %}" class="ms-auto side-text" role="button">See all events</a>
         </span>
         {% endif %}
     </div>
     <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in events %}
-        <div class="event col mb-3" role="button" data-event-id="{{ event.id }}" onclick="openEvent(event)">
+        <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
             <div class="card">
                 <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
                 <div class="card-body">
-                    <h4 class="card-title fs-5">
+                    <h4 class="card-title fs-5 text-dark">
                         {{ event.title }}
                     </h4>
                     <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.organizer }}</p>
@@ -55,7 +55,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </a>
         {% empty %}
         <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
         {% endfor %}

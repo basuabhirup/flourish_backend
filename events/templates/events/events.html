@@ -1,0 +1,34 @@
+{% extends "events/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>All Events</h1>
+    <p>Here's a list of all upcoming events. Click on an event to learn more.</p>
+
+    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+        {% for event in events %}
+        <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+            <div class="card">
+                <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                <div class="card-body">
+                    <h4 class="card-title fs-5 text-dark">
+                        {{ event.title }}
+                    </h4>
+                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.organizer }}</p>
+                    <p class="card-text text-secondary fw-bold mb-2">
+                        <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
+                        <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                    </p>
+                    <p class="card-text text-secondary lh-sm mt-2 mb-3">
+                        <span class="me-1"><i class="bi bi-geo-alt"></i></span>
+                        <span class="ms-1">{{ event.location }}</span>
+                    </p>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

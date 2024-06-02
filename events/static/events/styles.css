@@ -2,6 +2,10 @@ main {
   min-height: 85vh;
 }
 
+a {
+  text-decoration: none;
+}
+
 .event:hover {
   transform: scale(1.025);
 }

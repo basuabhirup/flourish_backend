@@ -158,3 +158,8 @@ def event_detail(request, event_id):
     return render(request, "events/event_detail.html", {
         "event": event
     })
+    
+def all_events(request):
+    return render(request, "events/events.html", {
+        "events": events
+    })
