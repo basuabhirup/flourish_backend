@@ -35,19 +35,23 @@
         </span>
         {% endif %}
     </div>
-    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4 mt-2 justify-content-sm-center">
+    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in events %}
-        <div class="event col mb-3" role="button">
+        <div class="event col mb-3" role="button" data-event-id="{{ event.id }}" onclick="openEvent(event)">
             <div class="card">
-                <img src="{{ event.image }}" class="card-img-top" alt="event-image">
+                <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
                 <div class="card-body">
-                    <h4 class="card-title h4 overflow-hidden" style="height: 130px;">
+                    <h4 class="card-title fs-5">
                         {{ event.title }}
                     </h4>
                     <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.organizer }}</p>
-                    <p class="card-text text-secondary fw-bold">
+                    <p class="card-text text-secondary fw-bold mb-2">
                         <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                         <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                    </p>
+                    <p class="card-text text-secondary lh-sm mt-2 mb-3">
+                        <span class="me-1"><i class="bi bi-geo-alt"></i></span>
+                        <span class="ms-1">{{ event.location }}</span>
                     </p>
                 </div>
             </div>
@@ -113,7 +117,7 @@
         <span class="display-6 fw-bold text-start w-75">How Flourish works</span>
     </div>
     <div class="row d-flex justify-content-sm-center mt-2">
-        <span class="col-md-6 p-3">
+        <span class="col-md-6 p-3 how-to-item">
             <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
                 <span class="ms-2 me-4">
                     {% load static %}
@@ -125,7 +129,7 @@
                 </span>
             </div>
         </span>
-        <span class="col-md-6 p-3">
+        <span class="col-md-6 p-3 how-to-item">
             <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
                 <span class="ms-2 me-4">
                     {% load static %}

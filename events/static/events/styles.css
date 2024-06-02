@@ -1,5 +1,9 @@
+main {
+  min-height: 85vh;
+}
+
 .event:hover {
-  transform: scale(1.01);
+  transform: scale(1.025);
 }
 
 .side-text {
@@ -10,7 +14,11 @@
   color: #a020f0;
 }
 
-.category {
-  width: 10rem;
-  border: 5px solid red;
+.category:hover {
+  background-color: #eff;
+  transform: scale(1.05);
+}
+
+.how-to-item:hover {
+  transform: scale(1.01);
 }

@@ -1,0 +1,37 @@
+{% extends "events/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <img src="{{ event.image }}" class="img-fluid mb-3" alt="{{ event.title }}">
+            <h2>{{ event.title }}</h2>
+            <p class="text-secondary">Hosted by: {{ event.organizer }}</p>
+            <div class="d-flex mb-3 text-secondary">
+                <span class="me-3">
+                    <i class="bi bi-calendar2"></i> {{ event.date }}
+                </span>
+                <span class="me-3">
+                    <i class="bi bi-clock"></i> {{ event.time }}
+                </span>
+                <span class="me-3">
+                    <i class="bi bi-geo-alt"></i> {{ event.location }}
+                </span>
+            </div>
+            <p>{{ event.description }}</p>
+            <div class="mb-3">
+                <span class="h6">Category:</span>
+                <span class="list-unstyled">
+                    {{ event.category }}
+                </span>
+            </div>
+            <a href="" class="btn btn-lg btn-warning mb-3">Register Now</a>
+        </div>
+        <div class="col-md-4 ps-5">
+            <h3>About the Organizer</h3>
+            <p>{{ event.organizer_description }}</p>
+            <a href="" class="btn btn-outline-warning">Visit Organizer Website</a>
+            </div>
+    </div>
+</div>
+{% endblock %}
