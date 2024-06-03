@@ -4,5 +4,96 @@
 // }
 
 const backToHome = () => {
-    window.location = '/'
+  window.location = "/";
+};
+
+const logIn = () => {
+  form = document.querySelector("#loginForm");
+  username = document.getElementById("loginUsername").value;
+  password = document.getElementById("loginPassword").value;
+  csrfmiddlewaretoken = form.querySelector(
+    "input[name='csrfmiddlewaretoken'][type='hidden']"
+  ).value;
+
+  const data = new FormData();
+  data.append("username", username);
+  data.append("password", password);
+  data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  // console.log(data.get('csrfmiddlewaretoken')
+
+  // API Call
+  fetch("/login", {
+    method: "POST",
+    body: data,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location.reload();
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+};
+
+const signUp = () => {
+  form = document.querySelector("#signUpForm");
+
+  username = document.getElementById("signupUsername").value;
+  email = document.getElementById("signupEmail").value;
+  password = document.getElementById("signupPassword").value;
+  confirmation = document.getElementById("signupConfirmation").value;
+
+  csrfmiddlewaretoken = form.querySelector(
+    "input[name='csrfmiddlewaretoken'][type='hidden']"
+  ).value;
+  
+  const data = new FormData()
+  data.append("username", username);
+  data.append("email", email);
+  data.append("password", password);
+  data.append("confirmation", confirmation);
+  data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  
+  // API Call
+  fetch("/register", {
+    method: "POST",
+    body: data,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location.reload();
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+};
+
+const logOut = () => {
+  fetch("/logout", {
+    method: "POST",
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location.reload();
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
 }

@@ -30,7 +30,7 @@
                     role="search">
                     <div class="input-group">
                         <input type="text" aria-label="Search" class="form-control"
-                            placeholder="Find events by keyword, category, or location">
+                            placeholder="Search events">
                         <button class="btn btn-warning" type="submit">
                             <i class="bi bi-search text-dark"></i>
                         </button>
@@ -38,8 +38,12 @@
                 </form>
 
                 <div class="text-end">
+                  {% if not user.is_authenticated %}
                     <button type="button" class="btn btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign-up</button>
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+                  {% else %}
+                    <button type="button" class="btn btn-outline-warning me-2" onclick="logOut()">Log Out</button>
+                  {% endif %}
                 </div>
             </div>
         </div>
@@ -53,19 +57,32 @@
 
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
             <div class="modal-header">
-              <h1 class="modal-title fs-3" id="exampleModalLabel">Log In</h1>
+              <h1 class="modal-title fs-3" id="loginModalLabel">Log In</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body py-5">
-              Login Form Here
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-lg btn-warning px-4">Log In</button>
-            </div>
+            <form id="loginForm" onsubmit="event.preventDefault()" method="post" action="{% url 'login' %}">
+              <div class="modal-body py-3">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      <label for="loginUsername" class="ms-1 form-label">Username</label>
+                      <input autofocus id="loginUsername" class="form-control me-4" type="text" name="username" placeholder="Username">
+                  </div>
+                  <div class="mb-3">
+                      <label for="loginPassword" class="ms-1 form-label">Password</label>
+                      <input id="loginPassword" class="form-control me-4" type="password" name="password" placeholder="Password" autocomplete="on">
+                  </div>
+                  <p class="text-muted mx-auto text-center mt-5">Don't have an account yet ?&nbsp;
+                    <span class="text-dark" role="button" type="button" data-bs-toggle="modal" data-bs-target="#signUpModal">Register now</span>
+                  </p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4" data-bs-dismiss="modal" type="reset">Close</button>
+                  <button type="button" class="btn btn-lg btn-warning px-4" onclick="logIn()">Log In</button>
+              </div>
+            </form>
           </div>
         </div>
     </div>
@@ -73,19 +90,40 @@
 
     <!-- SignUp Modal -->
     <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
             <div class="modal-header">
-              <h1 class="modal-title fs-3" id="exampleModalLabel">Sign Up</h1>
+              <h1 class="modal-title fs-3" id="signupModalLabel">Sign Up</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body py-5">
-              SignUp Form Here
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-lg btn-warning ox-3 px-4">Sign Up</button>
-            </div>
+            <form id="signUpForm" onsubmit="event.preventDefault()" method="post" action="{% url 'register' %}">
+              <div class="modal-body py-3">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      <label for="signupUsername" class="ms-1 form-label">Username</label>
+                      <input autofocus id="signupUsername" class="form-control me-4" type="text" name="username" placeholder="Username" autocomplete="off">
+                  </div>
+                  <div class="mb-3">
+                      <label for="signupEmail" class="ms-1 form-label">Email Address</label>
+                      <input autofocus id="signupEmail" class="form-control me-4" type="email" name="email" placeholder="Email Address" autocomplete="off">
+                  </div>
+                  <div class="mb-3">
+                      <label for="signupPassword" class="ms-1 form-label">Password</label>
+                      <input id="signupPassword" class="form-control me-4" type="password" name="password" placeholder="Password" autocomplete="off">
+                  </div>
+                  <div class="mb-3">
+                      <label for="signupConfirmation" class="ms-1 form-label">Confirm Password</label>
+                      <input id="signupConfirmation" class="form-control me-4" type="password" name="confirmation" placeholder="Confirm Password" autocomplete="off">
+                  </div>
+                  <p class="text-muted mx-auto text-center mt-5">Already registered ?&nbsp;
+                    <span class="text-dark" role="button" type="button" data-bs-toggle="modal" data-bs-target="#loginModal">Login here</span>
+                  </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-lg btn-warning ox-3 px-4" onclick="signUp()">Sign Up</button>
+              </div>
+            </form>
           </div>
         </div>
     </div>
