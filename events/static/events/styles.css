@@ -26,3 +26,8 @@ a {
 .how-to-item:hover {
   transform: scale(1.01);
 }
+
+.hoverable:hover {
+  transform: scale(1.025);
+  background-color: #ffc10720;
+}
