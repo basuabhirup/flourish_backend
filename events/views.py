@@ -47,6 +47,7 @@ def login_view(request):
     else:
         return render(request, 'events/404.html')
 
+
 @csrf_exempt
 def logout_view(request):
   if request.method == "POST":
