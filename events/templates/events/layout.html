@@ -54,7 +54,7 @@
                 style="width:34px; height:34px"></i>
             </div>
             <ul class="dropdown-menu border">
-              <li><button class="btn hoverable dropdown-item" href="#">My Profile</button></li>
+              <li><a class="btn hoverable dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
               <li><button class="btn hoverable dropdown-item" href="#">Settings</button></li>
               <li><button class="btn hoverable dropdown-item" onclick="logOut()">Log Out</button></li>
             </ul>
@@ -79,7 +79,7 @@
           <h1 class="modal-title fs-3" id="loginModalLabel">Log In</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="loginForm" onsubmit="event.preventDefault()" method="post" action="{% url 'login' %}">
+        <form id="loginForm" onsubmit="event.preventDefault()">
           <div class="modal-body py-3">
             {% csrf_token %}
             <div class="mb-3">
@@ -116,7 +116,7 @@
           <h1 class="modal-title fs-3" id="signupModalLabel">Sign Up</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="signUpForm" onsubmit="event.preventDefault()" method="post" action="{% url 'register' %}">
+        <form id="signUpForm" onsubmit="event.preventDefault()">
           <div class="modal-body py-3">
             {% csrf_token %}
             <div class="mb-3">

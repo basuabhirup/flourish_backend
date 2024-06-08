@@ -79,3 +79,14 @@ def register(request):
         return JsonResponse({'message': 'Succesfully signed up.'}, status=200)
     else:
         return render(request, 'events/404.html')
+    
+    
+def profile(request):
+    if not request.user.is_authenticated:
+        return render(request, 'events/404.html')
+
+    user = request.user
+
+    return render(request, 'events/profile.html', {
+        'user': user
+        })
