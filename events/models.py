@@ -38,7 +38,9 @@ class Group(models.Model):
   name = models.CharField(max_length=255)
   description = models.TextField(blank=True)
   created_at = models.DateTimeField(auto_now_add=True)
+  owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_groups')
   members = models.ManyToManyField(User, related_name='user_groups')
+  privacy_setting = models.CharField(max_length=10, choices=[('public', 'Public'), ('private', 'Private'), ('hidden', 'Hidden')], default='public')
 
 
   def __str__(self):
