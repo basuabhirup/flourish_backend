@@ -15,7 +15,6 @@ class Event(models.Model):
   time = models.TimeField()
   location = models.CharField(max_length=255)  # geolocations to be later
   category = models.ForeignKey(Category, on_delete=models.CASCADE)
-  organizer = models.ForeignKey(User, on_delete=models.CASCADE)
   host = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='hosted_events')  
   group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
 
