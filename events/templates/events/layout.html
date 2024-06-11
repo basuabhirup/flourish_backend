@@ -54,8 +54,9 @@
                 style="width:34px; height:34px"></i>
             </div>
             <ul class="dropdown-menu border">
+              <li><a class="btn hoverable dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
               <li><a class="btn hoverable dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
-              <li><button class="btn hoverable dropdown-item" href="#">Settings</button></li>
+              <hr class="mt-1 p-0 mb-2">
               <li><button class="btn hoverable dropdown-item" onclick="logOut()">Log Out</button></li>
             </ul>
           </div>

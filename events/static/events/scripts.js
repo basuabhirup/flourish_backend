@@ -88,7 +88,7 @@ const logOut = () => {
     if (res.status === 200) {
       res.json().then((json) => {
         console.log(json.message);
-        window.location.reload();
+        window.location = '/'
       });
     } else {
       res.json().then((json) => {

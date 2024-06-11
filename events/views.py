@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 
 
 # Create your views here
@@ -90,6 +91,30 @@ def profile(request):
     return render(request, 'events/profile.html', {
         'user': user
         })
+    
+    
+def dashboard(request):
+    if not request.user.is_authenticated:
+        return render(request, 'events/404.html')
+
+    user = request.user
+
+    # Attended events
+    attended_upcoming_events = user.registration_set.filter(event__date__gte=timezone.now().date()).select_related('event')
+    attended_past_events = user.registration_set.filter(event__date__lt=timezone.now().date()).select_related('event')
+
+    # Hosted events
+    hosted_upcoming_events = user.hosted_events.filter(date__gte=timezone.now().date())
+    hosted_past_events = user.hosted_events.filter(date__lt=timezone.now().date())
+
+    return render(request, 'events/dashboard.html', {
+        'user': user,
+        'attended_upcoming_events': attended_upcoming_events,
+        'attended_past_events': attended_past_events,
+        'hosted_upcoming_events': hosted_upcoming_events,
+        'hosted_past_events': hosted_past_events,
+    })
+
     
     
 @csrf_exempt

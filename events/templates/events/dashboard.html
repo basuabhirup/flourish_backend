@@ -1,0 +1,110 @@
+{% extends "events/layout.html" %}
+
+{% block body %}
+  <div class="container mt-5">
+    <h2 class="mb-4">Welcome, {{ user.username }}</h2>
+
+    <div class="row">
+      <div class="col-md-9 col-sm-12 my-4">
+        <h4>Events Attended by You</h4>
+          <!-- Nav tabs -->
+          <ul class="nav nav-pills my-3" id="pills-tab-attended-events" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#upcoming-attended-events" type="button" role="tab">Upcoming</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" data-bs-toggle="pill" data-bs-target="#past-attended-events" type="button" role="tab">Past</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent-attended-events">
+            <div class="tab-pane fade show active" id="upcoming-attended-events" role="tabpanel" aria-labelledby="upcoming-attended-events-tab" tabindex="0">
+              <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+              {% for event in attended_upcoming_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                  <div class="card">
+                    <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                    <div class="card-body">
+                      <h5 class="card-title fs-5 text-dark">
+                        {{ event.title }}
+                      </h5>
+                      <p class="card-text text-secondary lh-sm my-3">Upcoming - {{ event.date }}</p>
+                    </div>
+                  </div>
+                </a>
+                {% empty %}
+                  <p class="text-secondary lh-sm my-3 mx-auto text-center">No upcoming events...</p>
+              {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane fade" id="past-attended-events" role="tabpanel" aria-labelledby="past-attended-events-tab" tabindex="0">
+              {% for event in attended_past_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                  <div class="card">
+                    <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                    <div class="card-body">
+                      <h5 class="card-title fs-5 text-dark">
+                        {{ event.title }}
+                      </h5>
+                      <p class="card-text text-secondary lh-sm my-3">Past - {{ event.date }}</p>
+                    </div>
+                  </div>
+                </a>
+              {% empty %}
+                <p class="text-secondary lh-sm my-3 mx-auto text-center">No events attended in past...</p>
+              {% endfor %}
+            </div>
+          </div>
+      </div>
+      <div class="col-md-9 col-sm-12 my-4">
+        <h4>Events Hosted by You</h4>
+          <!-- Nav tabs -->
+          <ul class="nav nav-pills my-3" id="pills-tab-hosted-events" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#upcoming-hosted-events" type="button" role="tab">Upcoming</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" data-bs-toggle="pill" data-bs-target="#past-hosted-events" type="button" role="tab">Past</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent-hosted events">
+            <div class="tab-pane fade show active" id="upcoming-hosted-events" role="tabpanel" aria-labelledby="upcoming-hosted-events-tab" tabindex="0">
+              <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+              {% for event in hosted_upcoming_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                  <div class="card">
+                    <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                    <div class="card-body">
+                      <h5 class="card-title fs-5 text-dark">
+                        {{ event.title }}
+                      </h5>
+                      <p class="card-text text-secondary lh-sm my-3">Upcoming - {{ event.date }}</p>
+                    </div>
+                  </div>
+                </a>
+                {% empty %}
+                  <p class="text-secondary lh-sm my-3 text-center">No upcoming events.</p>
+              {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane fade" id="past-hosted-events" role="tabpanel" aria-labelledby="past-hosted-events-tab" tabindex="0">
+              {% for event in hosted_past_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                  <div class="card">
+                    <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                    <div class="card-body">
+                      <h5 class="card-title fs-5 text-dark">
+                        {{ event.title }}
+                      </h5>
+                      <p class="card-text text-secondary lh-sm my-3">Past - {{ event.date }}</p>
+                    </div>
+                  </div>
+                </a>
+              {% empty %}
+                <p class="text-secondary lh-sm my-3 text-center">No events hosted in past.</p>
+              {% endfor %}
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
