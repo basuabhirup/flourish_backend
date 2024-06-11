@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Event, User
+from .models import Event, User, Group
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.db import IntegrityError
 from django.http import JsonResponse
@@ -90,3 +90,36 @@ def profile(request):
     return render(request, 'events/profile.html', {
         'user': user
         })
+    
+    
+@csrf_exempt
+def create_group(request):
+  if request.method == "POST" and request.user.is_authenticated:
+    user = request.user
+    group_name = request.POST.get('name')
+    group_description = request.POST.get('description')
+    privacy_setting = request.POST.get('privacy_setting', 'public')  # Default to public
+    
+    if not group_name:
+      return JsonResponse({'error': 'Please enter a group name.'}, status=400)
+    
+    try:
+      group = Group.objects.create(
+          name=group_name,
+          description=group_description,
+          owner=user,
+          privacy_setting=privacy_setting
+      )
+    except IntegrityError:
+      # Handle potential duplicate group names (optional)
+      return JsonResponse({'error': 'Group creation failed.'}, status=500)
+    
+    # Success response     
+    return JsonResponse({'message': 'Group created successfully!', 'group': {
+      'id': group.id,
+      'name': group.name,
+      'description': group.description,
+      'privacy_setting': group.privacy_setting
+    }}, status=201)
+  else:
+    return JsonResponse({'error': 'Invalid request!'}, status=400)
