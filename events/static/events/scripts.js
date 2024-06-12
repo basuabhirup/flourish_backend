@@ -127,7 +127,7 @@ const hostEvent = () => {
   const location = document.getElementById("eventLocation").value;
   const category = document.getElementById("eventCategory").value;
   const capacity = document.getElementById("eventCapacity").value;
-  const image = document.getElementById("eventImage").files[0];
+  const image_url = document.getElementById("eventImage").value;
 
   const csrfmiddlewaretoken = form.querySelector(
     "input[name='csrfmiddlewaretoken'][type='hidden']"
@@ -141,7 +141,7 @@ const hostEvent = () => {
   data.append("location", location);
   data.append("category", category);
   data.append("capacity", capacity);
-  data.append("image", image);
+  data.append("image", image_url);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
 
   // API Call
@@ -168,6 +168,7 @@ const createGroup = () => {
   const name = document.getElementById("groupName").value;
   const description = document.getElementById("groupDescription").value;
   const privacySetting = document.getElementById("privacySetting").value;
+  const image_url = document.getElementById("groupImage").value;
   const csrfmiddlewaretoken = form.querySelector(
     "input[name='csrfmiddlewaretoken'][type='hidden']"
   ).value;
@@ -176,6 +177,7 @@ const createGroup = () => {
   data.append("name", name);
   data.append("description", description);
   data.append("privacy_setting", privacySetting);
+  data.append("image_url", image_url);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
 
   fetch("/create_group", {

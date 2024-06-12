@@ -136,6 +136,7 @@ def create_group(request):
     group_name = request.POST.get('name')
     group_description = request.POST.get('description')
     privacy_setting = request.POST.get('privacy_setting', 'public')  # Default to public
+    group_image_url = request.POST.get('image_url')
     
     if not group_name:
       return JsonResponse({'error': 'Please enter a group name.'}, status=400)
@@ -145,7 +146,8 @@ def create_group(request):
           name=group_name,
           description=group_description,
           owner=user,
-          privacy_setting=privacy_setting
+          privacy_setting=privacy_setting,
+          image_url=group_image_url
       )
     except IntegrityError:
       # Handle potential duplicate group names (optional)
@@ -175,7 +177,7 @@ def create_event(request):
 
     # Optional fields
     event_capacity = request.POST.get('capacity')
-    event_image = request.FILES.get('image')
+    event_image = request.POST.get('image')
 
     if not event_title:
       return JsonResponse({'error': 'Please enter event title.'}, status=400)

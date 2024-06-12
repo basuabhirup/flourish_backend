@@ -9,7 +9,12 @@
         {% for event in events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
             <div class="card">
+                {% if event.image %}
                 <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="card-img-top" alt="event-image" height="160">
+                {% endif %}
                 <div class="card-body">
                     <h4 class="card-title fs-5 text-dark">
                         {{ event.title }}

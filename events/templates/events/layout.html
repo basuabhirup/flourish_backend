@@ -32,7 +32,7 @@
         <form id="search-form" class="col-12 col-lg-auto ms-4 mb-3 mb-lg-0 me-lg-3" style="min-width: 400px;"
           role="search">
           <div class="input-group">
-            <input type="text" aria-label="Search" class="form-control" placeholder="Search events">
+            <input type="text" aria-label="Search" class="form-control" placeholder="Search events and groups">
             <button class="btn btn-warning" type="submit">
               <i class="bi bi-search text-dark"></i>
             </button>
@@ -244,6 +244,10 @@
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </select>
+            </div>
+            <div class="mb-3">
+              <label for="groupImage" class="ms-1 form-label">Image URL (Optional)</label>
+              <input type="url" class="form-control me-4" id="groupImage" name="image_url">
             </div>
             <div class="d-flex justify-content-end mt-4">
               <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4 me-2"

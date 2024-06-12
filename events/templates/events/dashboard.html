@@ -13,8 +13,6 @@
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 pb-5">
       <a href="{% url 'all_events' %}" type="button" class="btn btn-warning btn-lg px-4 me-sm-3">Discover Events Now</a>
       <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal"
-        data-bs-target="#hostEventModal">Host your Event</button>
-      <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal"
         data-bs-target="#createGroupModal">Create your Group</button>
     </div>
   </div>
@@ -47,7 +45,12 @@
         {% for event in attended_upcoming_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
+            {% if event.image %}
             <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="card-img-top" alt="event-image" height="160">
+            {% endif %}
             <div class="card-body">
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
@@ -76,7 +79,12 @@
         {% for event in attended_past_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
+            {% if event.image %}
             <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="card-img-top" alt="event-image" height="160">
+            {% endif %}
             <div class="card-body">
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
@@ -120,7 +128,12 @@
         {% for event in hosted_upcoming_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
+            {% if event.image %}
             <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="card-img-top" alt="event-image" height="160">
+            {% endif %}
             <div class="card-body">
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
@@ -149,7 +162,12 @@
         {% for event in hosted_past_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
+            {% if event.image %}
             <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="card-img-top" alt="event-image" height="160">
+            {% endif %}
             <div class="card-body">
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}

@@ -19,7 +19,7 @@ class Event(models.Model):
   group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
 
   capacity = models.PositiveIntegerField(blank=True, null=True)  # Optional
-  image = models.ImageField(upload_to='events/static/event_images', blank=True, null=True)  # Optional
+  image = models.TextField(blank=True, null=True)
 
   def __str__(self):
     return self.title
@@ -41,7 +41,7 @@ class Group(models.Model):
   owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_groups')
   members = models.ManyToManyField(User, related_name='user_groups')
   privacy_setting = models.CharField(max_length=10, choices=[('public', 'Public'), ('private', 'Private'), ('hidden', 'Hidden')], default='public')
-
+  image_url = models.TextField(blank=True)
 
   def __str__(self):
     return self.name
