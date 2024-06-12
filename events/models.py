@@ -19,7 +19,7 @@ class Event(models.Model):
   group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, blank=True)
 
   capacity = models.PositiveIntegerField(blank=True, null=True)  # Optional
-  image = models.ImageField(upload_to='events/', blank=True, null=True)  # Optional
+  image = models.ImageField(upload_to='events/static/event_images', blank=True, null=True)  # Optional
 
   def __str__(self):
     return self.title

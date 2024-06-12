@@ -167,7 +167,7 @@ def create_group(request):
 def create_event(request):
   if request.method == "POST" and request.user.is_authenticated:
     user = request.user
-    event_name = request.POST.get('title')
+    event_title = request.POST.get('title')
     event_description = request.POST.get('description')
     event_date = request.POST.get('date')
     event_time = request.POST.get('time')
@@ -178,8 +178,8 @@ def create_event(request):
     event_capacity = request.POST.get('capacity')
     event_image = request.FILES.get('image')
 
-    if not event_name:
-      return JsonResponse({'error': 'Please enter event name.'}, status=400)
+    if not event_title:
+      return JsonResponse({'error': 'Please enter event title.'}, status=400)
 
     # Additional validation
     try:
@@ -189,13 +189,13 @@ def create_event(request):
       return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
 
     try:
-      datetime.strptime(event_time, '%H:%M:%S')  # Check for HH:MM:SS format
+      datetime.strptime(event_time, '%H:%M')  # Check for HH:MM format
     except ValueError:
-      return JsonResponse({'error': 'Invalid time format. Use HH:MM:SS.'}, status=400)
+      return JsonResponse({'error': 'Invalid time format. Use HH:MM'}, status=400)
 
     try:
       event = Event.objects.create(
-          title=event_name,
+          title=event_title,
           description=event_description,
           date=event_date,
           time=event_time,
@@ -215,7 +215,7 @@ def create_event(request):
     # Success response with limited event data
     return JsonResponse({'message': 'Event created successfully!', 'event': {
       'id': event.id,
-      'name': event.title  # Use 'title' for consistency
+      'name': event.title
     }}, status=201)
   else:
     return JsonResponse({'error': 'Invalid request!'}, status=400)

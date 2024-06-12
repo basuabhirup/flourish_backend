@@ -1,11 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const hostEventModal = document.querySelector('#hostEventModal');
+  const hostEventModal = document.querySelector("#hostEventModal");
 
-  hostEventModal.addEventListener('shown.bs.modal', function () {
+  hostEventModal.addEventListener("shown.bs.modal", function () {
     // populate event category with relevant options from db
+    fetch("/categories").then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          json.categories.forEach(
+            (category) =>
+              (hostEventModal.querySelector(
+                "#eventCategory"
+              ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
+          );
+        });
+      }
+    });
   });
 });
-
 
 // const openEvent = (e) =>{
 //     const eventId = e.target.closest(".event").dataset.eventId
@@ -17,10 +28,10 @@ const backToHome = () => {
 };
 
 const logIn = () => {
-  form = document.querySelector("#loginForm");
-  username = document.getElementById("loginUsername").value;
-  password = document.getElementById("loginPassword").value;
-  csrfmiddlewaretoken = form.querySelector(
+  const form = document.querySelector("#loginForm");
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+  const csrfmiddlewaretoken = form.querySelector(
     "input[name='csrfmiddlewaretoken'][type='hidden']"
   ).value;
 
@@ -51,25 +62,24 @@ const logIn = () => {
 };
 
 const signUp = () => {
-  form = document.querySelector("#signUpForm");
+  const form = document.querySelector("#signUpForm");
 
-  username = document.getElementById("signupUsername").value;
-  email = document.getElementById("signupEmail").value;
-  password = document.getElementById("signupPassword").value;
-  confirmation = document.getElementById("signupConfirmation").value;
+  const username = document.getElementById("signupUsername").value;
+  const email = document.getElementById("signupEmail").value;
+  const password = document.getElementById("signupPassword").value;
+  const confirmation = document.getElementById("signupConfirmation").value;
 
-  csrfmiddlewaretoken = form.querySelector(
+  const csrfmiddlewaretoken = form.querySelector(
     "input[name='csrfmiddlewaretoken'][type='hidden']"
   ).value;
-  
-  const data = new FormData()
+
+  const data = new FormData();
   data.append("username", username);
   data.append("email", email);
   data.append("password", password);
   data.append("confirmation", confirmation);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
 
-  
   // API Call
   fetch("/register", {
     method: "POST",
@@ -97,7 +107,7 @@ const logOut = () => {
     if (res.status === 200) {
       res.json().then((json) => {
         console.log(json.message);
-        window.location = '/'
+        window.location = "/";
       });
     } else {
       res.json().then((json) => {
@@ -105,4 +115,50 @@ const logOut = () => {
       });
     }
   });
-}
+};
+
+const hostEvent = () => {
+  const form = document.querySelector("#hostEventForm");
+
+  const title = document.getElementById("eventName").value;
+  const description = document.getElementById("eventDescription").value;
+  const date = document.getElementById("eventDate").value;
+  const time = document.getElementById("eventTime").value;
+  const location = document.getElementById("eventLocation").value;
+  const category = document.getElementById("eventCategory").value;
+  const capacity = document.getElementById("eventCapacity").value;
+  const image = document.getElementById("eventImage").files[0];
+
+  const csrfmiddlewaretoken = form.querySelector(
+    "input[name='csrfmiddlewaretoken'][type='hidden']"
+  ).value;
+
+  const data = new FormData();
+  data.append("title", title);
+  data.append("description", description);
+  data.append("date", date);
+  data.append("time", time);
+  data.append("location", location);
+  data.append("category", category);
+  data.append("capacity", capacity);
+  data.append("image", image);
+  data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  // API Call
+  fetch("/create_event", {
+    method: "POST",
+    body: data,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 201) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location = `/events/${json.event.id}`;
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+};
