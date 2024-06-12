@@ -130,7 +130,6 @@ def dashboard(request):
 
     
 @login_required
-@csrf_exempt
 def create_group(request):
   if request.method == "POST" and request.user.is_authenticated:
     user = request.user

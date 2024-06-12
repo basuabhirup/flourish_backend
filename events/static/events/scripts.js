@@ -162,3 +162,42 @@ const hostEvent = () => {
     }
   });
 };
+
+const createGroup = () => {
+  const form = document.getElementById("createGroupForm");
+  const name = document.getElementById("groupName").value;
+  const description = document.getElementById("groupDescription").value;
+  const privacySetting = document.getElementById("privacySetting").value;
+  const csrfmiddlewaretoken = form.querySelector(
+    "input[name='csrfmiddlewaretoken'][type='hidden']"
+  ).value;
+
+  const data = new FormData();
+  data.append("name", name);
+  data.append("description", description);
+  data.append("privacy_setting", privacySetting);
+  data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  fetch("/create_group", {
+    method: "POST",
+    body: data,
+    credentials: "same-origin",
+  })
+    .then((res) => {
+      if (res.status === 201) {
+        res.json().then((json) => {
+          console.log(json.message);
+          // Close modal and potentially update UI
+          window.location.reload();
+        });
+      } else {
+        res.json().then((json) => {
+          alert(json.error);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("An error occurred. Please try again.");
+    });
+};
