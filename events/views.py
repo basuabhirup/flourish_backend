@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
-from .models import Event, User, Group
+from django.shortcuts import render
+from .models import Event, User, Group, Registration
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
+from django.db.models import Q
 
 
 # Create your views here
@@ -100,12 +101,21 @@ def dashboard(request):
     user = request.user
 
     # Attended events
-    attended_upcoming_events = user.registration_set.filter(event__date__gte=timezone.now().date()).select_related('event')
-    attended_past_events = user.registration_set.filter(event__date__lt=timezone.now().date()).select_related('event')
+    attended_upcoming_events_reg = Registration.objects.filter(Q(user=user), Q(event__date__gte=timezone.now().date())).defer('user').select_related('event')
+    attended_past_events_reg = Registration.objects.filter(Q(user=user), Q(event__date__lt=timezone.now().date())).defer('user').select_related('event')
+    
+    upcoming_event_ids = [reg.event.id for reg in attended_upcoming_events_reg]
+    past_event_ids = [reg.event.id for reg in attended_past_events_reg]
+    
+    attended_upcoming_events = Event.objects.filter(pk__in=upcoming_event_ids)
+    attended_past_events = Event.objects.filter(pk__in=past_event_ids)
 
     # Hosted events
-    hosted_upcoming_events = user.hosted_events.filter(date__gte=timezone.now().date())
-    hosted_past_events = user.hosted_events.filter(date__lt=timezone.now().date())
+    hosted_upcoming_events = Event.objects.filter(host=user, date__gte=timezone.now().date())
+    hosted_past_events = Event.objects.filter(host=user, date__lt=timezone.now().date())
+    
+    print(attended_upcoming_events)
+    print(attended_past_events)
 
     return render(request, 'events/dashboard.html', {
         'user': user,
