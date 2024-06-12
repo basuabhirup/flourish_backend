@@ -155,6 +155,68 @@
   </div>
 
 
+  <!-- Host Event Modal -->
+  <div class="modal fade" id="hostEventModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="hostEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
+        <div class="modal-header">
+          <h1 class="modal-title fs-3" id="hostEventModalLabel">Host an Event</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="hostEventForm" onsubmit="event.preventDefault()">
+          <div class="modal-body py-3">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="eventName" class="ms-1 form-label">Event Title <span class="text-danger fs-6 mb-2">*</span></label>
+              <input type="text" class="form-control me-4" id="eventName" name="title"
+                placeholder="Enter your event title" required maxlength="200">
+            </div>
+            <div class="mb-3">
+              <label for="eventDescription" class="ms-1 form-label">Description</label>
+              <textarea class="form-control me-4" id="eventDescription" name="description" rows="3"
+                placeholder="Describe your event"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="eventDate" class="ms-1 form-label">Date</label>
+              <input type="date" class="form-control me-4" id="eventDate" name="date" required>
+            </div>
+            <div class="mb-3">
+              <label for="eventTime" class="ms-1 form-label">Time</label>
+              <input type="time" class="form-control me-4" id="eventTime" name="time" required>
+            </div>
+            <div class="mb-3">
+              <label for="eventLocation" class="ms-1 form-label">Location</label>
+              <input type="text" class="form-control me-4" id="eventLocation" name="location"
+                placeholder="Enter event location" maxlength="255" required>
+            </div>
+            <div class="mb-3">
+              <label for="eventCategory" class="ms-1 form-label">Category</label>
+              <select class="form-select me-4" id="eventCategory" name="category" aria-label="Select event category"
+                required>
+                <option selected disabled>Choose a category</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="eventCapacity" class="ms-1 form-label">Capacity (Optional)</label>
+              <input type="number" class="form-control me-4" id="eventCapacity" name="capacity" min="1" step="1">
+            </div>
+            <div class="mb-3">
+              <label for="eventImage" class="ms-1 form-label">Image (Optional)</label>
+              <input type="file" class="form-control me-4" id="eventImage" name="image" accept="image/*">
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4 me-2"
+                data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-lg btn-warning px-4">Host Event</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <footer class="footer">
     <div class="container text-center my-3">

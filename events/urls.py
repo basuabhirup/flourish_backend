@@ -13,4 +13,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),    
     path('dashboard/', views.dashboard, name='dashboard'),
     path('create_group/', views.create_group, name='create-group'),
+    path('create_event/', views.create_event, name='create-event'),
+    path('categories/', views.categories, name='categories'),
 ]

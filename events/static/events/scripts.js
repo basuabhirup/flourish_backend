@@ -1,3 +1,12 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const hostEventModal = document.querySelector('#hostEventModal');
+
+  hostEventModal.addEventListener('shown.bs.modal', function () {
+    // populate event category with relevant options from db
+  });
+});
+
+
 // const openEvent = (e) =>{
 //     const eventId = e.target.closest(".event").dataset.eventId
 //     window.location = `/event/${eventId}`

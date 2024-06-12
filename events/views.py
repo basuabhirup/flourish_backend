@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .models import Event, User, Group, Registration
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from .models import Event, User, Group, Registration, Category
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -82,7 +83,8 @@ def register(request):
     else:
         return render(request, 'events/404.html')
     
-    
+  
+@login_required
 def profile(request):
     if not request.user.is_authenticated:
         return render(request, 'events/404.html')
@@ -93,7 +95,8 @@ def profile(request):
         'user': user
         })
     
-    
+
+@login_required 
 def dashboard(request):
     if not request.user.is_authenticated:
         return render(request, 'events/404.html')
@@ -126,7 +129,7 @@ def dashboard(request):
     })
 
     
-    
+@login_required
 @csrf_exempt
 def create_group(request):
   if request.method == "POST" and request.user.is_authenticated:
@@ -158,3 +161,76 @@ def create_group(request):
     }}, status=201)
   else:
     return JsonResponse({'error': 'Invalid request!'}, status=400)
+  
+  
+@login_required
+def create_event(request):
+  if request.method == "POST" and request.user.is_authenticated:
+    user = request.user
+    event_name = request.POST.get('title')
+    event_description = request.POST.get('description')
+    event_date = request.POST.get('date')
+    event_time = request.POST.get('time')
+    event_location = request.POST.get('location')
+    event_category = request.POST.get('category')  # Assuming category is a foreign key ID
+
+    # Optional fields
+    event_capacity = request.POST.get('capacity')
+    event_image = request.FILES.get('image')
+
+    if not event_name:
+      return JsonResponse({'error': 'Please enter event name.'}, status=400)
+
+    # Additional validation
+    try:
+      from datetime import datetime  # Import for date parsing
+      datetime.strptime(event_date, '%Y-%m-%d')  # Check for YYYY-MM-DD format
+    except ValueError:
+      return JsonResponse({'error': 'Invalid date format. Use YYYY-MM-DD.'}, status=400)
+
+    try:
+      datetime.strptime(event_time, '%H:%M:%S')  # Check for HH:MM:SS format
+    except ValueError:
+      return JsonResponse({'error': 'Invalid time format. Use HH:MM:SS.'}, status=400)
+
+    try:
+      event = Event.objects.create(
+          title=event_name,
+          description=event_description,
+          date=event_date,
+          time=event_time,
+          location=event_location,
+          category_id=event_category,  # Assuming category is a foreign key ID
+          host=user,  
+          capacity=event_capacity,
+          image=event_image,     
+      )
+    except IntegrityError as e:
+      # Handle specific exceptions (optional)
+      if "duplicate values" in str(e):  # Check for duplicate event names
+        return JsonResponse({'error': 'Event with this name already exists.'}, status=400)
+      else:
+        return JsonResponse({'error': 'Event creation failed.'}, status=500)
+
+    # Success response with limited event data
+    return JsonResponse({'message': 'Event created successfully!', 'event': {
+      'id': event.id,
+      'name': event.title  # Use 'title' for consistency
+    }}, status=201)
+  else:
+    return JsonResponse({'error': 'Invalid request!'}, status=400)
+
+
+@login_required
+def categories(request):
+  if request.method == "GET":
+    categories = Category.objects.all().order_by('name')
+    category_data = []
+    for category in categories:
+      category_data.append({
+        'id': category.id,
+        'name': category.name,
+      })
+    return JsonResponse({'categories': category_data}, status=200)
+  else:
+    return JsonResponse({'error': 'Invalid request method. Use GET.'}, status=400)
