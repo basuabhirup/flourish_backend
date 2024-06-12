@@ -2,38 +2,88 @@
 
 {% block body %}
 <div class="container mt-5">
-    <h1>All Events</h1>
-    <p class="text-muted">Here's a list of all upcoming events. Click on an event to learn more.</p>
+    <h1 class="text-center mx-auto">Events and Groups</h1>
+    <p class="text-muted text-center mx-auto">
+        Here's a list of upcoming events and active groups. Switch tabs to explore what interests you. Click on an event
+        or group to learn more details.
+    </p>
+    <div class="btn-group nav nav-pills mt-5 mb-4" role="tablist">
+        <button type="button" class="btn btn-outline-warning active" data-bs-toggle="pill" data-bs-target="#all-events"
+            role="tab">Events</button>
+        <button type="button" class="btn btn-outline-warning" data-bs-toggle="pill" data-bs-target="#all-groups"
+            role="tab">Groups</button>
+    </div>
 
-    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
-        {% for event in events %}
-        <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
-            <div class="card">
-                {% if event.image %}
-                <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
-                {% else %}
-                <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    class="card-img-top" alt="event-image" height="160">
-                {% endif %}
-                <div class="card-body">
-                    <h4 class="card-title fs-5 text-dark">
-                        {{ event.title }}
-                    </h4>
-                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host_id }}</p>
-                    <p class="card-text text-secondary fw-bold mb-2">
-                        <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
-                        <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
-                    </p>
-                    <p class="card-text text-secondary lh-sm mt-2 mb-3">
-                        <span class="me-1"><i class="bi bi-geo-alt"></i></span>
-                        <span class="ms-1">{{ event.location }}</span>
-                    </p>
-                </div>
+    <br>
+    <hr>
+
+    <div class="tab-content mb-4">
+
+        <div class="tab-pane fade px-1 show active" id="all-events" role="tabpanel" tabindex="0">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+                {% for event in events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                    <div class="card">
+                        {% if event.image %}
+                        <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="card-img-top" alt="event-image" height="160">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title fs-5 text-dark">
+                                {{ event.title }}
+                            </h4>
+                            <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host_id }}</p>
+                            <p class="card-text text-secondary fw-bold mb-2">
+                                <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
+                                <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                            </p>
+                            <p class="card-text text-secondary lh-sm mt-2 mb-3">
+                                <span class="me-1"><i class="bi bi-geo-alt"></i></span>
+                                <span class="ms-1">{{ event.location }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
+                {% endfor %}
             </div>
-        </a>
-        {% empty %}
-        <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
-        {% endfor %}
+        </div>
+        <div class="tab-pane fade px-1 show active" id="all-groups" role="tabpanel" tabindex="0">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+                {% for group in groups %}
+                <a href="" class="event col mb-3" role="button">
+                    <div class="card">
+                        {% if group.image %}
+                        <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="card-img-top" alt="event-image" height="160">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title fs-5 text-dark">
+                                {{ group.name }}
+                            </h4>
+                            <p class="card-text text-secondary lh-sm my-3">Owner: {{ group.owner }}</p>
+                            <p class="card-text text-secondary fw-bold mb-2">
+                                <span class="me-1 text-dark"><i class="bi bi-people-fill"></i></span>
+                                <span class="ms-1">{{ group.members.all|length }} Members</span>
+                            </p>
+                            <p class="card-text text-secondary lh-sm mt-2 mb-3 text-truncate"
+                                title="{{ group.description }}">
+                                {{ group.description }}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-secondary lh-sm my-3 text-center">No groups to display.</p>
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
 </div>
 {% endblock %}

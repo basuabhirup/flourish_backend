@@ -12,8 +12,10 @@ from django.db.models import Q
 # Create your views here
 def index(request):
     events = Event.objects.order_by('-date', '-time')[:8]
+    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')[:8]
     return render(request, "events/index.html", {
-        "events": events
+        "events": events,
+        "groups": groups
     })
     
 
@@ -28,8 +30,10 @@ def event_detail(request, event_id):
     
 def all_events(request):
     events = Event.objects.all()
+    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
     return render(request, "events/events.html", {
-        "events": events
+        "events": events,
+        "groups": groups
     })
 
 
@@ -117,8 +121,8 @@ def dashboard(request):
     hosted_upcoming_events = Event.objects.filter(host=user, date__gte=timezone.now().date())
     hosted_past_events = Event.objects.filter(host=user, date__lt=timezone.now().date())
     
-    print(attended_upcoming_events)
-    print(attended_past_events)
+    groups = Group.objects.filter(members__in=[user])
+    print(groups)
 
     return render(request, 'events/dashboard.html', {
         'user': user,
@@ -126,6 +130,7 @@ def dashboard(request):
         'attended_past_events': attended_past_events,
         'hosted_upcoming_events': hosted_upcoming_events,
         'hosted_past_events': hosted_past_events,
+        'groups': groups
     })
 
     
@@ -149,6 +154,8 @@ def create_group(request):
           privacy_setting=privacy_setting,
           image_url=group_image_url
       )
+      # Add the owner as a member of the group
+      group.members.add(user)
     except IntegrityError:
       # Handle potential duplicate group names (optional)
       return JsonResponse({'error': 'Group creation failed.'}, status=500)

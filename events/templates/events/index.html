@@ -10,11 +10,14 @@
                 your gateway to a vibrant community of event enthusiasts, ready to connect, share, and flourish
                 together.</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-                <a href="{% url 'all_events' %}" type="button" class="btn btn-warning btn-lg px-4 me-sm-3">Discover Events Now</a>
+                <a href="{% url 'all_events' %}" type="button" class="btn btn-warning btn-lg px-4 me-sm-3">Discover
+                    Events Now</a>
                 {% if not user.is_authenticated %}
-                    <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal" data-bs-target="#loginModal">Host your Event</button>
+                <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Host your Event</button>
                 {% else %}
-                    <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal" data-bs-target="#createGroupModal">Create your Group</button>
+                <button type="button" class="btn btn-outline-warning text-dark btn-lg px-4" data-bs-toggle="modal"
+                    data-bs-target="#createGroupModal">Create your Group</button>
                 {% endif %}
             </div>
         </div>
@@ -67,6 +70,46 @@
         </a>
         {% empty %}
         <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container p-3 my-5">
+    <div class="row mb-0">
+        <span class="display-6 fw-bold text-start w-75">Featured Groups</span>
+        {% if events %}
+        <span class="w-25 text-end h5 text-decoration-none mt-3 side-text" role="button">
+            <a href="{% url 'all_events' %}" class="ms-auto side-text" role="button">See all groups</a>
+        </span>
+        {% endif %}
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+        {% for group in groups %}
+        <a href="" class="event col mb-3" role="button">
+            <div class="card">
+                {% if group.image %}
+                <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="card-img-top" alt="event-image" height="160">
+                {% endif %}
+                <div class="card-body">
+                    <h4 class="card-title fs-5 text-dark">
+                        {{ group.name }}
+                    </h4>
+                    <p class="card-text text-secondary lh-sm my-3">Owner: {{ group.owner }}</p>
+                    <p class="card-text text-secondary fw-bold mb-2">
+                        <span class="me-1 text-dark"><i class="bi bi-people-fill"></i></span>
+                        <span class="ms-1">{{ group.members.all|length }} Members</span>
+                    </p>
+                    <p class="card-text text-secondary lh-sm mt-2 mb-3 text-truncate" title="{{ group.description }}">
+                        {{ group.description }}
+                    </p>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <p class="text-secondary lh-sm my-3 text-center">No groups to display.</p>
         {% endfor %}
     </div>
 </div>
@@ -134,7 +177,8 @@
                 </span>
                 <span class="d-flex flex-column">
                     <div class="fs-4 fw-bold">Discover events and groups</div>
-                    <span class="text-secondary d-block w-75">See who's hosting local events for all the things you love, attend and make new friends</span>
+                    <span class="text-secondary d-block w-75">See who's hosting local events for all the things you
+                        love, attend and make new friends</span>
                 </span>
             </div>
         </span>
@@ -146,7 +190,8 @@
                 </span>
                 <span class="d-flex flex-column">
                     <div class="fs-4 fw-bold">Host your events</div>
-                    <span class="text-secondary d-block w-75">Create and host your own events, and connect with people over shared interests</span>
+                    <span class="text-secondary d-block w-75">Create and host your own events, and connect with people
+                        over shared interests</span>
                 </span>
             </div>
         </span>
