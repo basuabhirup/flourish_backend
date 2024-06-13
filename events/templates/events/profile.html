@@ -5,13 +5,19 @@
   <div class="row justify-content-center">
     <div class="col-lg-8 mx-auto text-center">
       <h1>{{ profile_user.first_name}} {{ profile_user.last_name }}</h1>
-      <p class="text-muted mt-1 pt-1 fs-5">@{{ profile_user.username}}</p>
+      <p class="mt-1 pt-1 fs-5">@<a href="{% url 'profile' user.username %}" class="text-muted">{{ profile_user.username }}</a></p>
       {% if request.user == profile_user %}
-      <button class="btn btn-sm btn-outline-warning text-dark my-3" data-bs-toggle="modal"
-          data-bs-target="#editProfileModal">
-          <span class="ms-auto"><i class="bi bi-pencil"></i></span>
-          <span class="ms-1">Edit Profile</span>
-      </button>
+      <p class="text-center">
+        <a href="{% url 'dashboard' %}" class="btn btn-warning my-3 me-2">
+            <!-- <span class="ms-auto"><i class="bi bi-arrow-right-square-fill"></i></span> -->
+            <span class="ms-1">Go to Dashboard</span>
+        </a>
+        <button class="btn btn-outline-warning text-dark my-3 ms-2" data-bs-toggle="modal"
+            data-bs-target="#editProfileModal">
+            <span class="ms-auto"><i class="bi bi-pencil"></i></span>
+            <span class="ms-1">Edit Profile</span>
+        </button>
+      </p>
       {% endif %}
       <hr>
       <p class="social text-secondary text-center fs-5 mb-4 mt-1">
@@ -38,22 +44,22 @@
         <div class="card-title text-dark ms-2 fs-5">Personal Details</div>
         <div class="card-body row p-2">
           <div class="card-text col">
-            <span class="text-dark">First Name: </span>
-            <span class="fw-bold">{{ profile_user.first_name }}</span>
-          </div>
-          <div class="card-text col">
-            <span class="text-dark">Last Name: </span>
-            <span class="fw-bold">{{ profile_user.last_name }}</span>
-          </div>
-        </div>
-        <div class="card-body row p-2">
-          <div class="card-text col">
             <span class="text-dark">Username: </span>
             <span class="fw-bold">{{ profile_user.username }}</span>
           </div>
           <div class="card-text col">
             <span class="text-dark">Email: </span>
             <span class="fw-bold">{{ profile_user.email }}</span>
+          </div>
+        </div>
+        <div class="card-body row p-2">
+          <div class="card-text col">
+            <span class="text-dark">First Name: </span>
+            <span class="fw-bold">{{ profile_user.first_name }}</span>
+          </div>
+          <div class="card-text col">
+            <span class="text-dark">Last Name: </span>
+            <span class="fw-bold">{{ profile_user.last_name }}</span>
           </div>
         </div>
         <!-- <div class="card-body p-2 mt-2 mb-3">

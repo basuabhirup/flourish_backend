@@ -254,12 +254,6 @@ const editGroup = () => {
     });
 };
 
-const openLink = (e) => {
-  const url = e.target.dataset.url
-  console.log(url)
-  // window.open(url, '_blank').focus()
-}
-
 const openInNewTab = (e) => {
   const url = e.target.closest(".bi").dataset.url
   // console.log(url)

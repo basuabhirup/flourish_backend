@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container mt-5">
-  <h1 class="mb-5 mx-auto text-center">Welcome, {{ user.username }} !</h1>
+  <h1 class="mb-5 mx-auto text-center">Welcome, <a href="{% url 'profile' user.username %}" class="text-secondary fw-bold">{{ user.username }}</a> !</h1>
 
   <div class="col-lg-9 mx-auto mt-3 text-center">
     <p class="lead mb-4">
