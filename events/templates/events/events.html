@@ -54,13 +54,13 @@
         <div class="tab-pane fade px-1 show active" id="all-groups" role="tabpanel" tabindex="0">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
                 {% for group in groups %}
-                <a href="" class="event col mb-3" role="button">
+                <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
                     <div class="card">
                         {% if group.image %}
-                        <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                        <img src="{{ group.image }}" class="card-img-top" alt="group-image" height="160">
                         {% else %}
                         <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            class="card-img-top" alt="event-image" height="160">
+                            class="card-img-top" alt="group-image" height="160">
                         {% endif %}
                         <div class="card-body">
                             <h4 class="card-title fs-5 text-dark">

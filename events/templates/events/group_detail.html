@@ -1,0 +1,29 @@
+{% extends "events/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            {% if group.image %}
+            <img src="{{ group.image }}" class="img-fluid mb-3" alt="group-image" height="160">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="img-fluid mb-3" alt="group-image" height="160">
+            {% endif %}
+            <h2>{{ group.name }}</h2>
+            <p class="text-secondary">Owner: {{ group.owner }}</p>
+            <div class="d-flex mb-3 text-secondary">
+                <span class="me-3">
+                    <span class="me-1 text-dark" title="Members"><i class="bi bi-people-fill"></i></span>
+                    <span class="ms-1">{{ group.members.all|length }}</span>
+                </span>
+                <span class="mx-3">
+                    <span class="me-1 text-dark" title="Created at"><i class="bi bi-calendar"></i></span>
+                    <span class="ms-1">{{ group.created_at|date }}</span>
+                </span>
+            </div>
+            <p>{{ group.description }}</p>            
+        </div>
+    </div>
+</div>
+{% endblock %}

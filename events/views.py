@@ -11,8 +11,8 @@ from django.db.models import Q
 
 # Create your views here
 def index(request):
-    events = Event.objects.order_by('-date', '-time')[:8]
-    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')[:8]
+    events = Event.objects.order_by('-date', '-time')[:4]
+    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')[:4]
     return render(request, "events/index.html", {
         "events": events,
         "groups": groups
@@ -21,10 +21,21 @@ def index(request):
 
 def event_detail(request, event_id):
   try:
-    event = Event.objects.get(pk=event_id) 
-    context = {'event': event}
-    return render(request, 'events/event_detail.html', context)
+    event = Event.objects.get(pk=event_id)
+    return render(request, 'events/event_detail.html', {
+      'event': event
+      })
   except Event.DoesNotExist:
+    return render(request, 'events/404.html')
+  
+  
+def group_detail(request, group_id):
+  try:
+    group = Group.objects.get(pk=group_id)
+    return render(request, 'events/group_detail.html', {
+      'group': group
+    })
+  except Group.DoesNotExist:
     return render(request, 'events/404.html')
 
     
