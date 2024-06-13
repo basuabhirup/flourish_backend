@@ -109,8 +109,8 @@
 
 
   <!-- SignUp Modal -->
-  <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal fade" id="signUpModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
         <div class="modal-header">
           <h1 class="modal-title fs-3" id="signupModalLabel">Sign Up</h1>
@@ -120,24 +120,36 @@
           <div class="modal-body py-3">
             {% csrf_token %}
             <div class="mb-3">
-              <label for="signupUsername" class="ms-1 form-label">Username</label>
+              <label for="signupUsername" class="ms-1 form-label">Username <span class="text-danger fs-6 mb-2">*</span></label>
               <input autofocus id="signupUsername" class="form-control me-4" type="text" name="username"
-                placeholder="Username" autocomplete="off">
+                placeholder="Username" autocomplete="off" required>
+            </div>
+            <div class="row mb-3">
+              <div class="col">
+                <label for="signupFirstName" class="ms-1 form-label">First Name <span class="text-danger fs-6 mb-2">*</span></label>
+                <input autofocus id="signupFirstName" class="form-control me-4" type="text" name="first_name"
+                  placeholder="First Name" autocomplete="off" required>
+              </div>
+              <div class="col">
+                <label for="signupLastName" class="ms-1 form-label">Last Name <span class="text-danger fs-6 mb-2">*</span></label>
+                <input autofocus id="signupLastName" class="form-control me-4" type="text" name="last_name"
+                  placeholder="Last Name" autocomplete="off" required>
+              </div>
             </div>
             <div class="mb-3">
-              <label for="signupEmail" class="ms-1 form-label">Email Address</label>
+              <label for="signupEmail" class="ms-1 form-label">Email Address <span class="text-danger fs-6 mb-2">*</span></label>
               <input autofocus id="signupEmail" class="form-control me-4" type="email" name="email"
-                placeholder="Email Address" autocomplete="off">
+                placeholder="Email Address" autocomplete="off" required>
             </div>
             <div class="mb-3">
-              <label for="signupPassword" class="ms-1 form-label">Password</label>
+              <label for="signupPassword" class="ms-1 form-label">Password <span class="text-danger fs-6 mb-2">*</span></label>
               <input id="signupPassword" class="form-control me-4" type="password" name="password"
-                placeholder="Password" autocomplete="off">
+                placeholder="Password" autocomplete="off" required>
             </div>
             <div class="mb-3">
-              <label for="signupConfirmation" class="ms-1 form-label">Confirm Password</label>
+              <label for="signupConfirmation" class="ms-1 form-label">Confirm Password <span class="text-danger fs-6 mb-2">*</span></label>
               <input id="signupConfirmation" class="form-control me-4" type="password" name="confirmation"
-                placeholder="Confirm Password" autocomplete="off">
+                placeholder="Confirm Password" autocomplete="off" required>
             </div>
             <p class="text-muted mx-auto text-center mt-5">Already registered ?&nbsp;
               <span class="text-dark" role="button" type="button" data-bs-toggle="modal"

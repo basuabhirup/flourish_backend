@@ -28,6 +28,12 @@
         <span class="linkedin mx-3"><i class="bi bi-linkedin" onclick="openInNewTab(event)" data-url="{{ profile.linkedin_url }}"></i></span>
         {% endif %}
       </p>
+      {% if profile.bio %}
+      <div class="card text-start p-3 my-4">
+        <div class="card-title text-dark ms-2 fs-5">Bio</div>
+        <div class="card-body text-muted p-2">{{ profile.bio }}</div>
+      </div>
+      {% endif %}
       <div class="card text-start p-3 mb-4">
         <div class="card-title text-dark ms-2 fs-5">Personal Details</div>
         <div class="card-body row p-2">
@@ -57,16 +63,10 @@
           </button>
         </div> -->
       </div>
-      {% if profile.bio %}
-      <div class="card text-start p-3 my-4">
-        <div class="card-title text-dark ms-2 fs-5">Bio</div>
-        <div class="card-body text-muted p-2">{{ profile.bio }}</div>
-      </div>
-      {% endif %}
     </div>
   </div>
 
-  <div class="row mt-4 mb-1 text-center">
+  <div class="row mt-5 mb-0 text-center">
     <span class="h2">Groups</span>
   </div>
 

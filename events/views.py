@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Event, User, Group, Registration, Category
+from .models import Event, User, Group, Registration, Category, UserProfile
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -93,16 +93,37 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
+        
+        if not username:
+          return JsonResponse({'error': 'Must provide username!'}, status=400)
+        
+        if not email:          
+          return JsonResponse({'error': 'Must provide email!'}, status=400)
+        
+        if not first_name:
+          return JsonResponse({'error': 'Must provide First Name!'}, status=400)
+        
+        if not last_name:
+          return JsonResponse({'error': 'Must provide Last Name!'}, status=400)
 
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
+        
+        
+        if not password or not confirmation:          
+          return JsonResponse({'error': 'Must provide password and confirmation!'}, status=400)
+        
         if password != confirmation:
             return JsonResponse({'error': 'Passwords must match!'}, status=400)
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
+            user.first_name = first_name
+            user.last_name = last_name
             user.save()
         except IntegrityError:
             return JsonResponse({'error': 'Username already taken!'}, status=500)

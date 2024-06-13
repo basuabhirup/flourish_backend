@@ -65,6 +65,8 @@ const signUp = () => {
   const form = document.querySelector("#signUpForm");
 
   const username = document.getElementById("signupUsername").value;
+  const first_name = document.getElementById("signupFirstName").value;
+  const last_name = document.getElementById("signupLastName").value;
   const email = document.getElementById("signupEmail").value;
   const password = document.getElementById("signupPassword").value;
   const confirmation = document.getElementById("signupConfirmation").value;
@@ -75,6 +77,8 @@ const signUp = () => {
 
   const data = new FormData();
   data.append("username", username);
+  data.append("first_name", first_name);
+  data.append("last_name", last_name);
   data.append("email", email);
   data.append("password", password);
   data.append("confirmation", confirmation);
@@ -249,6 +253,12 @@ const editGroup = () => {
       alert("An error occurred. Please try again.");
     });
 };
+
+const openLink = (e) => {
+  const url = e.target.dataset.url
+  console.log(url)
+  // window.open(url, '_blank').focus()
+}
 
 const openInNewTab = (e) => {
   const url = e.target.closest(".bi").dataset.url
