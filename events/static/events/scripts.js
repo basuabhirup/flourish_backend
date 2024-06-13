@@ -203,3 +203,49 @@ const createGroup = () => {
       alert("An error occurred. Please try again.");
     });
 };
+
+const editGroup = () => {
+  const form = document.getElementById("editGroupForm");
+  const name = document.getElementById("groupName").value;
+  const description = document.getElementById("groupDescription").value;
+  const privacySetting = document.getElementById("privacySetting").value;
+  const image_url = document.getElementById("groupImage").value;
+
+
+  const groupId = document.getElementById("groupId").value;
+
+  const data = {
+    name,
+    description,
+    privacy_setting: privacySetting,
+    image_url,
+  };
+
+  const jsonData = JSON.stringify(data);
+
+  fetch(`/edit_group/${groupId}`, {
+    method: "PUT",
+    body: jsonData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          console.log(json.message);
+          // Close modal and potentially update UI
+          window.location = `/groups/${json.group.id}`;
+        });
+      } else {
+        res.json().then((json) => {
+          alert(json.error);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("An error occurred. Please try again.");
+    });
+};

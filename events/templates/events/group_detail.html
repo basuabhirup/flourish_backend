@@ -4,8 +4,8 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8 me-auto mb-3">
-            {% if group.image %}
-            <img src="{{ group.image }}" class="img-fluid mb-3" alt="group-image" height="160">
+            {% if group.image_url %}
+            <img src="{{ group.image_url }}" class="img-fluid mb-3" alt="group-image" height="160">
             {% else %}
             <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 class="img-fluid mb-3" alt="group-image" height="160">
@@ -34,13 +34,11 @@
             <p>{{ group.description }}</p>
         </div>
         <div class="col-lg-3 mx-auto">
-            <button class="btn btn-outline-warning text-dark mb-3">
+            <button class="btn btn-outline-warning text-dark mb-3" data-bs-toggle="modal"
+                data-bs-target="#editGroupModal">
                 <span class="ms-auto"><i class="bi bi-pencil"></i></span>
                 <span class="ms-1">Edit Group</span>
             </button>
-            <p>{{ owner }}</p>
-            <p>{{ members }}</p>
-            <p>{{ upcoming_events }}</p>
             <div class="card py-3 mt-2">
                 <div class="row">
                     <div class="col-8">
@@ -55,14 +53,13 @@
                 </div>
                 <hr>
                 <div class="card-body py-1">
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Abhirup Basu<span
-                            class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span></p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
-                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
+                    {% for member in members %}
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>{{ member }}
+                        {% if member == owner %}
+                        <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span>
+                        {% endif %}
+                    </p>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -70,7 +67,6 @@
 </div>
 
 <div class="container my-4">
-
     <div class="row mt-5 mb-0">
         <span class="h2">Group Events</span>
         <br>
@@ -81,7 +77,6 @@
                 data-bs-target="#past-hosted-events" role="tab">Past</button>
         </div>
     </div>
-
     <div class="tab-content mb-4" id="pills-tabContent-hosted-events">
         <div class="tab-pane fade px-1 show active" id="upcoming-hosted-events" role="tabpanel"
             aria-labelledby="upcoming-hosted-events-tab" tabindex="0">
@@ -158,6 +153,58 @@
                 <p class="text-secondary lh-sm my-3 text-center pb-4">No events to display.</p>
                 {% endfor %}
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Group Modal -->
+<div class="modal fade" id="editGroupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="editGroupModalLabel">Edit Group</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editGroupForm" onsubmit="event.preventDefault()">
+                <div class="modal-body py-3">
+                    <input type="hidden" name="group_id" value="{{ group.id }}" id="groupId">
+                    <div class="mb-3">
+                        <label for="groupName" class="ms-1 form-label">Group Name <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <input type="text" class="form-control me-4" id="groupName" name="name"
+                            placeholder="Enter your group name" required maxlength="200" value="{{ group.name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="groupDescription" class="ms-1 form-label">Description</label>
+                        <textarea class="form-control me-4" id="groupDescription" name="description" rows="3"
+                            placeholder="Describe your group">{{ group.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="privacySetting" class="ms-1 form-label hoverable">Privacy Setting</label>
+                        <select class="form-select me-4" id="privacySetting" name="privacy_setting"
+                            aria-label="Select group privacy" required value="{{ group.privacy_setting }}">
+                            {% if group.privacy_setting == 'public' %}
+                            <option value="public" selected>Public</option>
+                            <option value="private">Private</option>
+                            {% else %}
+                            <option value="public">Public</option>
+                            <option value="private" selected>Private</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="groupImage" class="ms-1 form-label">Image URL (Optional)</label>
+                        <input type="url" class="form-control me-4" id="groupImage" name="image_url"
+                            value="{{ group.image_url }}">
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4 me-2"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-lg btn-warning px-4" onclick="editGroup()">Save</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

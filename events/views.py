@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db.models import Q
+import json
 
 
 # Create your views here
@@ -168,6 +169,8 @@ def create_group(request):
     
     if not group_name:
       return JsonResponse({'error': 'Please enter a group name.'}, status=400)
+    if not group_description:
+      return JsonResponse({'error': 'Please enter a group description.'}, status=400)
     
     try:
       group = Group.objects.create(
@@ -192,6 +195,51 @@ def create_group(request):
     }}, status=201)
   else:
     return JsonResponse({'error': 'Invalid request!'}, status=400)
+  
+
+@csrf_exempt  
+@login_required
+def edit_group(request, group_id):
+  if request.method == "PUT":
+    data = json.loads(request.body)
+    user = request.user
+    group_name = data.get('name')
+    group_description = data.get('description')
+    privacy_setting = data.get('privacy_setting')
+    image_url = data.get('image_url')
+    
+    if not group_name:
+      return JsonResponse({'error': 'Please enter a group name.'}, status=400)
+    if not group_description:
+      return JsonResponse({'error': 'Please enter a group description.'}, status=400)
+    
+    try:
+      group = Group.objects.get(pk=group_id)
+      
+      # Check if the user is the owner of the group
+      if not group.owner == user:
+        return JsonResponse({'error': 'You are not authorized to edit this group.'}, status=403)
+      
+      group.name = group_name
+      group.description = group_description
+      group.privacy_setting = privacy_setting # Use existing setting if not provided
+      group.image_url = image_url
+      group.save()
+      
+      # Success response
+      return JsonResponse({'message': 'Group details updated successfully!', 'group': {
+        'id': group.id,
+        'name': group.name,
+        'description': group.description,
+        'privacy_setting': group.privacy_setting
+      }}, status=200)
+    except Group.DoesNotExist:
+      return JsonResponse({'error': 'Group not found.'}, status=404)
+    except Exception as e: 
+      return JsonResponse({'error': 'Failed to update group details.'}, status=500)
+  else:
+    return JsonResponse({'error': 'Invalid request!'}, status=400)
+
   
   
 @login_required

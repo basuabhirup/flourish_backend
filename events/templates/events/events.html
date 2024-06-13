@@ -60,8 +60,8 @@
                 {% for group in groups %}
                 <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
                     <div class="card">
-                        {% if group.image %}
-                        <img src="{{ group.image }}" class="card-img-top" alt="group-image" height="160">
+                        {% if group.image_url %}
+                        <img src="{{ group.image_url }}" class="card-img-top" alt="group-image" height="160">
                         {% else %}
                         <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             class="card-img-top" alt="group-image" height="160">
