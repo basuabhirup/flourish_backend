@@ -107,4 +107,71 @@
     {% endfor %}
   </div>
 </div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="editProfileModalLabel">Edit Profile</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="editProfileForm" onsubmit="event.preventDefault()">
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label for="editUsername" class="ms-1 form-label">Username <span class="text-danger fs-6 mb-2">*</span></label>
+            <input autofocus id="editUsername" class="form-control me-4" type="text" name="username"
+              placeholder="Username" autocomplete="off" value="{{ profile_user.username }}" disabled>
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="ms-1 form-label">Email Address <span class="text-danger fs-6 mb-2">*</span></label>
+            <input autofocus id="editEmail" class="form-control me-4" type="email" name="email"
+              placeholder="Email Address" autocomplete="off" value="{{ profile_user.email }}" disabled>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="editFirstName" class="ms-1 form-label">First Name <span class="text-danger fs-6 mb-2">*</span></label>
+              <input autofocus id="editFirstName" class="form-control me-4" type="text" name="first_name"
+                placeholder="First Name" autocomplete="off" value="{{ profile_user.first_name }}" required>
+            </div>
+            <div class="col">
+              <label for="editLastName" class="ms-1 form-label">Last Name <span class="text-danger fs-6 mb-2">*</span></label>
+              <input autofocus id="editLastName" class="form-control me-4" type="text" name="last_name"
+                placeholder="Last Name" autocomplete="off" value="{{ profile_user.last_name }}" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="editBio" class="ms-1 form-label">Bio</label>
+            <textarea id="editBio" class="form-control me-4" type="text" name="bio" rows="5"
+              placeholder="Enter your bio (optional)">{{ profile.bio }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editInstagramUrl" class="ms-1 form-label">Instagram URL</label>
+            <input id="editInstagramUrl" class="form-control me-4" type="url" name="instagram_url"
+              placeholder="Enter Instagram URL (optional)" value="{{ profile.instagram_url }}">
+          </div>
+          <div class="mb-3">
+            <label for="editFacebookUrl" class="ms-1 form-label">Facebook URL</label>
+            <input id="editFacebookUrl" class="form-control me-4" type="url" name="facebook_url"
+              placeholder="Enter Facebook URL (optional)" value="{{ profile.facebook_url }}">
+          </div>
+          <div class="mb-3">
+            <label for="editTwitterUrl" class="ms-1 form-label">Twitter URL</label>
+            <input id="editTwitterUrl" class="form-control me-4" type="url" name="twitter_url"
+              placeholder="Enter Twitter URL (optional)" value="{{ profile.twitter_url }}">
+          </div>
+          <div class="mb-3">
+            <label for="editLinkedinUrl" class="ms-1 form-label">LinkedIn URL</label>
+            <input id="editLinkedinUrl" class="form-control me-4" type="url" name="linkedin_url"
+              placeholder="Enter LinkedIn URL (optional)" value="{{ profile.linkedin_url }}">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-lg btn-warning px-4" form="editProfileForm">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
