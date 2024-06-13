@@ -3,7 +3,7 @@
 {% block body %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-lg-8 me-auto mb-3">
             {% if group.image %}
             <img src="{{ group.image }}" class="img-fluid mb-3" alt="group-image" height="160">
             {% else %}
@@ -14,15 +14,139 @@
             <p class="text-secondary">Owner: {{ group.owner }}</p>
             <div class="d-flex mb-3 text-secondary">
                 <span class="me-3">
-                    <span class="me-1 text-dark" title="Members"><i class="bi bi-people-fill"></i></span>
+                    <span class="text-dark" title="Members"><i class="bi bi-people-fill fs-5"></i></span>
                     <span class="ms-1">{{ group.members.all|length }}</span>
                 </span>
                 <span class="mx-3">
-                    <span class="me-1 text-dark" title="Created at"><i class="bi bi-calendar"></i></span>
+                    {% if group.privacy_setting == "private" %}
+                    <span class="text-dark" title="Privacy Setting"><i class="bi bi-person-lock fs-5"></i></span>
+                    <span class="ms-1">Private</span>
+                    {% else %}
+                    <span class="text-dark" title="Privacy Setting"><i class="bi bi-globe-americas fs-5"></i></span>
+                    <span class="ms-1">Public</span>
+                    {% endif %}
+                </span>
+                <span class="mx-3">
+                    <span class="text-dark" title="Created at"><i class="bi bi-calendar fs-5"></i></span>
                     <span class="ms-1">{{ group.created_at|date }}</span>
                 </span>
             </div>
-            <p>{{ group.description }}</p>            
+            <p>{{ group.description }}</p>
+        </div>
+        <div class="col-lg-3 mx-auto">
+            <button class="btn btn-outline-warning text-dark mb-3">
+                <span class="ms-auto"><i class="bi bi-pencil"></i></span>
+                <span class="ms-1">Edit Group</span>
+            </button>
+            <div class="card py-3 mt-2">
+                <div class="row">
+                    <div class="col-8">
+                        <span class="card-title h5 ps-3">Group Members</span>
+                    </div>
+                    <div class="col-4 text-end">
+                        <button class="btn btn-sm btn-outline-dark me-2">
+                            <span class="ms-auto"><i class="bi bi-person-plus"></i></span>
+                            <span class="ms-1">Add</span>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-body py-1">
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Abhirup Basu<span
+                            class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span></p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Harry Potter</p>
+                    <p class="card-text text-muted"><i class="bi bi-person-circle me-2"></i>Richie Rich</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+
+    <div class="row mt-5 mb-0">
+        <span class="h2">Group Events</span>
+        <br>
+        <div class="btn-group nav nav-pills m-3 mb-0" role="tablist">
+            <button type="button" class="btn btn-outline-warning active" data-bs-toggle="pill"
+                data-bs-target="#upcoming-hosted-events" role="tab">Upcoming</button>
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="pill"
+                data-bs-target="#past-hosted-events" role="tab">Past</button>
+        </div>
+    </div>
+
+    <div class="tab-content mb-4" id="pills-tabContent-hosted-events">
+        <div class="tab-pane fade px-1 show active" id="upcoming-hosted-events" role="tabpanel"
+            aria-labelledby="upcoming-hosted-events-tab" tabindex="0">
+            <div
+                class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+                {% for event in hosted_upcoming_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                    <div class="card">
+                        {% if event.image %}
+                        <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="card-img-top" alt="event-image" height="160">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title fs-5 text-dark">
+                                {{ event.title }}
+                            </h4>
+                            <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+                            <p class="card-text text-secondary fw-bold mb-2">
+                                <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
+                                <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                            </p>
+                            <p class="card-text text-secondary lh-sm mt-2 mb-3">
+                                <span class="me-1"><i class="bi bi-geo-alt"></i></span>
+                                <span class="ms-1">{{ event.location }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-secondary lh-sm my-3 text-center pb-4">No events to display.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade px-1" id="past-hosted-events" role="tabpanel" aria-labelledby="past-hosted-events-tab"
+            tabindex="0">
+            <div
+                class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+                {% for event in hosted_past_events %}
+                <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
+                    <div class="card">
+                        {% if event.image %}
+                        <img src="{{ event.image }}" class="card-img-top" alt="event-image" height="160">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            class="card-img-top" alt="event-image" height="160">
+                        {% endif %}
+                        <div class="card-body">
+                            <h4 class="card-title fs-5 text-dark">
+                                {{ event.title }}
+                            </h4>
+                            <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+                            <p class="card-text text-secondary fw-bold mb-2">
+                                <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
+                                <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
+                            </p>
+                            <p class="card-text text-secondary lh-sm mt-2 mb-3">
+                                <span class="me-1"><i class="bi bi-geo-alt"></i></span>
+                                <span class="ms-1">{{ event.location }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-secondary lh-sm my-3 text-center pb-4">No events to display.</p>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

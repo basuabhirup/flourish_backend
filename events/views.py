@@ -32,9 +32,13 @@ def event_detail(request, event_id):
 def group_detail(request, group_id):
   try:
     group = Group.objects.get(pk=group_id)
-    return render(request, 'events/group_detail.html', {
-      'group': group
-    })
+    
+    if group.privacy_setting == 'public' or (request.user.is_authenticated and group.members.filter(pk=request.user.pk).exists()):
+      return render(request, 'events/group_detail.html', {
+        'group': group
+      })
+    else:
+      return render(request, 'events/404.html')
   except Group.DoesNotExist:
     return render(request, 'events/404.html')
 
