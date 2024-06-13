@@ -54,7 +54,7 @@
             </div>
             <ul class="dropdown-menu border">
               <li><a class="btn hoverable dropdown-item fs-5" href="{% url 'dashboard' %}">Dashboard</a></li>
-              <li><a class="btn hoverable dropdown-item fs-5" href="{% url 'profile' %}">My Profile</a></li>
+              <li><a class="btn hoverable dropdown-item fs-5" href="{% url 'profile' user.username %}">My Profile</a></li>
               <hr class="my-1 p-0">
               <li><button class="btn hoverable dropdown-item fs-5" onclick="logOut()">Log Out</button></li>
             </ul>

@@ -8,7 +8,7 @@ urlpatterns = [
     path("events-and-groups", views.all_events, name="all_events"),
     path("events/<int:event_id>", views.event_detail, name="event_detail"),
     path("groups/<int:group_id>", views.group_detail, name="group_detail"),
-    path('profile/', views.profile, name='profile'),    
+    path('profile/<str:username>', views.profile, name='profile'),
     path('dashboard/', views.dashboard, name='dashboard'),
     
     # API Views    

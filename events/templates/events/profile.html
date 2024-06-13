@@ -2,17 +2,40 @@
 
 {% block body %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <h1>Your Profile</h1>
-        <hr>
-        <div class="card">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Username: {{ user.username }}</li>
-            <li class="list-group-item">Email: {{ user.email }}</li>
-            </ul>
+  <div class="row justify-content-center">
+    <div class="col-lg-10 mx-auto text-center">
+      <h1>{{ profile_user.username }}</h1>
+      <p class="text-center text-muted">
+        <span>Username: <span class="text-dark">{{ profile_user.username }}</span></span>
+        &emsp;
+        <span>Email: <span class="text-dark">{{ profile_user.email }}</span></span>
+      </p>      
+      {% if request.user == profile_user %}
+      <button class="btn btn-outline-warning text-dark my-3" data-bs-toggle="modal"
+          data-bs-target="#editProfileModal">
+          <span class="ms-auto"><i class="bi bi-pencil"></i></span>
+          <span class="ms-1">Edit Profile</span>
+      </button>
+      {% endif %}
+      <hr>
+      <div class="card text-start p-3 mb-4">
+        <div class="card-title text-dark ms-2 fs-5">Personal Details</div>
+        <div class="card-body row p-2">
+          <div class="card-text col col-lg-4">
+            <span class="text-dark">Username: </span>
+            <span class="fw-bold">{{ profile_user.username }}</span>
+          </div>
+          <div class="card-text col col-lg-4">
+            <span class="text-dark">Email: </span>
+            <span class="fw-bold">{{ profile_user.email }}</span>
+          </div>
         </div>
+      </div>
+      <div class="card text-start p-3 my-4">
+        <div class="card-title text-dark ms-2 fs-5">Bio</div>
+        <div class="card-body text-muted p-2">Description..</div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

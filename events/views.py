@@ -114,14 +114,16 @@ def register(request):
     
   
 @login_required
-def profile(request):
+def profile(request, username):
     if not request.user.is_authenticated:
         return render(request, 'events/404.html')
 
-    user = request.user
-
+    profile_user = User.objects.get(username=username)
+    
+    print(profile_user)
+    
     return render(request, 'events/profile.html', {
-        'user': user
+        'profile_user': profile_user
         })
     
 
