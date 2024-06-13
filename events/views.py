@@ -34,8 +34,16 @@ def group_detail(request, group_id):
     group = Group.objects.get(pk=group_id)
     
     if group.privacy_setting == 'public' or (request.user.is_authenticated and group.members.filter(pk=request.user.pk).exists()):
+      events = group.events.all()
+      members = group.members.all()
+      owner = group.owner
+      
       return render(request, 'events/group_detail.html', {
-        'group': group
+        'group': group,
+        'upcoming_events': events,
+        'past_events': events,
+        'members': members,
+        'owner': owner
       })
     else:
       return render(request, 'events/404.html')

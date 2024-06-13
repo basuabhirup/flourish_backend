@@ -86,7 +86,11 @@
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
               </h4>
+              {% if not event.group %}
               <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+              {% else %}
+              <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.group }}</p>
+              {% endif %}
               <p class="card-text text-secondary fw-bold mb-2">
                 <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                 <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
@@ -121,7 +125,11 @@
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
               </h4>
+              {% if not event.group %}
               <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+              {% else %}
+              <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.group }}</p>
+              {% endif %}
               <p class="card-text text-secondary fw-bold mb-2">
                 <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                 <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
@@ -179,7 +187,11 @@
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
               </h4>
+              {% if not event.group %}
               <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+              {% else %}
+              <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.group }}</p>
+              {% endif %}
               <p class="card-text text-secondary fw-bold mb-2">
                 <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                 <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
@@ -214,7 +226,11 @@
               <h4 class="card-title fs-5 text-dark">
                 {{ event.title }}
               </h4>
+              {% if not event.group %}
               <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+              {% else %}
+              <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.group }}</p>
+              {% endif %}
               <p class="card-text text-secondary fw-bold mb-2">
                 <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                 <span class="ms-1">{{ event.date }} · {{ event.time }}</span>

@@ -42,7 +42,7 @@
         </span>
         {% endif %}
     </div>
-    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
         {% for event in events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
             <div class="card">
@@ -56,7 +56,11 @@
                     <h4 class="card-title fs-5 text-dark">
                         {{ event.title }}
                     </h4>
-                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host_id }}</p>
+                    {% if not event.group %}
+                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.host }}</p>
+                    {% else %}
+                    <p class="card-text text-secondary lh-sm my-3">Hosted by: {{ event.group }}</p>
+                    {% endif %}
                     <p class="card-text text-secondary fw-bold mb-2">
                         <span class="me-1 text-dark"><i class="bi bi-calendar2"></i></span>
                         <span class="ms-1">{{ event.date }} · {{ event.time }}</span>
@@ -83,7 +87,7 @@
         </span>
         {% endif %}
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
         {% for group in groups %}
         <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
             <div class="card">
