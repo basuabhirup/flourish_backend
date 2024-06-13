@@ -35,14 +35,15 @@ def group_detail(request, group_id):
     group = Group.objects.get(pk=group_id)
     
     if group.privacy_setting == 'public' or (request.user.is_authenticated and group.members.filter(pk=request.user.pk).exists()):
-      events = group.events.all()
+      upcoming_events = group.events.filter(date__gte=timezone.now().date())
+      past_events = group.events.filter(date__lt=timezone.now().date())
       members = group.members.all()
       owner = group.owner
       
       return render(request, 'events/group_detail.html', {
         'group': group,
-        'upcoming_events': events,
-        'past_events': events,
+        'upcoming_events': upcoming_events,
+        'past_events': past_events,
         'members': members,
         'owner': owner
       })

@@ -34,13 +34,16 @@
             <p>{{ group.description }}</p>
         </div>
         <div class="col-lg-3 mx-auto">
+            {% if request.user == owner %}
             <button class="btn btn-outline-warning text-dark mb-3" data-bs-toggle="modal"
                 data-bs-target="#editGroupModal">
                 <span class="ms-auto"><i class="bi bi-pencil"></i></span>
                 <span class="ms-1">Edit Group</span>
             </button>
+            {% endif %}
             <div class="card py-3 mt-2">
                 <div class="row">
+                    {% if request.user == owner %}
                     <div class="col-8">
                         <span class="card-title h5 ps-3">Group Members</span>
                     </div>
@@ -50,6 +53,9 @@
                             <span class="ms-1">Add</span>
                         </button>
                     </div>
+                    {% else %}
+                    <span class="card-title h5 ps-3 ms-2">Group Members</span>
+                    {% endif %}
                 </div>
                 <hr>
                 <div class="card-body py-1">
