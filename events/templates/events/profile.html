@@ -3,39 +3,102 @@
 {% block body %}
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-lg-10 mx-auto text-center">
-      <h1>{{ profile_user.username }}</h1>
-      <p class="text-center text-muted">
-        <span>Username: <span class="text-dark">{{ profile_user.username }}</span></span>
-        &emsp;
-        <span>Email: <span class="text-dark">{{ profile_user.email }}</span></span>
-      </p>      
+    <div class="col-lg-8 mx-auto text-center">
+      <h1>{{ profile_user.first_name}} {{ profile_user.last_name }}</h1>
+      <p class="text-muted mt-1 pt-1 fs-5">@{{ profile_user.username}}</p>
       {% if request.user == profile_user %}
-      <button class="btn btn-outline-warning text-dark my-3" data-bs-toggle="modal"
+      <button class="btn btn-sm btn-outline-warning text-dark my-3" data-bs-toggle="modal"
           data-bs-target="#editProfileModal">
           <span class="ms-auto"><i class="bi bi-pencil"></i></span>
           <span class="ms-1">Edit Profile</span>
       </button>
       {% endif %}
       <hr>
+      <p class="social text-secondary text-center fs-5 mb-4 mt-1">
+        {% if profile.instagram_url %}
+        <span class="instagram mx-3"><i class="bi bi-instagram" onclick="openInNewTab(event)" data-url="{{ profile.instagram_url }}"></i></span>
+        {% endif %}
+        {% if profile.facebook_url %}
+        <span class="facebook mx-3"><i class="bi bi-facebook" onclick="openInNewTab(event)" data-url="{{ profile.facebook_url }}"></i></span>
+        {% endif %}
+        {% if profile.twitter_url %}
+        <span class="twitter mx-3"><i class="bi bi-twitter-x" onclick="openInNewTab(event)" data-url="{{ profile.twitter_url }}"></i></span>
+        {% endif %}
+        {% if profile.linkedin_url %}
+        <span class="linkedin mx-3"><i class="bi bi-linkedin" onclick="openInNewTab(event)" data-url="{{ profile.linkedin_url }}"></i></span>
+        {% endif %}
+      </p>
       <div class="card text-start p-3 mb-4">
         <div class="card-title text-dark ms-2 fs-5">Personal Details</div>
         <div class="card-body row p-2">
-          <div class="card-text col col-lg-4">
+          <div class="card-text col">
+            <span class="text-dark">First Name: </span>
+            <span class="fw-bold">{{ profile_user.first_name }}</span>
+          </div>
+          <div class="card-text col">
+            <span class="text-dark">Last Name: </span>
+            <span class="fw-bold">{{ profile_user.last_name }}</span>
+          </div>
+        </div>
+        <div class="card-body row p-2">
+          <div class="card-text col">
             <span class="text-dark">Username: </span>
             <span class="fw-bold">{{ profile_user.username }}</span>
           </div>
-          <div class="card-text col col-lg-4">
+          <div class="card-text col">
             <span class="text-dark">Email: </span>
             <span class="fw-bold">{{ profile_user.email }}</span>
           </div>
         </div>
+        <!-- <div class="card-body p-2 mt-2 mb-3">
+          <button class="btn btn-outline-secondary me-auto">
+          <span class="ms-auto"><i class="bi bi-pencil-square"></i></span>
+          <span class="ms-1">Change Password</span>
+          </button>
+        </div> -->
       </div>
+      {% if profile.bio %}
       <div class="card text-start p-3 my-4">
         <div class="card-title text-dark ms-2 fs-5">Bio</div>
-        <div class="card-body text-muted p-2">Description..</div>
+        <div class="card-body text-muted p-2">{{ profile.bio }}</div>
       </div>
+      {% endif %}
     </div>
+  </div>
+
+  <div class="row mt-4 mb-1 text-center">
+    <span class="h2">Groups</span>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center mb-5">
+    {% for group in groups %}
+    <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
+      <div class="card">
+        {% if group.image_url %}
+        <img src="{{ group.image_url }}" class="card-img-top" alt="group-image" height="160">
+        {% else %}
+        <img
+          src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          class="card-img-top" alt="group-image" height="160">
+        {% endif %}
+        <div class="card-body">
+          <h4 class="card-title fs-5 text-dark">
+            {{ group.name }}
+          </h4>
+          <p class="card-text text-secondary lh-sm my-3">Owner: {{ group.owner }}</p>
+          <p class="card-text text-secondary fw-bold mb-2">
+            <span class="me-1 text-dark"><i class="bi bi-people-fill"></i></span>
+            <span class="ms-1">{{ group.members.all|length }} Members</span>
+          </p>
+          <p class="card-text text-secondary lh-sm mt-2 mb-3 text-truncate" title="{{ group.description }}">
+            {{ group.description }}
+          </p>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <p class="text-secondary lh-sm my-3 text-center">No groups to display.</p>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

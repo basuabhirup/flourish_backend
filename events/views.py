@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Event, User, Group, Registration, Category
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import JsonResponse
@@ -119,11 +119,22 @@ def profile(request, username):
         return render(request, 'events/404.html')
 
     profile_user = User.objects.get(username=username)
+    groups = Group.objects.filter(members__in=[profile_user])
     
-    print(profile_user)
+    try:
+      profile = profile_user.userprofile
+      
+      return render(request, 'events/profile.html', {
+        'profile_user': profile_user,
+        'profile': profile,
+        'groups': groups
+        })
+    except User.DoesNotExist:
+      pass    
     
     return render(request, 'events/profile.html', {
-        'profile_user': profile_user
+        'profile_user': profile_user,
+        'groups': groups
         })
     
 

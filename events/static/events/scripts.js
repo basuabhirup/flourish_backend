@@ -249,3 +249,9 @@ const editGroup = () => {
       alert("An error occurred. Please try again.");
     });
 };
+
+const openInNewTab = (e) => {
+  const url = e.target.closest(".bi").dataset.url
+  // console.log(url)
+  window.open(url, '_blank').focus()
+}

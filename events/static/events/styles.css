@@ -31,3 +31,24 @@ a {
   transform: scale(1.025);
   background-color: #ffc10720;
 }
+
+.social > *:hover {
+  cursor: pointer;
+  font-size: 1.275rem;
+}
+
+.social > .instagram:hover {
+  color: #c32aa3;
+}
+
+.social > .facebook:hover {
+  color: #1877f2;
+}
+
+.social > .twitter:hover {
+  color: #000000;
+}
+
+.social > .linkedin:hover {
+  color: #0a66c2;
+}
