@@ -47,8 +47,9 @@ class Group(models.Model):
     return self.name
   
   
-class UserProfile(User):
-  """Extended User model with new profile fields."""
+class UserProfile(models.Model):
+  """A model to store additional profile information for users."""
+  user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='user_profile')
   bio = models.TextField(blank=True, null=True)
   instagram_url = models.URLField(blank=True, null=True)
   facebook_url = models.URLField(blank=True, null=True)
@@ -56,4 +57,4 @@ class UserProfile(User):
   linkedin_url = models.URLField(blank=True, null=True)
 
   def __str__(self):
-    return self.username
+    return self.user.username

@@ -209,12 +209,11 @@ const createGroup = () => {
 };
 
 const editGroup = () => {
-  const form = document.getElementById("editGroupForm");
+  // const form = document.getElementById("editGroupForm");
   const name = document.getElementById("groupName").value;
   const description = document.getElementById("groupDescription").value;
   const privacySetting = document.getElementById("privacySetting").value;
   const image_url = document.getElementById("groupImage").value;
-
 
   const groupId = document.getElementById("groupId").value;
 
@@ -255,7 +254,52 @@ const editGroup = () => {
 };
 
 const openInNewTab = (e) => {
-  const url = e.target.closest(".bi").dataset.url
+  const url = e.target.closest(".bi").dataset.url;
   // console.log(url)
-  window.open(url, '_blank').focus()
-}
+  window.open(url, "_blank").focus();
+};
+
+const editProfile = () => {
+  // const form = document.querySelector("#editProfileForm");
+
+  const first_name = document.getElementById("editFirstName").value;
+  const last_name = document.getElementById("editLastName").value;
+  const bio = document.getElementById("editBio").value;
+  const instagram_url = document.getElementById("editInstagramUrl").value;
+  const facebook_url = document.getElementById("editFacebookUrl").value;
+  const twitter_url = document.getElementById("editTwitterUrl").value;
+  const linkedin_url = document.getElementById("editLinkedinUrl").value;
+  const userName = document.getElementById("editUsername").value;
+
+  const data = {
+    first_name,
+    last_name,
+    bio,
+    instagram_url,
+    facebook_url,
+    twitter_url,
+    linkedin_url,
+  };
+
+  console.log(data)
+
+  const jsonData = JSON.stringify(data);
+
+  // API Call
+  fetch(`/edit_profile/${userName}`, {
+    method: "PUT",
+    body: jsonData,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location = `/profile/${json.user.username}`;
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+};

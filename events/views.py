@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db.models import Q
 import json
+from django.core.exceptions import FieldError
+
 
 
 # Create your views here
@@ -125,8 +127,19 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-        except IntegrityError:
-            return JsonResponse({'error': 'Username already taken!'}, status=500)
+            
+            profile = UserProfile.objects.create(pk=user.id)
+        
+            profile.bio = ''
+            profile.instagram_url = ''
+            profile.facebook_url = ''
+            profile.twitter_url = ''
+            profile.linkedin_url = ''
+            
+            profile.save()
+            
+        except IntegrityError as e:
+            return JsonResponse({'error': str(e)}, status=500)
         
         login(request, user)
         return JsonResponse({'message': 'Succesfully signed up.'}, status=200)
@@ -143,7 +156,7 @@ def profile(request, username):
     groups = Group.objects.filter(members__in=[profile_user])
     
     try:
-      profile = profile_user.userprofile
+      profile = UserProfile.objects.get(pk=profile_user.id)
       
       return render(request, 'events/profile.html', {
         'profile_user': profile_user,
@@ -272,6 +285,65 @@ def edit_group(request, group_id):
       return JsonResponse({'error': 'Group not found.'}, status=404)
     except Exception as e: 
       return JsonResponse({'error': 'Failed to update group details.'}, status=500)
+  else:
+    return JsonResponse({'error': 'Invalid request!'}, status=400)
+  
+  
+@csrf_exempt  
+@login_required
+def edit_profile(request, username):
+  if request.method == "PUT":    
+    try:
+      profile_user = User.objects.get(username=username)
+      user = request.user
+      
+      # Check if the user is updating their own profile
+      if not profile_user == user:
+        return JsonResponse({'error': 'You are not authorized to edit this profile!'}, status=403)
+      
+      
+      data = json.loads(request.body)
+      first_name = data.get('first_name')
+      last_name = data.get('last_name')
+      bio = data.get('bio')
+      instagram_url = data.get('instagram_url')
+      facebook_url = data.get('facebook_url')
+      twitter_url = data.get('twitter_url')
+      linkedin_url = data.get('linkedin_url')
+      
+      
+      if not first_name:
+        return JsonResponse({'error': 'Must provide First Name!'}, status=400)
+      
+      if not last_name:
+        return JsonResponse({'error': 'Must provide Last Name!'}, status=400)
+      
+      profile_user.first_name = first_name
+      profile_user.last_name = last_name
+      
+      
+      profile = UserProfile.objects.get(pk=profile_user.id)
+        
+      print(profile)
+        
+      profile.bio = bio
+      profile.instagram_url = instagram_url
+      profile.facebook_url = facebook_url
+      profile.twitter_url = twitter_url
+      profile.linkedin_url = linkedin_url
+      
+      profile_user.save()
+      profile.save()
+      
+      # Success response
+      return JsonResponse({'message': 'Profile details updated successfully!', 'user': {
+        'id': profile_user.id,
+        'username': profile_user.username
+      }}, status=200)
+    except User.DoesNotExist:
+      return JsonResponse({'error': 'User not found.'}, status=404)
+    except Exception as e: 
+      return JsonResponse({'error': 'Failed to update user profile.', 'errorMessage': str(e)}, status=500)
   else:
     return JsonResponse({'error': 'Invalid request!'}, status=400)
 

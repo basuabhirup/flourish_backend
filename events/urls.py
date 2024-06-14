@@ -15,6 +15,7 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
     path('register', views.register, name='register'),
+    path('edit_profile/<str:username>', views.edit_profile, name='edit-profile'),
     path('create_group', views.create_group, name='create-group'),
     path('edit_group/<int:group_id>', views.edit_group, name='edit-group'),
     path('create_event', views.create_event, name='create-event'),
