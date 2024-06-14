@@ -52,3 +52,17 @@ a {
 .social > .linkedin:hover {
   color: #0a66c2;
 }
+
+#username-suggestions > li:hover {
+  font-weight: bold;
+  margin-top: 0;
+}
+
+#selected-users-list > .selected-user {
+  font-size: 0.95rem;
+}
+
+#selected-users-list > .selected-user:hover {
+  font-weight: bold;
+  cursor: pointer;
+}

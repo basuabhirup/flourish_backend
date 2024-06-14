@@ -1,21 +1,112 @@
 document.addEventListener("DOMContentLoaded", () => {
   const hostEventModal = document.querySelector("#hostEventModal");
+  const inviteMemberModal = document.querySelector("#inviteMemberModal");
+  const usernameInput = document.getElementById("username");
+  const addMemberButton = document.getElementById("add-member-btn");
+  const suggestionList = document.getElementById("username-suggestions");
+  const selectedUsersList = document.getElementById("selected-users-list");
 
-  hostEventModal.addEventListener("shown.bs.modal", function () {
-    // populate event category with relevant options from db
-    fetch("/categories").then((res) => {
+  if (!!hostEventModal) {
+    hostEventModal.addEventListener("shown.bs.modal", function () {
+      // populate event category with relevant options from db
+      fetch("/categories").then((res) => {
+        if (res.status === 200) {
+          res.json().then((json) => {
+            json.categories.forEach(
+              (category) =>
+                (hostEventModal.querySelector(
+                  "#eventCategory"
+                ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
+            );
+          });
+        }
+      });
+    });
+  }
+
+  if (!!inviteMemberModal) {
+    let selectedUsernames = [];
+    let usernames = [];
+    const groupId = document.querySelector("#groupId").value;
+
+    // inviteMemberModal.addEventListener("shown.bs.modal", function () {
+    fetch(`/users-not-in-group/${groupId}`).then((res) => {
       if (res.status === 200) {
         res.json().then((json) => {
-          json.categories.forEach(
-            (category) =>
-              (hostEventModal.querySelector(
-                "#eventCategory"
-              ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
-          );
+          json.users.forEach((user) => usernames.push(user.username));
+          usernameInput.addEventListener("focus", handleUserInput);
+          usernameInput.addEventListener("input", handleUserInput);
         });
+      } else {
+        res.json(),
+          then((json) => {
+            alert(json.error);
+          });
       }
     });
-  });
+    // });
+
+    function handleUserInput(event) {
+      const typedUsername = event.target.value.toLowerCase();
+      const suggestions = usernames.filter(
+        (username) =>
+          username.toLowerCase().startsWith(typedUsername) &&
+          !selectedUsernames.includes(username)
+      );
+
+      // Clear previous suggestions
+      suggestionList.innerHTML = "";
+
+      if (suggestions.length > 0) {
+        suggestionList.classList.add("show"); // Add Bootstrap class to show dropdown
+        for (const suggestion of suggestions) {
+          const suggestionItem = document.createElement("li");
+          suggestionItem.innerText = suggestion;
+          suggestionItem.addEventListener("click", function () {
+            const username = this.innerText;
+            if (!selectedUsernames.includes(username)) {
+              selectedUsernames.push(username);
+              // Add username to selected list
+              const selectedUserListItem = document.createElement("span");
+              selectedUserListItem.innerText = username;
+              selectedUserListItem.classList.add("px-2");
+              selectedUserListItem.classList.add("py-1");
+              selectedUserListItem.classList.add("me-2");
+              selectedUserListItem.classList.add("mb-2");
+              selectedUserListItem.classList.add("text-bg-secondary");
+              selectedUserListItem.classList.add("rounded");
+              selectedUserListItem.classList.add("selected-user");
+              selectedUsersList.appendChild(selectedUserListItem);
+              suggestionList.classList.remove("show");
+              usernameInput.value = "";
+
+              for (
+                let i = 0;
+                i < document.querySelectorAll(".selected-user").length;
+                i++
+              ) {
+                document
+                  .querySelectorAll(".selected-user")
+                  [i].removeEventListener("click", deleteUser);
+                document
+                  .querySelectorAll(".selected-user")
+                  [i].addEventListener("click", deleteUser);
+              }
+            }
+          });
+          suggestionList.appendChild(suggestionItem);
+        }
+      } else {
+        suggestionList.classList.remove("show"); // Hide dropdown if no suggestions
+      }
+    }
+
+    function deleteUser() {
+      const index = selectedUsernames.indexOf(this.textContent)
+      selectedUsernames.splice(index, 1);
+      selectedUsersList.removeChild(selectedUsersList.children[index]);
+    }
+  }
 });
 
 // const openEvent = (e) =>{
@@ -281,7 +372,7 @@ const editProfile = () => {
     linkedin_url,
   };
 
-  console.log(data)
+  console.log(data);
 
   const jsonData = JSON.stringify(data);
 

@@ -420,3 +420,20 @@ def categories(request):
     return JsonResponse({'categories': category_data}, status=200)
   else:
     return JsonResponse({'error': 'Invalid request method. Use GET.'}, status=400)
+  
+  
+def get_users_not_in_group(request, group_id):
+  if request.method != 'GET':
+    return JsonResponse({'error': 'Invalid request method. Use GET.'}, status=400)
+      
+  try:
+    group = Group.objects.get(pk=group_id)
+  except Group.DoesNotExist:
+    return JsonResponse({'error': 'Group with id %d does not exist.' % group_id}, status=400)
+
+  all_users = User.objects.all()
+  group_members = group.members.all()
+  users_not_in_group = [user for user in all_users if user not in group_members]
+
+  user_data = [{'id': user.id, 'username': user.username} for user in users_not_in_group]
+  return JsonResponse({ 'users': user_data}, status=200)

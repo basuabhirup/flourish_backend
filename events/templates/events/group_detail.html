@@ -223,19 +223,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
             <div class="modal-header">
-                <h1 class="modal-title fs-3" id="inviteMemberModalLabel">Add Member to Group</h1>
+                <h1 class="modal-title fs-3" id="inviteMemberModalLabel">Add Members</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body mb-3">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control typeahead" id="username" placeholder="Type username">
-                    <ul id="username-suggestions" class="dropdown-menu"></ul>
-                </div>
+                <form class="form-group">
+                    <label for="username fw-bold fw-5">Username</label>
+                    <p id="selected-users-list" class="mt-2 w-100 d-flex flex-wrap"></p>
+                    <input type="text" class="form-control typeahead" id="username" placeholder="Type username" autocomplete="off">
+                    <ul id="username-suggestions" class="dropdown-menu px-4" role="button" tabindex="1"></ul>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-warning" id="add-member-btn">Add Member</button>
+                <button type="button" class="btn btn-outline-warning text-dark" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="add-member-btn">Add Members</button>
             </div>
         </div>
     </div>
