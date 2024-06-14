@@ -2,7 +2,8 @@
 
 {% block body %}
 <div class="container mt-5">
-  <h1 class="mb-5 mx-auto text-center">Welcome, <a href="{% url 'profile' user.username %}" class="text-secondary fw-bold">{{ user.username }}</a> !</h1>
+  <h1 class="mb-5 mx-auto text-center">Welcome, <a href="{% url 'profile' user.username %}"
+      class="text-secondary fw-bold">{{ user.username }}</a> !</h1>
 
   <div class="col-lg-9 mx-auto mt-3 text-center">
     <p class="lead mb-4">
@@ -21,11 +22,11 @@
 
 
 
-  <div class="row mt-5 mb-0">
+  <div class="row mt-5 mb-0 text-center">
     <span class="h2">My Groups</span>
   </div>
 
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
     {% for group in groups %}
     <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
       <div class="card">
@@ -56,8 +57,9 @@
     {% endfor %}
   </div>
 
-  <div class="row mt-5 mb-0">
+  <div class="row mt-5 mb-0 text-center">
     <span class="h2">Hosted Events</span>
+    {% if hosted_upcoming_events or hosted_past_events %}
     <br>
     <div class="btn-group nav nav-pills m-3 mb-0" role="tablist">
       <button type="button" class="btn btn-outline-warning active" data-bs-toggle="pill"
@@ -65,13 +67,13 @@
       <button type="button" class="btn btn-outline-warning" data-bs-toggle="pill" data-bs-target="#past-hosted-events"
         role="tab">Past</button>
     </div>
+    {% endif %}
   </div>
 
   <div class="tab-content mb-4" id="pills-tabContent-hosted-events">
     <div class="tab-pane fade px-1 show active" id="upcoming-hosted-events" role="tabpanel"
       aria-labelledby="upcoming-hosted-events-tab" tabindex="0">
-      <div
-        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+      <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in hosted_upcoming_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
@@ -110,7 +112,7 @@
     <div class="tab-pane fade px-1" id="past-hosted-events" role="tabpanel" aria-labelledby="past-hosted-events-tab"
       tabindex="0">
       <div
-        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in hosted_past_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
@@ -148,31 +150,23 @@
     </div>
   </div>
 
-  <div class="row mt-5 mb-0">
+  <div class="row mt-5 mb-0 text-center">
     <span class="h2">Attended Events</span>
+    {% if attended_upcoming_events or attended_past_events %}
     <br>
-    <!-- Nav tabs -->
-    <!-- <ul class="nav nav-pills m-3 mb-0" id="pills-tab-attended-events" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#upcoming-attended-events" type="button" role="tab">Upcoming</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link btn btn-sm btn-outline-warning text-dark p-0" data-bs-toggle="pill" data-bs-target="#past-attended-events" type="button" role="tab">Past</button>
-        </li>
-      </ul> -->
     <div class="btn-group nav nav-pills m-3 mb-0" role="tablist">
       <button type="button" class="btn btn-outline-warning active" data-bs-toggle="pill"
         data-bs-target="#upcoming-attended-events" role="tab">Upcoming</button>
       <button type="button" class="btn btn-outline-warning" data-bs-toggle="pill" data-bs-target="#past-attended-events"
         role="tab">Past</button>
     </div>
+    {% endif %}
   </div>
 
   <div class="tab-content mb-4" id="pills-tabContent-attended-events">
     <div class="tab-pane fade px-1 show active" id="upcoming-attended-events" role="tabpanel"
       aria-labelledby="upcoming-attended-events-tab" tabindex="0">
-      <div
-        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+      <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in attended_upcoming_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
@@ -211,7 +205,7 @@
     <div class="tab-pane fade px-1" id="past-attended-events" role="tabpanel" aria-labelledby="past-attended-events-tab"
       tabindex="0">
       <div
-        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
         {% for event in attended_past_events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
           <div class="card">
