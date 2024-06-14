@@ -48,7 +48,8 @@
                         <span class="card-title h5 ps-3">Group Members</span>
                     </div>
                     <div class="col-4 text-end">
-                        <button class="btn btn-sm btn-outline-dark me-2">
+                        <button class="btn btn-sm btn-outline-dark me-2" data-bs-toggle="modal"
+                            data-bs-target="#inviteMemberModal">
                             <span class="ms-auto"><i class="bi bi-person-plus"></i></span>
                             <span class="ms-1">Add</span>
                         </button>
@@ -60,7 +61,8 @@
                 <hr class="mb-4">
                 <div class="card-body py-1">
                     {% for member in members %}
-                    <a href="{% url 'profile' member %}" class="d-block mb-3 card-text text-muted"><i class="bi bi-person-circle me-2"></i>{{ member }}
+                    <a href="{% url 'profile' member %}" class="d-block mb-3 card-text text-muted"><i
+                            class="bi bi-person-circle me-2"></i>{{ member }}
                         {% if member == owner %}
                         <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span>
                         {% endif %}
@@ -214,4 +216,29 @@
         </div>
     </div>
 </div>
+
+<!-- Invite Member Modal -->
+<div class="modal fade" id="inviteMemberModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="inviteMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="inviteMemberModalLabel">Add Member to Group</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mb-3">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control typeahead" id="username" placeholder="Type username">
+                    <ul id="username-suggestions" class="dropdown-menu"></ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="add-member-btn">Add Member</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
