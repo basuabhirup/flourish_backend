@@ -46,6 +46,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     // });
 
+    addMemberButton.addEventListener("click", function () {
+      const groupId = document.getElementById("groupId").value;
+
+      const data = { usernames: selectedUsernames };
+
+      console.log(data)
+
+      const jsonData = JSON.stringify(data);
+
+      console.log(jsonData)
+
+      // API Call
+      fetch(`/add-user-to-group/${groupId}`, {
+        method: "POST",
+        body: jsonData,
+        credentials: "same-origin",
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            res.json().then((json) => {
+              console.log(json.message);
+              // Close modal and potentially update UI
+              window.location.reload();
+            });
+          } else {
+            res.json().then((json) => {
+              alert(json.error);
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("An error occurred. Please try again.");
+        });
+    });
+
     function handleUserInput(event) {
       const typedUsername = event.target.value.toLowerCase();
       const suggestions = usernames.filter(
@@ -102,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function deleteUser() {
-      const index = selectedUsernames.indexOf(this.textContent)
+      const index = selectedUsernames.indexOf(this.textContent);
       selectedUsernames.splice(index, 1);
       selectedUsersList.removeChild(selectedUsersList.children[index]);
     }

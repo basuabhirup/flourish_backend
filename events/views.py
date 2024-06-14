@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Event, User, Group, Registration, Category, UserProfile
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
@@ -437,3 +437,37 @@ def get_users_not_in_group(request, group_id):
 
   user_data = [{'id': user.id, 'username': user.username} for user in users_not_in_group]
   return JsonResponse({ 'users': user_data}, status=200)
+
+
+@csrf_exempt
+def add_user_to_group(request, group_id):
+  if request.method != 'POST':
+    return JsonResponse({'error': 'Invalid request method. Use POST.'}, status=400)
+      
+  try:
+    group = Group.objects.get(pk=group_id)
+  except Group.DoesNotExist:
+    return JsonResponse({'error': 'Group with id %d does not exist.' % group_id}, status=400)
+  
+  if not group.owner == request.user:
+    return JsonResponse({'error': 'You are not authorized to edit this group.'}, status=403)
+
+  data = json.loads(request.body)
+  usernames = data.get('usernames', [])
+  
+  # Validate usernames (replace with your validation logic)
+  valid_users = []
+  for username in usernames:
+    user = User.objects.filter(username=username).first()  # Check if user exists
+    if user:
+      valid_users.append(user)
+    else:
+      return JsonResponse({'error': 'User "%s" does not exist.' % username}, status=400)
+
+  with transaction.atomic():
+    try:
+      group.members.add(*valid_users)  # Add users using bulk add
+    except Exception as e:
+      return JsonResponse({'error': 'Failed to add users to the group.', 'error_message': str(e)}, status=500)  
+    
+  return JsonResponse({ 'message': 'Succesfully added users to the group'}, status=200)
