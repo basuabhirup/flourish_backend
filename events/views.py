@@ -625,3 +625,25 @@ def attend_event(request, event_id):
     }}, status=201)
   else:
     return JsonResponse({'error': 'Invalid request!'}, status=400)
+  
+@login_required
+def get_registered_users(request, event_id):
+  """Fetches registered users for an event in JSON format."""
+  if request.method == 'GET':
+    event = get_object_or_404(Event, pk=event_id)
+    
+    if not event.host == request.user:
+      return JsonResponse({'error': 'You are not authorized to view this list.'}, status=403)
+    
+    registrations = Registration.objects.filter(event=event)
+    registered_users = [
+        {
+            'full_name': registration.user.first_name + ' ' + registration.user.last_name,
+            'email': registration.email,
+            'contact_number': registration.contact_number,
+        }
+        for registration in registrations
+    ]
+    return JsonResponse({'data': registered_users})
+  else:
+    return JsonResponse({'error': 'Invalid request method!'}, status=400)

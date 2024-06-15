@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const hostEventModal = document.querySelector("#hostEventModal");
   const editEventModal = document.querySelector("#editEventModal");
   const inviteMemberModal = document.querySelector("#inviteMemberModal");
+  const attendeeListModal = document.getElementById("attendeeListModal");
+
   const usernameInput = document.getElementById("username");
   const addMemberButton = document.getElementById("add-member-btn");
   const suggestionList = document.getElementById("username-suggestions");
@@ -63,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     )
       .toISOString()
       .split("T")[0];
-      
+
     timeInput.value = new Date(date)
       .toISOString()
       .split("T")[1]
@@ -200,6 +202,38 @@ document.addEventListener("DOMContentLoaded", () => {
       selectedUsernames.splice(index, 1);
       selectedUsersList.removeChild(selectedUsersList.children[index]);
     }
+  }
+
+  if (!!attendeeListModal) {
+    const eventId = document.getElementById("editEventId").value;
+    fetch(`/get_registered_users/${eventId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        const attendeesTableBody =
+          document.getElementById("attendeesTableBody");
+        attendeesTableBody.innerHTML = ""; // Clear existing content
+        const data = json.data
+
+        data.forEach((attendee) => {
+          const tableRow = document.createElement("tr");
+          const fullNameCell = document.createElement("td");
+          fullNameCell.textContent = attendee.full_name; // Use textContent for vanilla JS
+          const emailCell = document.createElement("td");
+          emailCell.textContent = attendee.email;
+          const contactNumberCell = document.createElement("td");
+          contactNumberCell.textContent = attendee.contact_number;
+
+          tableRow.appendChild(fullNameCell);
+          tableRow.appendChild(emailCell);
+          tableRow.appendChild(contactNumberCell);
+
+          attendeesTableBody.appendChild(tableRow);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching attendees:", error);
+        // Handle errors appropriately (e.g., display an error message)
+      });
   }
 });
 
@@ -532,7 +566,7 @@ const deleteMemberFromGroup = (e) => {
 
 const editEvent = () => {
   // const form = document.querySelector("#editEventForm");
-  const eventId = document.getElementById("editEventId").value
+  const eventId = document.getElementById("editEventId").value;
   const title = document.getElementById("editEventName").value;
   const description = document.getElementById("editEventDescription").value;
   const date = document.getElementById("editEventDate").value;
@@ -555,7 +589,7 @@ const editEvent = () => {
 
   console.log(data);
 
-  const jsonData = JSON.stringify(data)
+  const jsonData = JSON.stringify(data);
 
   // API Call
   fetch(`/edit_event/${eventId}`, {
@@ -578,7 +612,7 @@ const editEvent = () => {
 
 const attendEvent = () => {
   const form = document.querySelector("#attendEventForm");
-  const eventId = document.getElementById("attendEventId").value
+  const eventId = document.getElementById("attendEventId").value;
   const email = document.getElementById("attendEmail").value;
   const contact_number = document.getElementById("attendContactNumber").value;
 
