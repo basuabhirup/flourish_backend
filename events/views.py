@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 # Create your views here
 def index(request):
-    events = Event.objects.order_by('-date', '-time')[:4]
+    events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date')[:4]
     groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')[:4]
     return render(request, "events/index.html", {
         "events": events,
