@@ -63,7 +63,7 @@
                     {% for member in members %}
                     <div class="row mb-3">
                         <div class="col">
-                            <a href="{% url 'profile' member %}" class="card-text text-muted"><i
+                            <a {% if request.user.is_authenticated %}href="{% url 'profile' member %}"{% endif %} class="card-text text-muted"><i
                                     class="bi bi-person-circle me-2"></i>{{ member }}
                                 {% if member == owner %}
                                 <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span>

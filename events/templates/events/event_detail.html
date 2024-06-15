@@ -48,7 +48,7 @@
                 <div class="card-body py-1">
                     <div class="row">
                         <div class="col">
-                            <a href="{% url 'profile' event.host %}" class="card-text text-muted"><i
+                            <a {% if request.user.is_authenticated %}href="{% url 'profile' event.host %}"{% endif %} class="card-text text-muted"><i
                                     class="bi bi-person-circle me-2"></i>{{ event.host }}
                                 <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Host</span>
                             </a>
@@ -56,6 +56,33 @@
                     </div>
                 </div>
             </div>
+            {% if event.group %}
+            <h4 class="mt-5 mb-3">Group</h4>
+            <a href="{% url 'group_detail' event.group.id %}" class="event col mb-3" role="button">
+                <div class="card">
+                    {% if event.group.image_url %}
+                    <img src="{{ event.group.image_url }}" class="card-img-top" alt="group-image" height="160">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        class="card-img-top" alt="group-image" height="160">
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title fs-5 text-dark">
+                            {{ event.group.name }}
+                        </h4>
+                        <p class="card-text text-secondary lh-sm my-3">Owner: {{ event.group.owner }}</p>
+                        <p class="card-text text-secondary fw-bold mb-2">
+                            <span class="me-1 text-dark"><i class="bi bi-people-fill"></i></span>
+                            <span class="ms-1">{{ event.group.members.all|length }} Members</span>
+                        </p>
+                        <p class="card-text text-secondary lh-sm mt-2 mb-3 text-truncate"
+                            title="{{ group.description }}">
+                            {{ event.group.description }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>
