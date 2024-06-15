@@ -64,7 +64,7 @@ def group_detail(request, group_id):
 
     
 def all_events(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
     groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
     return render(request, "events/events.html", {
         "events": events,
