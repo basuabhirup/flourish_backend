@@ -34,12 +34,102 @@
                     {{ event.category }}
                 </span>
             </div>
-            <a href="" class="btn btn-lg btn-warning mb-3">Register Now</a>
+            <a href="" class="btn btn-lg btn-warning mb-3">RSVP</a>
         </div>
-        <div class="col-lg-4 ps-5">
-            <h3>About the Organizer</h3>
-            <p></p>
-            <a href="" class="btn btn-outline-warning">Visit Organizer Website</a>
+        <div class="col-lg-3 mx-auto">
+            {% if request.user == event.host %}
+            <button class="btn btn-outline-warning text-dark mb-3" data-bs-toggle="modal"
+                data-bs-target="#editEventModal">
+                <span class="ms-auto"><i class="bi bi-pencil"></i></span>
+                <span class="ms-1">Edit Event</span>
+            </button>
+            {% endif %}
+            <div class="card py-3 mt-2">
+                <div class="card-body py-1">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{% url 'profile' event.host %}" class="card-text text-muted"><i
+                                    class="bi bi-person-circle me-2"></i>{{ event.host }}
+                                <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Host</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Event Modal -->
+<div class="modal fade" id="editEventModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content mx-2 px-4 py-2 border border-secondary rounded">
+            <div class="modal-header">
+                <h1 class="modal-title fs-3" id="editEventModalLabel">Edit Event</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editEventForm" onsubmit="event.preventDefault()">
+                <div class="modal-body py-3">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="editEventName" class="ms-1 form-label">Event Title <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <input type="text" class="form-control me-4" id="editEventName" name="title"
+                            placeholder="Enter your event title" required maxlength="200" value="{{ event.title }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventDescription" class="ms-1 form-label">Description <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <textarea class="form-control me-4" id="editEventDescription" name="description" rows="3"
+                            placeholder="Describe your event" required>{{ event.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventDate" class="ms-1 form-label">Date <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <input type="date" class="form-control me-4" id="editEventDate" name="date" required
+                            data-date-value="{{ event.date }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventTime" class="ms-1 form-label">Time <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <input type="time" class="form-control me-4" id="editEventTime" name="time" required
+                            data-time-value="{{ event.time }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventLocation" class="ms-1 form-label">Location <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <input type="text" class="form-control me-4" id="editEventLocation" name="location"
+                            placeholder="Enter event location" maxlength="255" required value="{{ event.location }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="editEventCategory" class="ms-1 form-label">Category <span
+                                class="text-danger fs-6 mb-2">*</span></label>
+                        <select class="form-select me-4" id="editEventCategory" name="category"
+                            aria-label="Select event category" required>
+                            <option selected>{{ event.category }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventCapacity" class="ms-1 form-label">Capacity (Optional)</label>
+                        <input type="number" class="form-control me-4" id="editEventCapacity" name="capacity" min="1"
+                            step="1" value="{{ event.capacity }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEventImage" class="ms-1 form-label">Image URL (Optional)</label>
+                        <input type="url" class="form-control me-4" id="editEventImage" name="image_url"
+                            value="{{ event.image }}">
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn btn-lg btn-outline-warning text-dark px-4 me-2"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-lg btn-warning px-4" onclick="editEvent()">Save
+                            Changes</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const hostEventModal = document.querySelector("#hostEventModal");
+  const editEventModal = document.querySelector("#editEventModal");
   const inviteMemberModal = document.querySelector("#inviteMemberModal");
   const usernameInput = document.getElementById("username");
   const addMemberButton = document.getElementById("add-member-btn");
@@ -48,6 +49,36 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           groupField.style.display = "none"; // Hide group field
         }
+      }
+    });
+  }
+
+  if (!!editEventModal) {
+    const dateInput = document.getElementById("editEventDate");
+    const timeInput = document.getElementById("editEventTime");
+    const date = dateInput.dataset.dateValue;
+    const time = timeInput.dataset.timeValue;
+    dateInput.value = new Date(
+      new Date(date).getTime() - new Date().getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split("T")[0];
+      
+    timeInput.value = new Date(date)
+      .toISOString()
+      .split("T")[1]
+      .split(":00.00")[0];
+      
+    fetch("/categories").then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          json.categories.forEach(
+            (category) =>
+              (editEventModal.querySelector(
+                "#editEventCategory"
+              ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
+          );
+        });
       }
     });
   }
@@ -497,4 +528,30 @@ const deleteMemberFromGroup = (e) => {
       });
     }
   });
+};
+
+const editEvent = () => {
+  const form = document.querySelector("#editEventForm");
+
+  const title = document.getElementById("editEventName").value;
+  const description = document.getElementById("editEventDescription").value;
+  const date = document.getElementById("editEventDate").value;
+  const time = document.getElementById("editEventTime").value;
+  const location = document.getElementById("editEventLocation").value;
+  const category = document.getElementById("editEventCategory").value;
+  const capacity = document.getElementById("editEventCapacity").value;
+  const image_url = document.getElementById("editEventImage").value;
+
+  const data = {
+    title,
+    description,
+    date,
+    time,
+    location,
+    category,
+    capacity,
+    image_url,
+  };
+
+  console.log(data);
 };
