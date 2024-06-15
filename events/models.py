@@ -29,6 +29,9 @@ class Registration(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   event = models.ForeignKey(Event, on_delete=models.CASCADE)
   registered_at = models.DateTimeField(auto_now_add=True)
+  full_name = models.CharField(max_length=120, null=True)
+  email = models.EmailField(null=True)
+  contact_number = models.PositiveIntegerField(null=True)
 
   class Meta:
     unique_together = ('user', 'event')  # Ensure a user can only register for an event once
