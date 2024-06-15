@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Event, User, Group, Registration, Category, UserProfile
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db.models import Q
 import json
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 
 
@@ -26,11 +26,18 @@ def index(request):
 def event_detail(request, event_id):
   try:
     event = Event.objects.get(pk=event_id)
+    registrations = Registration.objects.filter(event=event)
+    # Fetch user details (optional)
+    registered_users = [registration.user for registration in registrations]
     return render(request, 'events/event_detail.html', {
-      'event': event
+      'event': event,
+      'registered_users': registered_users
       })
   except Event.DoesNotExist:
-    return render(request, 'events/404.html')
+    return JsonResponse({'error': 'Event not found.'}, status=404)
+  except Exception as e:
+    return JsonResponse({'error_message': str(e)}, status=500)
+
   
   
 def group_detail(request, group_id):
@@ -581,3 +588,40 @@ def edit_event(request, event_id):
       return JsonResponse({'error': 'Failed to update event details.', 'error_message': str(e)}, status=500)
   else:
     return JsonResponse({'error': 'Invalid request! Use PUT.'}, status=400)
+  
+  
+@login_required
+def attend_event(request, event_id):
+  """Registers a user for an event."""
+  if request.method == 'POST':
+    event = get_object_or_404(Event, pk=event_id)  # Get the event object
+    user = request.user  # Get the logged-in user
+
+    # Check if user is already registered for this event
+    if Registration.objects.filter(user=user, event=event).exists():
+      return JsonResponse({'error': 'You are already registered for this event.'}, status=400)
+
+  # Extract data from POST Data
+    email = request.POST.get('email')
+    contact_number = request.POST.get('contact_number')
+
+    # Basic validation
+    if not email or not contact_number:
+      raise ValidationError({'error': 'Please provide email and contact number.'})
+
+
+    # Create a new registration object
+    Registration.objects.create(
+      user=user,
+      event=event,
+      email=request.POST.get('email'), 
+      contact_number=request.POST.get('contact_number'), 
+    )
+
+    # Success response
+    return JsonResponse({'message': 'Event attendance registered successfully!', 'event': {
+      'id': event.id,
+      'title': event.title,
+    }}, status=201)
+  else:
+    return JsonResponse({'error': 'Invalid request!'}, status=400)

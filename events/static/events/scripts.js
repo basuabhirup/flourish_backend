@@ -575,3 +575,39 @@ const editEvent = () => {
     }
   });
 };
+
+const attendEvent = () => {
+  const form = document.querySelector("#attendEventForm");
+  const eventId = document.getElementById("attendEventId").value
+  const email = document.getElementById("attendEmail").value;
+  const contact_number = document.getElementById("attendContactNumber").value;
+
+  const csrfmiddlewaretoken = form.querySelector(
+    "input[name='csrfmiddlewaretoken'][type='hidden']"
+  ).value;
+
+  const data = new FormData();
+  data.append("email", email);
+  data.append("contact_number", contact_number);
+  data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  console.log(data);
+
+  // API Call
+  fetch(`/attend_event/${eventId}`, {
+    method: "POST",
+    body: data,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 201) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location = `/events/${json.event.id}`;
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+};
