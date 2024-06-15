@@ -389,11 +389,12 @@ def create_event(request):
           location=event_location,
           category_id=event_category,  
           host=user,  
-          capacity=event_capacity,
           image=event_image,
       )
       if event_group:
         event.group_id = event_group
+      if event_capacity:        
+        event.capacity=event_capacity
       event.save()
     except IntegrityError as e:
       # Handle specific exceptions (optional)
