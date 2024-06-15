@@ -7,35 +7,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedUsersList = document.getElementById("selected-users-list");
 
   if (!!hostEventModal) {
-    hostEventModal.addEventListener("shown.bs.modal", function () {
-      // populate event category with relevant options from db
-      fetch("/categories").then((res) => {
-        if (res.status === 200) {
-          res.json().then((json) => {
-            json.categories.forEach(
-              (category) =>
-                (hostEventModal.querySelector(
-                  "#eventCategory"
-                ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
-            );
-          });
-        }
-      });
-
-      // populate group names with all of the user's groups
-      fetch("/groups").then((res) => {
-        if (res.status === 200) {
-          res.json().then((json) => {
-            json.groups.forEach(
-              (group) =>
-                (hostEventModal.querySelector(
-                  "#groupName"
-                ).innerHTML += `<option value=${group.id}>${group.name}</option>`)
-            );
-          });
-        }
-      });
+    // hostEventModal.addEventListener("shown.bs.modal", function () {
+    // populate event category with relevant options from db
+    fetch("/categories").then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          json.categories.forEach(
+            (category) =>
+              (hostEventModal.querySelector(
+                "#eventCategory"
+              ).innerHTML += `<option value=${category.id}>${category.name}</option>`)
+          );
+        });
+      }
     });
+
+    // populate group names with all of the user's groups
+    fetch("/groups").then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          json.groups.forEach(
+            (group) =>
+              (hostEventModal.querySelector(
+                "#groupName"
+              ).innerHTML += `<option value=${group.id}>${group.name}</option>`)
+          );
+        });
+      }
+    });
+    // });
 
     hostEventModal.addEventListener("change", function (event) {
       // console.log(event.target)
@@ -283,6 +283,7 @@ const hostEvent = () => {
   const date = document.getElementById("eventDate").value;
   const time = document.getElementById("eventTime").value;
   const location = document.getElementById("eventLocation").value;
+  const group = document.getElementById("groupName").value;
   const category = document.getElementById("eventCategory").value;
   const capacity = document.getElementById("eventCapacity").value;
   const image_url = document.getElementById("eventImage").value;
@@ -301,6 +302,10 @@ const hostEvent = () => {
   data.append("capacity", capacity);
   data.append("image", image_url);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
+
+  if (!!groupName) {
+    data.append("group", group);
+  }
 
   // API Call
   fetch("/create_event", {

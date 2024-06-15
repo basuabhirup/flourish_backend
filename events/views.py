@@ -358,7 +358,8 @@ def create_event(request):
     event_date = request.POST.get('date')
     event_time = request.POST.get('time')
     event_location = request.POST.get('location')
-    event_category = request.POST.get('category')  # Assuming category is a foreign key ID
+    event_category = request.POST.get('category') 
+    event_group = request.POST.get('group')
 
     # Optional fields
     event_capacity = request.POST.get('capacity')
@@ -386,11 +387,14 @@ def create_event(request):
           date=event_date,
           time=event_time,
           location=event_location,
-          category_id=event_category,  # Assuming category is a foreign key ID
+          category_id=event_category,  
           host=user,  
           capacity=event_capacity,
-          image=event_image,     
+          image=event_image,
       )
+      if event_group:
+        event.group_id = event_group
+      event.save()
     except IntegrityError as e:
       # Handle specific exceptions (optional)
       if "duplicate values" in str(e):  # Check for duplicate event names

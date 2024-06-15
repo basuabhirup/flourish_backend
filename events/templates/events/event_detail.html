@@ -4,9 +4,18 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8">
+            {% if event.image %}
             <img src="{{ event.image }}" class="img-fluid mb-3" alt="{{ event.title }}">
+            {% else %}
+            <img src="https://images.unsplash.com/photo-1442504028989-ab58b5f29a4a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                class="cimg-fluid mb-3" alt="event-image" height="400">
+            {% endif %}
             <h2>{{ event.title }}</h2>
-            <p class="text-secondary">Hosted by: {{ event.host_id }}</p>
+            {% if not event.group %}
+            <p class="text-secondary">Hosted by: {{ event.host }}</p>
+            {% else %}
+            <p class="text-secondary">Hosted by: {{ event.group }}</p>
+            {% endif %}
             <div class="d-flex mb-3 text-secondary">
                 <span class="me-3">
                     <i class="bi bi-calendar2"></i> {{ event.date }}
