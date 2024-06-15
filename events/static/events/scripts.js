@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .toISOString()
       .split("T")[1]
       .split(":00.00")[0];
-      
+
     fetch("/categories").then((res) => {
       if (res.status === 200) {
         res.json().then((json) => {
@@ -531,8 +531,8 @@ const deleteMemberFromGroup = (e) => {
 };
 
 const editEvent = () => {
-  const form = document.querySelector("#editEventForm");
-
+  // const form = document.querySelector("#editEventForm");
+  const eventId = document.getElementById("editEventId").value
   const title = document.getElementById("editEventName").value;
   const description = document.getElementById("editEventDescription").value;
   const date = document.getElementById("editEventDate").value;
@@ -554,4 +554,24 @@ const editEvent = () => {
   };
 
   console.log(data);
+
+  const jsonData = JSON.stringify(data)
+
+  // API Call
+  fetch(`/edit_event/${eventId}`, {
+    method: "PUT",
+    body: jsonData,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location = `/events/${json.event.id}`;
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
 };

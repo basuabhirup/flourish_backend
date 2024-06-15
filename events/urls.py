@@ -22,6 +22,7 @@ urlpatterns = [
     path('add-user-to-group/<int:group_id>', views.add_user_to_group, name='add-user-to-group'),
     path('delete_member_from_group/<int:group_id>/', views.delete_member_from_group, name='delete-member-from-group'),
     path('create_event', views.create_event, name='create-event'),
+    path('edit_event/<int:event_id>', views.edit_event, name='edit_event'),
     path('categories', views.categories, name='categories'),
     path('groups', views.groups, name='groups'),
 ]

@@ -72,7 +72,7 @@
             </div>
             <form id="editEventForm" onsubmit="event.preventDefault()">
                 <div class="modal-body py-3">
-                    {% csrf_token %}
+                    <input type="hidden" id="editEventId" value="{{ event.id }}">
                     <div class="mb-3">
                         <label for="editEventName" class="ms-1 form-label">Event Title <span
                                 class="text-danger fs-6 mb-2">*</span></label>
@@ -109,7 +109,7 @@
                                 class="text-danger fs-6 mb-2">*</span></label>
                         <select class="form-select me-4" id="editEventCategory" name="category"
                             aria-label="Select event category" required>
-                            <option selected>{{ event.category }}</option>
+                            <option value="{{ event.category_id }}" selected>{{ event.category }}</option>
                         </select>
                     </div>
                     <div class="mb-3">

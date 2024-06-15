@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.db.models import Q
 import json
-from django.core.exceptions import FieldError
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 
@@ -526,3 +527,57 @@ def delete_member_from_group(request, group_id):
   group.members.remove(member_to_remove)
 
   return JsonResponse({'message': 'Member successfully removed from the group.'}, status=200)
+
+
+@login_required
+@csrf_exempt
+def edit_event(request, event_id):
+  if request.method == 'PUT':
+    try:
+      data = json.loads(request.body)
+      event = Event.objects.get(pk=event_id)  # Get the event object by ID
+
+      title = data.get('title')
+      description = data.get('description')
+      date = data.get('date')
+      time = data.get('time')
+      location = data.get('location')
+      category = data.get('category')
+      capacity = data.get('capacity')
+      image_url = data.get('image_url')
+
+      # Basic validation
+      if not title:
+        return JsonResponse({'error': 'Please enter a title for the event.'}, status=400)
+      if not description:
+        return JsonResponse({'error': 'Please enter a description for the event.'}, status=400)
+
+      # Update event details
+      event.title = title
+      event.description = description
+      event.date = date
+      event.time = time
+      event.location = location
+      
+      if category:
+        event.category_id = category
+        
+      if capacity:
+        event.capacity = capacity  
+        
+      if image_url:
+        event.image = image_url
+
+      event.save()
+
+      # Success response with basic event data
+      return JsonResponse({'message': 'Event details updated successfully!', 'event': {
+        'id': event.id,
+      }}, status=200)
+
+    except ObjectDoesNotExist:
+      return JsonResponse({'error': 'Event not found.'}, status=404)
+    except Exception as e: 
+      return JsonResponse({'error': 'Failed to update event details.', 'error_message': str(e)}, status=500)
+  else:
+    return JsonResponse({'error': 'Invalid request! Use PUT.'}, status=400)
