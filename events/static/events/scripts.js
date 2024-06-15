@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const editEventModal = document.querySelector("#editEventModal");
   const inviteMemberModal = document.querySelector("#inviteMemberModal");
   const attendeeListModal = document.getElementById("attendeeListModal");
+  const allEvents = document.getElementById("all-events");
+  const allGroups = document.getElementById("all-groups");
 
   const usernameInput = document.getElementById("username");
   const addMemberButton = document.getElementById("add-member-btn");
@@ -212,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const attendeesTableBody =
           document.getElementById("attendeesTableBody");
         attendeesTableBody.innerHTML = ""; // Clear existing content
-        const data = json.data
+        const data = json.data;
 
         data.forEach((attendee) => {
           const tableRow = document.createElement("tr");
@@ -234,6 +236,30 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error fetching attendees:", error);
         // Handle errors appropriately (e.g., display an error message)
       });
+  }
+
+  if (!!allEvents) {
+    const params = new URLSearchParams(window.location.search);
+
+    const tab = params.get("tab");
+
+    if (tab === "groups") {
+      document.getElementById("all-events").classList.remove("show");
+      document.getElementById("all-events").classList.remove("active");
+      document.getElementById("all-events-button").classList.remove("active");
+
+      document.getElementById("all-groups").classList.add("show");
+      document.getElementById("all-groups").classList.add("active");
+      document.getElementById("all-groups-button").classList.add("active");
+    } else {
+      document.getElementById("all-groups").classList.remove("show");
+      document.getElementById("all-groups").classList.remove("active");
+      document.getElementById("all-groups-button").classList.remove("active");
+
+      document.getElementById("all-events").classList.add("show");
+      document.getElementById("all-events").classList.add("active");
+      document.getElementById("all-events-button").classList.add("active");
+    }
   }
 });
 
@@ -645,3 +671,10 @@ const attendEvent = () => {
     }
   });
 };
+
+const changeTabTo = (tab) => {
+  const params = new URLSearchParams(window.location.search)
+  params.delete('page')
+  params.set('tab',tab)
+  window.location.search = params.toString()
+}

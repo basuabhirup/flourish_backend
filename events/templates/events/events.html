@@ -8,10 +8,10 @@
         or group to learn more details.
     </p>
     <div class="btn-group nav nav-pills mt-5 mb-4" role="tablist">
-        <button type="button" class="btn btn-outline-warning active" data-bs-toggle="pill" data-bs-target="#all-events"
-            role="tab">Events</button>
-        <button type="button" class="btn btn-outline-warning" data-bs-toggle="pill" data-bs-target="#all-groups"
-            role="tab">Groups</button>
+        <button type="button" class="btn btn-outline-warning" onclick="changeTabTo('events')" role="tab"
+            id="all-events-button">Events</button>
+        <button type="button" class="btn btn-outline-warning" onclick="changeTabTo('groups')" role="tab"
+            id="all-groups-button">Groups</button>
     </div>
 
     <br>
@@ -54,8 +54,34 @@
                 <p class="text-secondary lh-sm my-3 text-center">No events to display.</p>
                 {% endfor %}
             </div>
+
+            {% if paginator_events.num_pages > 1 %}
+            <nav aria-label="Page navigation example" class="mx-auto">
+                <ul class="pagination justify-content-sm-center mt-3 mb-5" class="text-bg-warning mx-auto">
+                    {% if events.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ events.previous_page_number }}">&laquo;
+                        </a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link text-muted">&laquo;</a></li>
+                    {% endif %}
+
+                    {% for page_num in paginator_events.page_range %}
+                    <li class="page-item {% if page_num == events.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if events.has_next %}
+                    <li class="page-item not-allowed"><a class="page-link"
+                            href="?page={{ events.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link text-muted">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
         </div>
-        <div class="tab-pane fade px-1 show active" id="all-groups" role="tabpanel" tabindex="0">
+        <div class="tab-pane fade px-1" id="all-groups" role="tabpanel" tabindex="0">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center">
                 {% for group in groups %}
                 <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
@@ -87,6 +113,32 @@
                 {% endfor %}
             </div>
 
+            {% if paginator_groups.num_pages > 1 %}
+            <nav aria-label="Page navigation example" class="mx-auto">
+                <ul class="pagination justify-content-sm-center mt-3 mb-5" class="text-bg-warning mx-auto">
+                    {% if groups.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ groups.previous_page_number }}&tab=groups">&laquo;
+                        </a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link text-muted">&laquo;</a></li>
+                    {% endif %}
+
+                    {% for page_num in paginator_groups.page_range %}
+                    <li class="page-item {% if page_num == groups.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page_num }}&tab=groups">{{ page_num }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if groups.has_next %}
+                    <li class="page-item not-allowed"><a class="page-link"
+                            href="?page={{ groups.next_page_number }}&tab=groups">&raquo;</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link text-muted">&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
         </div>
     </div>
 </div>

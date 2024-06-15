@@ -9,8 +9,7 @@ from django.utils import timezone
 from django.db.models import Q
 import json
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-
-
+from django.core.paginator import Paginator
 
 
 # Create your views here
@@ -64,12 +63,26 @@ def group_detail(request, group_id):
 
     
 def all_events(request):
-    events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
-    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
-    return render(request, "events/events.html", {
-        "events": events,
-        "groups": groups
-    })
+  events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
+  groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
+    
+  # Get the page number from the request (default to 1)
+  page_number = request.GET.get('page', 1)
+
+  # Pagination for events
+  paginator_events = Paginator(events, 8) 
+  page_obj_events = paginator_events.get_page(page_number)
+
+  # Pagination for groups
+  paginator_groups = Paginator(groups, 2)
+  page_obj_groups = paginator_groups.get_page(page_number)
+    
+  return render(request, "events/events.html", {
+      "events": page_obj_events,
+      "paginator_events": paginator_events,
+      "groups": page_obj_groups,
+      "paginator_groups":paginator_groups
+  })
 
 
 def login_view(request):
