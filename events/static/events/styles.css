@@ -66,3 +66,8 @@ a {
   font-weight: bold;
   cursor: pointer;
 }
+
+#hostIndividual:hover, 
+#hostGroup:hover {
+  cursor: pointer;
+}

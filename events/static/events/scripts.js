@@ -22,6 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+
+    hostEventModal.addEventListener("change", function (event) {
+      // console.log(event.target)
+      if (event.target.matches("#hostEventModal input[type='radio']")) {
+        // Check if clicked element is a radio button inside the modal
+        const selectedValue = event.target.value;
+        const groupField = document.getElementById("groupField");
+        if (selectedValue === "group") {
+          groupField.style.display = "block"; // Show group field
+        } else {
+          groupField.style.display = "none"; // Hide group field
+        }
+      }
+    });
   }
 
   if (!!inviteMemberModal) {
@@ -430,23 +444,22 @@ const editProfile = () => {
   });
 };
 
-
 const deleteMemberFromGroup = (e) => {
-  const btn = e.target.closest(".delete-member")
+  const btn = e.target.closest(".delete-member");
   // console.log(btn)
-  const memberId = btn.dataset.memberId
+  const memberId = btn.dataset.memberId;
   // console.log(memberId)
 
   const groupId = document.querySelector("#groupId").value;
-  console.log(groupId)
+  console.log(groupId);
 
   const data = {
-    memberId
-  }
+    memberId,
+  };
 
-  console.log(data)
+  console.log(data);
 
-  const jsonData = JSON.stringify(data)
+  const jsonData = JSON.stringify(data);
 
   // API Call
   fetch(`/delete_member_from_group/${groupId}`, {
@@ -465,4 +478,4 @@ const deleteMemberFromGroup = (e) => {
       });
     }
   });
-}
+};
