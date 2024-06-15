@@ -61,12 +61,33 @@
                 <hr class="mb-4">
                 <div class="card-body py-1">
                     {% for member in members %}
-                    <a href="{% url 'profile' member %}" class="d-block mb-3 card-text text-muted"><i
-                            class="bi bi-person-circle me-2"></i>{{ member }}
-                        {% if member == owner %}
-                        <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <a href="{% url 'profile' member %}" class="card-text text-muted"><i
+                                    class="bi bi-person-circle me-2"></i>{{ member }}
+                                {% if member == owner %}
+                                <span class="ms-2 pb-1 badge text-bg-secondary fw-normal">Owner</span>
+                                {% endif %}
+                            </a>
+                        </div>
+                        {% if member != owner and request.user == owner %}
+                        <div class="col-2 ms-auto">
+                            <div class="dropdpwn">
+                                <span role="button" class="text-secondary" type="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li><button class="dropdown-item hoverable delete-member"
+                                            data-member-id="{{ member.id }}" onclick="deleteMemberFromGroup(event)">
+                                            <i class="bi bi-trash text-danger"></i>
+                                            &nbsp;Remove member
+                                        </button></li>
+                                </ul>
+                            </div>
+                        </div>
                         {% endif %}
-                    </a>
+                    </div>
+
                     {% endfor %}
                 </div>
             </div>
@@ -230,7 +251,8 @@
                 <form class="form-group">
                     <label for="username fw-bold fw-5">Username</label>
                     <p id="selected-users-list" class="mt-2 w-100 d-flex flex-wrap"></p>
-                    <input type="text" class="form-control typeahead" id="username" placeholder="Type username" autocomplete="off">
+                    <input type="text" class="form-control typeahead" id="username" placeholder="Type username"
+                        autocomplete="off">
                     <ul id="username-suggestions" class="dropdown-menu px-4" role="button" tabindex="1"></ul>
                 </form>
             </div>

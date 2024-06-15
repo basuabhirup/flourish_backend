@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (res.status === 200) {
         res.json().then((json) => {
           json.users.forEach((user) => usernames.push(user.username));
-          usernameInput.addEventListener("focus", handleUserInput);
           usernameInput.addEventListener("input", handleUserInput);
         });
       } else {
@@ -51,11 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = { usernames: selectedUsernames };
 
-      console.log(data)
+      // console.log(data)
 
       const jsonData = JSON.stringify(data);
 
-      console.log(jsonData)
+      // console.log(jsonData)
 
       // API Call
       fetch(`/add-user-to-group/${groupId}`, {
@@ -430,3 +429,40 @@ const editProfile = () => {
     }
   });
 };
+
+
+const deleteMemberFromGroup = (e) => {
+  const btn = e.target.closest(".delete-member")
+  // console.log(btn)
+  const memberId = btn.dataset.memberId
+  // console.log(memberId)
+
+  const groupId = document.querySelector("#groupId").value;
+  console.log(groupId)
+
+  const data = {
+    memberId
+  }
+
+  console.log(data)
+
+  const jsonData = JSON.stringify(data)
+
+  // API Call
+  fetch(`/delete_member_from_group/${groupId}`, {
+    method: "DELETE",
+    body: jsonData,
+    credentials: "same-origin",
+  }).then((res) => {
+    if (res.status === 200) {
+      res.json().then((json) => {
+        console.log(json.message);
+        window.location.reload();
+      });
+    } else {
+      res.json().then((json) => {
+        alert(json.error);
+      });
+    }
+  });
+}

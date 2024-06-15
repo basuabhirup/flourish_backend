@@ -440,6 +440,7 @@ def get_users_not_in_group(request, group_id):
 
 
 @csrf_exempt
+@login_required
 def add_user_to_group(request, group_id):
   if request.method != 'POST':
     return JsonResponse({'error': 'Invalid request method. Use POST.'}, status=400)
@@ -471,3 +472,36 @@ def add_user_to_group(request, group_id):
       return JsonResponse({'error': 'Failed to add users to the group.', 'error_message': str(e)}, status=500)  
     
   return JsonResponse({ 'message': 'Succesfully added users to the group'}, status=200)
+
+
+@login_required
+@csrf_exempt
+def delete_member_from_group(request, group_id):
+  if request.method != 'DELETE':
+    return JsonResponse({'error': 'Invalid request method. Use DELETE.'}, status=400)
+
+  try:
+    group = Group.objects.get(pk=group_id)
+  except Group.DoesNotExist:
+    return JsonResponse({'error': 'Group does not exist.'}, status=400)
+  
+  # Check permission
+  if not group.owner == request.user:
+    return JsonResponse({'error': 'You are not authorized to remove members from this group.'}, status=403)
+
+  if not request.body:
+    return JsonResponse({'error': 'Missing data in request body.'}, status=400)
+
+  data = json.loads(request.body)
+  member_id = data.get('memberId')
+
+  try:
+    member_to_remove = User.objects.get(pk=member_id)
+  except User.DoesNotExist:
+    return JsonResponse({'error': 'Member does not exist.'}, status=400)
+  
+
+  # Remove member from the group
+  group.members.remove(member_to_remove)
+
+  return JsonResponse({'message': 'Member successfully removed from the group.'}, status=200)
