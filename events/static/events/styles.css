@@ -68,6 +68,7 @@ a {
 }
 
 #hostIndividual:hover, 
-#hostGroup:hover {
+#hostGroup:hover,
+.form-check {
   cursor: pointer;
 }

@@ -21,6 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       });
+
+      // populate group names with all of the user's groups
+      fetch("/groups").then((res) => {
+        if (res.status === 200) {
+          res.json().then((json) => {
+            json.groups.forEach(
+              (group) =>
+                (hostEventModal.querySelector(
+                  "#groupName"
+                ).innerHTML += `<option value=${group.id}>${group.name}</option>`)
+            );
+          });
+        }
+      });
     });
 
     hostEventModal.addEventListener("change", function (event) {

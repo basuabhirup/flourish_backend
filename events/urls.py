@@ -23,4 +23,5 @@ urlpatterns = [
     path('delete_member_from_group/<int:group_id>/', views.delete_member_from_group, name='delete-member-from-group'),
     path('create_event', views.create_event, name='create-event'),
     path('categories', views.categories, name='categories'),
+    path('groups', views.groups, name='groups'),
 ]

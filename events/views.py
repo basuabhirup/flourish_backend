@@ -194,7 +194,7 @@ def dashboard(request):
     hosted_past_events = Event.objects.filter(host=user, date__lt=timezone.now().date())
     
     groups = Group.objects.filter(members__in=[user])
-    print(groups)
+    # print(groups)
 
     return render(request, 'events/dashboard.html', {
         'user': user,
@@ -421,6 +421,22 @@ def categories(request):
   else:
     return JsonResponse({'error': 'Invalid request method. Use GET.'}, status=400)
   
+  
+@login_required
+def groups(request):
+  if request.method == "GET":
+    user = request.user
+    groups = Group.objects.filter(members__in=[user])
+    groups_data = []
+    for group in groups:
+      groups_data.append({
+        'id': group.id,
+        'name': group.name,
+      })
+    return JsonResponse({'groups': groups_data}, status=200)
+  else:
+    return JsonResponse({'error': 'Invalid request method. Use GET.'}, status=400)
+
   
 def get_users_not_in_group(request, group_id):
   if request.method != 'GET':
