@@ -42,7 +42,8 @@
         </span>
         {% endif %}
     </div>
-    <div class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+    <div
+        class="events row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
         {% for event in events %}
         <a href="{% url 'event_detail' event.id %}" class="event col mb-3" role="button">
             <div class="card">
@@ -87,7 +88,8 @@
         </span>
         {% endif %}
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
+    <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-2 mt-2 justify-content-sm-center justify-content-lg-start">
         {% for group in groups %}
         <a href="{% url 'group_detail' group.id %}" class="event col mb-3" role="button">
             <div class="card">
@@ -174,30 +176,47 @@
     </div>
     <div class="row d-flex justify-content-sm-center mt-2">
         <span class="col-md-6 p-3 how-to-item">
-            <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
+            <a href="{% url 'all_events' %}"
+                class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
                 <span class="ms-2 me-4">
                     {% load static %}
                     <img src="{% static 'events/images/search.png' %}" alt="" width="40">
                 </span>
                 <span class="d-flex flex-column">
-                    <div class="fs-4 fw-bold">Discover events and groups</div>
+                    <div class="fs-4 fw-bold">Discover Events and Groups</div>
                     <span class="text-secondary d-block w-75">See who's hosting local events for all the things you
                         love, attend and make new friends</span>
                 </span>
-            </div>
+            </a>
         </span>
         <span class="col-md-6 p-3 how-to-item">
-            <div class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
+            {% if not user.is_authenticated %}
+            <div type="button" data-bs-toggle="modal" data-bs-target="#loginModal"
+                class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
                 <span class="ms-2 me-4">
                     {% load static %}
                     <img src="{% static 'events/images/plus.png' %}" alt="" width="40">
                 </span>
                 <span class="d-flex flex-column">
-                    <div class="fs-4 fw-bold">Host your events</div>
+                    <div class="fs-4 fw-bold">Host your Event</div>
                     <span class="text-secondary d-block w-75">Create and host your own events, and connect with people
                         over shared interests</span>
                 </span>
             </div>
+            {% else %}
+            <div type="button" data-bs-toggle="modal" data-bs-target="#hostEventModal"
+                class="d-flex m-2 btn  btn btn-outline-light px-3 py-5 text-start text-dark">
+                <span class="ms-2 me-4">
+                    {% load static %}
+                    <img src="{% static 'events/images/plus.png' %}" alt="" width="40">
+                </span>
+                <span class="d-flex flex-column">
+                    <div class="fs-4 fw-bold">Host your Event</div>
+                    <span class="text-secondary d-block w-75">Create and host your own events, and connect with people
+                        over shared interests</span>
+                </span>
+            </div>
+            {% endif %}
         </span>
     </div>
 </div>
