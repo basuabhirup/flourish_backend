@@ -11,6 +11,10 @@ This project was developed using Python's `Django` framework in the backend and 
 
 **Complex Event Model:**  Flourish utilizes a robust Django data model with intricate relationships between users, events, categories, and registrations. This surpasses the simpler models used in "network" or "commerce" projects. It demands a thorough understanding of data normalization, relational database design principles, and proper implementation of Django Models and ForeignKey relationships.
 
+![image](https://github.com/basuabhirup/flourish/assets/69730155/29b3d610-579e-4773-8d43-b6ecdbd9babb)
+
+![image](https://github.com/basuabhirup/flourish/assets/69730155/111fe251-69d3-4c5c-9207-c2a24c812cc3)
+
 **Asynchronous User Experience:** Flourish prioritizes a smooth user experience by implementing asynchronous operations using vanilla JavaScript on the frontend. This minimizes page reloads and provides a more responsive feel. Techniques like `fetch` API is employed to achieve asynchronous data fetching and manipulation, reducing latency and improving user interaction.
 
 **Role-Based Access Control (RBAC):** Flourish implements robust user authentication with granular control over data access.  This ensures user privacy by limiting publicly available information for unauthenticated users. Sensitive data like event attendee phone numbers is only accessible to event organizers.
