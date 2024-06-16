@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
           json.groups.forEach(
             (group) =>
               (hostEventModal.querySelector(
-                "#groupName"
+                "#hostGroupName"
               ).innerHTML += `<option value=${group.id}>${group.name}</option>`)
           );
         });
@@ -407,7 +407,7 @@ const hostEvent = () => {
   const date = document.getElementById("eventDate").value;
   const time = document.getElementById("eventTime").value;
   const location = document.getElementById("eventLocation").value;
-  const group = document.getElementById("groupName").value;
+  const group = document.getElementById("hostGroupName").value;
   const category = document.getElementById("eventCategory").value;
   // const capacity = document.getElementById("eventCapacity").value;
   const image_url = document.getElementById("eventImage").value;
@@ -493,10 +493,10 @@ const createGroup = () => {
 
 const editGroup = () => {
   // const form = document.getElementById("editGroupForm");
-  const name = document.getElementById("groupName").value;
-  const description = document.getElementById("groupDescription").value;
-  const privacySetting = document.getElementById("privacySetting").value;
-  const image_url = document.getElementById("groupImage").value;
+  const name = document.getElementById("editGroupName").value;
+  const description = document.getElementById("editGroupDescription").value;
+  const privacySetting = document.getElementById("editPrivacySetting").value;
+  const image_url = document.getElementById("editGroupImage").value;
 
   const groupId = document.getElementById("groupId").value;
 

@@ -199,19 +199,19 @@
                 <div class="modal-body py-3">
                     <input type="hidden" name="group_id" value="{{ group.id }}" id="groupId">
                     <div class="mb-3">
-                        <label for="groupName" class="ms-1 form-label">Group Name <span
+                        <label for="editGroupName" class="ms-1 form-label">Group Name <span
                                 class="text-danger fs-6 mb-2">*</span></label>
-                        <input type="text" class="form-control me-4" id="groupName" name="name"
+                        <input type="text" class="form-control me-4" id="editGroupName" name="name"
                             placeholder="Enter your group name" required maxlength="200" value="{{ group.name }}">
                     </div>
                     <div class="mb-3">
-                        <label for="groupDescription" class="ms-1 form-label">Description</label>
-                        <textarea class="form-control me-4" id="groupDescription" name="description" rows="3"
+                        <label for="editGroupDescription" class="ms-1 form-label">Description</label>
+                        <textarea class="form-control me-4" id="editGroupDescription" name="description" rows="3"
                             placeholder="Describe your group">{{ group.description }}</textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="privacySetting" class="ms-1 form-label hoverable">Privacy Setting</label>
-                        <select class="form-select me-4" id="privacySetting" name="privacy_setting"
+                        <label for="editPrivacySetting" class="ms-1 form-label hoverable">Privacy Setting</label>
+                        <select class="form-select me-4" id="editPrivacySetting" name="privacy_setting"
                             aria-label="Select group privacy" required value="{{ group.privacy_setting }}">
                             {% if group.privacy_setting == 'public' %}
                             <option value="public" selected>Public</option>
@@ -223,8 +223,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="groupImage" class="ms-1 form-label">Image URL (Optional)</label>
-                        <input type="url" class="form-control me-4" id="groupImage" name="image_url"
+                        <label for="editGroupImage" class="ms-1 form-label">Image URL (Optional)</label>
+                        <input type="url" class="form-control me-4" id="editGroupImage" name="image_url"
                             value="{{ group.image_url }}">
                     </div>
                     <div class="d-flex justify-content-end mt-4">
