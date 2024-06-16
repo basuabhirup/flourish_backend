@@ -38,7 +38,7 @@
         <span class="display-6 fw-bold text-start w-75">Featured Events</span>
         {% if events %}
         <span class="w-25 text-end h5 text-decoration-none mt-3 side-text" role="button">
-            <a href="{% url 'all_events' %}" class="ms-auto side-text" role="button">See all events</a>
+            <a href="/events-and-groups?tab=events" class="ms-auto side-text" role="button">See all events</a>
         </span>
         {% endif %}
     </div>
@@ -84,7 +84,7 @@
         <span class="display-6 fw-bold text-start w-75">Featured Groups</span>
         {% if events %}
         <span class="w-25 text-end h5 text-decoration-none mt-3 side-text" role="button">
-            <a href="{% url 'all_events' %}" class="ms-auto side-text" role="button">See all groups</a>
+            <a href="/events-and-groups?tab=groups" class="ms-auto side-text" role="button">See all groups</a>
         </span>
         {% endif %}
     </div>
@@ -125,48 +125,48 @@
         <span class="display-6 fw-bold text-start w-75">Explore top categories</span>
     </div>
     <div class="categories row d-flex justify-content-sm-center mt-2">
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+        <a href="/events-and-groups?tab=events&category_id=2" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/mountain.png' %}" alt="" width="48">
             </span>
             <span class="d-block fw-bold">Travel and Outdoor</span>
-        </span>
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+        </a>
+        <a href="/events-and-groups?tab=events&category_id=3" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/groups.png' %}" alt="" width="48">
             </span>
             <span class="d-block fw-bold">Social Activities</span>
-        </span>
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+        </a>
+        <a href="/events-and-groups?tab=events&category_id=4" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/origami.png' %}" alt="" width="48">
             </span>
-            <span class="d-block fw-bold">Hobbies and Passions</span>
-        </span>
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+            <span class="d-block fw-bold">Arts and Crafts</span>
+        </a>
+        <a href="/events-and-groups?tab=events&category_id=5" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/running.png' %}" alt="" width="48">
             </span>
             <span class="d-block fw-bold">Sports and Fitness</span>
-        </span>
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+        </a>
+        <a href="/events-and-groups?tab=events&category_id=1" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/virtual-reality.png' %}" alt="" width="48">
             </span>
             <span class="d-block fw-bold">Technology</span>
-        </span>
-        <span class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
+        </a>
+        <a href="/events-and-groups?tab=events&category_id=6" class="category col-sm-6 col-md-4 col-lg-3 col-xl-2 btn btn-outline-light text-dark px-4 py-5 mt-3">
             <span class="d-block mb-2">
                 {% load static %}
                 <img src="{% static 'events/images/joystick.png' %}" alt="" width="40">
             </span>
             <span class="d-block fw-bold">Games</span>
-        </span>
+        </a>
     </div>
 </div>
 
