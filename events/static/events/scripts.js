@@ -242,6 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
 
     const tab = params.get("tab");
+    const searchQuery = params.get("search");
 
     if (tab === "groups") {
       document.getElementById("all-events").classList.remove("show");
@@ -259,6 +260,17 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("all-events").classList.add("show");
       document.getElementById("all-events").classList.add("active");
       document.getElementById("all-events-button").classList.add("active");
+    }
+
+    if (!!searchQuery) {
+      document.querySelector("#events-subtitle").innerHTML = `
+        Displaying search results for query: <strong>"${searchQuery}"</strong>
+        <br>
+        <span role="button" class="badge text-bg-light fw-normal fs-6 mt-3" onclick="removeSearchQuery()">
+          <i class="bi bi-arrow-left-square"></i>
+          View all ${!!tab ? tab : "results"}
+        </span>
+      `;
     }
   }
 });
@@ -673,8 +685,38 @@ const attendEvent = () => {
 };
 
 const changeTabTo = (tab) => {
-  const params = new URLSearchParams(window.location.search)
-  params.delete('page')
-  params.set('tab',tab)
-  window.location.search = params.toString()
-}
+  const params = new URLSearchParams(window.location.search);
+  params.delete("page");
+  params.set("tab", tab);
+  window.location.search = params.toString();
+};
+
+const searchQuery = (e) => {
+  e.preventDefault();
+  const query = document.getElementById("search-query").value;
+  if (window.location.pathname === "/events-and-groups") {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page");
+    if (!!page) {
+      params.delete("page");
+    }
+    params.set("search", query);
+    // console.log(params)
+    window.location.search = params.toString();
+  } else {
+    window.location = `/events-and-groups?search=${query}`;
+  }
+};
+
+const removeSearchQuery = () => {
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get("page");
+  const search = params.get("search");
+  if (!!page) {
+    params.delete("page");
+  }
+  if (!!search) {
+    params.delete("search");
+  }
+  window.location.search = params.toString();
+};

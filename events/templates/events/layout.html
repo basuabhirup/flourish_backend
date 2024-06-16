@@ -30,9 +30,9 @@
         </a>
 
         <form id="search-form" class="col-12 col-lg-auto ms-4 mb-3 mb-lg-0 me-lg-3" style="min-width: 400px;"
-          role="search">
+          role="search" onsubmit="searchQuery(event)">
           <div class="input-group">
-            <input type="text" aria-label="Search" class="form-control" placeholder="Search events and groups">
+            <input type="text" id="search-query" aria-label="Search" class="form-control" placeholder="Search events and groups">
             <button class="btn btn-warning" type="submit">
               <i class="bi bi-search text-dark"></i>
             </button>

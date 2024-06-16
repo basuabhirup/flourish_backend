@@ -63,18 +63,34 @@ def group_detail(request, group_id):
 
     
 def all_events(request):
-  events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
-  groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
+  """Fetches upcoming events and public groups with pagination and search."""
+  search_query = request.GET.get('search', '')  
+
+  # Filter events and groups based on search query
+  if search_query:
+    events = Event.objects.filter(
+      Q(title__icontains=search_query) | Q(location__icontains=search_query) | Q(description__icontains=search_query),
+      date__gte=timezone.now().date()
+    ).order_by('date')
+    groups = Group.objects.filter(
+      Q(name__icontains=search_query) | Q(description__icontains=search_query),
+      privacy_setting='public'
+    ).order_by('-created_at')
+  else:
+    # No search query, use default filters
+    events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
+    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
+
     
   # Get the page number from the request (default to 1)
   page_number = request.GET.get('page', 1)
 
   # Pagination for events
-  paginator_events = Paginator(events, 8) 
+  paginator_events = Paginator(events, 8)
   page_obj_events = paginator_events.get_page(page_number)
 
   # Pagination for groups
-  paginator_groups = Paginator(groups, 2)
+  paginator_groups = Paginator(groups, 8)
   page_obj_groups = paginator_groups.get_page(page_number)
     
   return render(request, "events/events.html", {
