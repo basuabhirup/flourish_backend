@@ -4,7 +4,7 @@ Flourish is more than just an event board. It's a vibrant community hub connecti
 
 ## Technology Stack
 
-This project was developed using Python's `Django` framework in the backend and `HTML`, `CSS` and `JavaScript (Vanilla)` on the frontend. For styling purpose, `Bootstrap` (v5) is also on most of the UI elements. To store the data, I have used `sqlite3` database for its simplicity and light-weight nature.
+This project was developed using Python's `Django` framework in the backend and `HTML`, `CSS` and `JavaScript` on the frontend. For styling purpose, `Bootstrap` (v5) is also on most of the UI elements. To store the data, I have used `sqlite3` database for its simplicity and light-weight nature.
 
 ## Distinctiveness and Complexity
 
@@ -16,7 +16,7 @@ Here is what I have implemented in the `Fluorish` appplication to ensure it is d
 
 ![image](https://github.com/basuabhirup/flourish/assets/69730155/111fe251-69d3-4c5c-9207-c2a24c812cc3)
 
-<p style="font-size:0.8em; text-align: center;"><i>Data Model of the Application</i></p>
+<p align="center"><i>Data Model of the Application</i></p>
 
 
 **Asynchronous User Experience:** Flourish prioritizes a smooth user experience by implementing asynchronous operations using vanilla JavaScript on the frontend. This minimizes page reloads and provides a more responsive feel. Techniques like `fetch` API is employed to achieve asynchronous data fetching and manipulation, reducing latency and improving user interaction.
