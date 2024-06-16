@@ -8,7 +8,7 @@ This project was developed using Python's `Django` framework in the backend and 
 
 ## Distinctiveness and Complexity
 
-`Flourish` distinguishes itself from past CS50 projects by venturing beyond simple data models and functionalities. Here's a breakdown of its technical advancements:
+Here is what I have implemented in the `Fluorish` appplication to ensure it is distinct from the other CS50 Projects in this course:
 
 **Complex Event Model:** Flourish utilizes a robust Django data model with intricate relationships between users, events, categories, and registrations. This surpasses the simpler models used in "network" or "commerce" projects. It demands a thorough understanding of data normalization, relational database design principles, and proper implementation of Django Models and ForeignKey relationships.
 
@@ -16,13 +16,16 @@ This project was developed using Python's `Django` framework in the backend and 
 
 ![image](https://github.com/basuabhirup/flourish/assets/69730155/111fe251-69d3-4c5c-9207-c2a24c812cc3)
 
+<p style="font-size:0.8em; text-align: center;"><i>Data Model of the Application</i></p>
+
+
 **Asynchronous User Experience:** Flourish prioritizes a smooth user experience by implementing asynchronous operations using vanilla JavaScript on the frontend. This minimizes page reloads and provides a more responsive feel. Techniques like `fetch` API is employed to achieve asynchronous data fetching and manipulation, reducing latency and improving user interaction.
 
 **Role-Based Access Control (RBAC):** Flourish implements robust user authentication with granular control over data access. This ensures user privacy by limiting publicly available information for unauthenticated users. Sensitive data like event attendee phone numbers is only accessible to event organizers.
 
 **Mobile-First Design with CSS Frameworks:** Flourish prioritizes mobile responsiveness by implementing a mobile-first design approach. CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes. This ensures optimal user experience for all users regardless of their device.
 
-These technical advancements elevate Flourish from a simple event board to a comprehensive and user-centric platform and I believe that it showcases a deeper understanding of Django, JavaScript, and web development best practices as compared to the previous CS50 projects.
+These features elevate Flourish from a simple event board to a comprehensive and user-centric platform and I believe that it showcases a deeper understanding of Django, JavaScript, and web development best practices as compared to the previous CS50 projects.
 
 ## File Structure
 
