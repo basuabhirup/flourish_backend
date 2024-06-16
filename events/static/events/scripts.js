@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const inviteMemberModal = document.querySelector("#inviteMemberModal");
   const attendeeListModal = document.getElementById("attendeeListModal");
   const allEvents = document.getElementById("all-events");
-  const allGroups = document.getElementById("all-groups");
 
   const usernameInput = document.getElementById("username");
   const addMemberButton = document.getElementById("add-member-btn");
