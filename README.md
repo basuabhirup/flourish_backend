@@ -1,20 +1,23 @@
-# Flourish: Capstone project for CS50W-2024
+# Flourish: Capstone Project for CS50W-2024
 
 Flourish is more than just an event board. It's a vibrant community hub connecting event organizers and participants, fostering a space for unforgettable local experiences. Discover a diverse range of upcoming events, filter them based on your interests, and register with just a tap. Organizers can seamlessly create and manage their events, track registrations, and connect with attendees, all within one convenient platform.
 
 ## Technology Stack
 
-This project was developed using Python's `Django` framework in the backend and `HTML`, `CSS` and `JavaScript (Vanilla)` on the frontend. For styling purpose, `Bootstrap (v5)` is also on most of the UI elements. To store the data, I have used `sqlite3` database for its simplicity and light-weight nature.
+This project was developed using Python's `Django` framework in the backend and `HTML`, `CSS` and `JavaScript (Vanilla)` on the frontend. For styling purpose, `Bootstrap` (v5) is also on most of the UI elements. To store the data, I have used `sqlite3` database for its simplicity and light-weight nature.
 
 ## Distinctiveness and Complexity
-This capstone project (`Flourish`) transcends the limitations of past CS50 projects like "network" and "commerce" by delving deeper into user interactionand data-manipulation. Here's how Flourish stands out technically:
-- Flourish incorporates a complex event model with detailed descriptions, categories, and registration functionality. This requires advanced data validation and manipulation on the backend using Django models and forms.
-- There are 5 Data Models implementing an intricate relationships between users, events, categories, and registrations. This complexity surpasses the simpler models used in "network" or "commerce" projects, demanding a deeper understanding of data management and relational databases in Django.
-- A special emphasis was given on enhancing the user experience (UX) of this platform. In most of the frontend, several custom modal components are implemented and most of the CRUD operations on the database is performed asynchronously using vanilla JavaScript in the frontend to ensure a smoother user experience limiting the number of page reloads
-- The overall colour consistency, fonts and overall UI layout was designed as professionally as possible to make the platform appealling to new-age internet users
-- The user authentication was implemented robustly in such a manner so that only very limited information is available publicy (for unauthenticated users). Also, the user sensitive information like event attendees mobile number is made visible only to the event host in order to protect their privacy
-- Role based conditional UI rendering was implemented to make sure only previeleged users (like the owner of a group or the host of an event) can make edits and view some specific informations related to a particular event or group and the same checks are implemented in frontend as well as backend to make sure no unauthorized users can view any sensitive information
-- The application is designed keeping mobile-first design in mind and most of the UI layout is implemented using CSS Flex and Grid via relevant bootstrap classes to make sure a wide range of users from devices with any size can access to all the information seamlessly
+`Flourish` distinguishes itself from past CS50 projects by venturing beyond simple data models and functionalities. Here's a breakdown of its technical advancements:
+
+**Complex Event Model:**  Flourish utilizes a robust Django data model with intricate relationships between users, events, categories, and registrations. This surpasses the simpler models used in "network" or "commerce" projects. It demands a thorough understanding of data normalization, relational database design principles, and proper implementation of Django Models and ForeignKey relationships.
+
+**Asynchronous User Experience:** Flourish prioritizes a smooth user experience by implementing asynchronous operations using vanilla JavaScript on the frontend. This minimizes page reloads and provides a more responsive feel. Techniques like `fetch` API is employed to achieve asynchronous data fetching and manipulation, reducing latency and improving user interaction.
+
+**Role-Based Access Control (RBAC):** Flourish implements robust user authentication with granular control over data access.  This ensures user privacy by limiting publicly available information for unauthenticated users. Sensitive data like event attendee phone numbers is only accessible to event organizers.
+
+**Mobile-First Design with CSS Frameworks:** Flourish prioritizes mobile responsiveness by implementing a mobile-first design approach.  CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes. This ensures optimal user experience for all users regardless of their device.
+
+These technical advancements elevate Flourish from a simple event board to a comprehensive and user-centric platform and I believe that it showcases a deeper understanding of Django, JavaScript, and web development best practices as compared to the previous CS50 projects.
 
 ## File Structure
 - This project has one application named `events` which is the entirety of this project
