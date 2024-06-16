@@ -102,3 +102,7 @@ a {
     border: solid 1px #FFC107;
     color: #112;
 }
+
+#categoryFilterContainer {
+  display: none;
+}

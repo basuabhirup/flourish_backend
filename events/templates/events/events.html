@@ -4,8 +4,8 @@
 <div class="container mt-5">
     <h1 class="text-center mx-auto">Events and Groups</h1>
     <p id="events-subtitle" class="text-muted text-center mx-auto">
-        Displaying a list of upcoming events and active groups. Switch tabs to explore what interests you. Click on an event
-        or group to learn more details.
+        Displaying a list of upcoming events and active groups. Switch tabs to explore what interests you. Click on an
+        event or group to learn more details.
     </p>
     <div class="btn-group nav nav-pills mt-5 mb-4" role="tablist">
         <button type="button" class="btn btn-outline-warning" onclick="changeTabTo('events')" role="tab"
@@ -13,9 +13,15 @@
         <button type="button" class="btn btn-outline-warning" onclick="changeTabTo('groups')" role="tab"
             id="all-groups-button">Groups</button>
     </div>
-
-    <br>
     <hr>
+
+    <div id="categoryFilterContainer" class="container w-50 mb-5 justify-content-center">
+        <select class="form-select col-12 mt-4" id="eventCategoryFilter" name="category" aria-label="Select event category"
+            onchange="handleCategoryFilterSelection()" required>
+            <option selected disabled>Choose a category</option>
+            <option value="0">All Categories</option>
+        </select>
+    </div>
 
     <div class="tab-content mb-4">
 

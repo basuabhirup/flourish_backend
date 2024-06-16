@@ -63,24 +63,36 @@ def group_detail(request, group_id):
 
     
 def all_events(request):
-  """Fetches upcoming events and public groups with pagination and search."""
-  search_query = request.GET.get('search', '')  
+  """Fetches upcoming events and public groups with pagination, search, and category filtering."""
+  search_query = request.GET.get('search', '')
+  category_id = request.GET.get('category_id', '')
 
-  # Filter events and groups based on search query
+  # Base filters
+  events = Event.objects.filter(date__gte=timezone.now().date())
+  groups = Group.objects.filter(privacy_setting='public')
+
+  # Filter by category ID (if provided) for events
+  if category_id:
+    try:
+      category_id = int(category_id)
+      events = events.filter(category_id=category_id)
+    except ValueError:
+      return JsonResponse({'error': 'Invalid category id.'}, status=400)
+    
+
+  # Apply search query filter (if provided) for both events and groups
   if search_query:
-    events = Event.objects.filter(
-      Q(title__icontains=search_query) | Q(location__icontains=search_query) | Q(description__icontains=search_query),
-      date__gte=timezone.now().date()
-    ).order_by('date')
-    groups = Group.objects.filter(
-      Q(name__icontains=search_query) | Q(description__icontains=search_query),
-      privacy_setting='public'
-    ).order_by('-created_at')
-  else:
-    # No search query, use default filters
-    events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date') # all upcoming events
-    groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')
+    events = events.filter(
+      Q(title__icontains=search_query) | Q(location__icontains=search_query) | Q(description__icontains=search_query)
+    )
+    groups = groups.filter(
+      Q(name__icontains=search_query) | Q(description__icontains=search_query)
+    )
 
+  # Apply default ordering
+  events = events.order_by('date')
+  groups = groups.order_by('-created_at')
+  
     
   # Get the page number from the request (default to 1)
   page_number = request.GET.get('page', 1)
@@ -399,7 +411,6 @@ def create_event(request):
     event_group = request.POST.get('group')
 
     # Optional fields
-    event_capacity = request.POST.get('capacity')
     event_image = request.POST.get('image')
 
     if not event_title:
@@ -430,8 +441,6 @@ def create_event(request):
       )
       if event_group:
         event.group_id = event_group
-      if event_capacity:        
-        event.capacity=event_capacity
       event.save()
     except IntegrityError as e:
       # Handle specific exceptions (optional)
@@ -579,7 +588,6 @@ def edit_event(request, event_id):
       time = data.get('time')
       location = data.get('location')
       category = data.get('category')
-      capacity = data.get('capacity')
       image_url = data.get('image_url')
 
       # Basic validation
@@ -597,9 +605,6 @@ def edit_event(request, event_id):
       
       if category:
         event.category_id = category
-        
-      if capacity:
-        event.capacity = capacity  
         
       if image_url:
         event.image = image_url

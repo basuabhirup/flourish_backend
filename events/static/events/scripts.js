@@ -243,6 +243,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const tab = params.get("tab");
     const searchQuery = params.get("search");
+    const categoryId = params.get("category_id");
+    const categoryFilterInput = document.querySelector("#eventCategoryFilter");
+
+    // populate event category with relevant options from db
+    fetch("/categories").then((res) => {
+      if (res.status === 200) {
+        res.json().then((json) => {
+          json.categories.forEach((category) => {
+            if (!!categoryId && Number(categoryId) === category.id) {
+              categoryFilterInput.innerHTML += `<option value=${category.id} selected>${category.name}</option>`;
+            } else {
+              categoryFilterInput.innerHTML += `<option value=${category.id}>${category.name}</option>`;
+            }
+          });
+        });
+      }
+    });
 
     if (tab === "groups") {
       document.getElementById("all-events").classList.remove("show");
@@ -252,6 +269,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("all-groups").classList.add("show");
       document.getElementById("all-groups").classList.add("active");
       document.getElementById("all-groups-button").classList.add("active");
+
+      document.getElementById("categoryFilterContainer").style.display = "none";
     } else {
       document.getElementById("all-groups").classList.remove("show");
       document.getElementById("all-groups").classList.remove("active");
@@ -260,6 +279,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("all-events").classList.add("show");
       document.getElementById("all-events").classList.add("active");
       document.getElementById("all-events-button").classList.add("active");
+
+      document.getElementById("categoryFilterContainer").style.display = "flex";
     }
 
     if (!!searchQuery) {
@@ -388,7 +409,7 @@ const hostEvent = () => {
   const location = document.getElementById("eventLocation").value;
   const group = document.getElementById("groupName").value;
   const category = document.getElementById("eventCategory").value;
-  const capacity = document.getElementById("eventCapacity").value;
+  // const capacity = document.getElementById("eventCapacity").value;
   const image_url = document.getElementById("eventImage").value;
 
   const csrfmiddlewaretoken = form.querySelector(
@@ -402,7 +423,7 @@ const hostEvent = () => {
   data.append("time", time);
   data.append("location", location);
   data.append("category", category);
-  data.append("capacity", capacity);
+  // data.append("capacity", capacity);
   data.append("image", image_url);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
 
@@ -611,7 +632,7 @@ const editEvent = () => {
   const time = document.getElementById("editEventTime").value;
   const location = document.getElementById("editEventLocation").value;
   const category = document.getElementById("editEventCategory").value;
-  const capacity = document.getElementById("editEventCapacity").value;
+  // const capacity = document.getElementById("editEventCapacity").value;
   const image_url = document.getElementById("editEventImage").value;
 
   const data = {
@@ -621,7 +642,6 @@ const editEvent = () => {
     time,
     location,
     category,
-    capacity,
     image_url,
   };
 
@@ -717,6 +737,21 @@ const removeSearchQuery = () => {
   }
   if (!!search) {
     params.delete("search");
+  }
+  window.location.search = params.toString();
+};
+
+const handleCategoryFilterSelection = () => {
+  const categoryFilter = document.getElementById("eventCategoryFilter");
+  const params = new URLSearchParams(window.location.search);
+  const categoryId = params.get("category_id");
+  const categoryIdInput = categoryFilter.value;
+  if (categoryIdInput === "0" && !!categoryId) {
+    if (!!categoryId) {
+      params.delete("category_id");
+    }
+  } else {
+    params.set("category_id", categoryIdInput);
   }
   window.location.search = params.toString();
 };
