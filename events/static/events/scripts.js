@@ -426,7 +426,7 @@ const hostEvent = () => {
   data.append("image", image_url);
   data.append("csrfmiddlewaretoken", csrfmiddlewaretoken);
 
-  if (!!groupName) {
+  if (!!document.querySelector("#hostGroup").checked) {
     data.append("group", group);
   }
 
@@ -435,18 +435,22 @@ const hostEvent = () => {
     method: "POST",
     body: data,
     credentials: "same-origin",
-  }).then((res) => {
-    if (res.status === 201) {
-      res.json().then((json) => {
-        console.log(json.message);
-        window.location = `/events/${json.event.id}`;
-      });
-    } else {
-      res.json().then((json) => {
-        alert(json.error);
-      });
-    }
-  });
+  })
+    .then((res) => {
+      if (res.status === 201) {
+        res.json().then((json) => {
+          console.log(json.message);
+          window.location = `/events/${json.event.id}`;
+        });
+      } else {
+        res.json().then((json) => {
+          alert(json.error);
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 const createGroup = () => {

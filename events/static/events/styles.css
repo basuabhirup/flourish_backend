@@ -106,3 +106,7 @@ a {
 #categoryFilterContainer {
   display: none;
 }
+
+.modal {
+  overflow-y: auto;
+}

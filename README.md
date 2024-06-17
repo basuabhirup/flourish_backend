@@ -10,7 +10,7 @@ This project was developed using Python's `Django` framework in the backend and 
 
 Here is what I have implemented in the `Fluorish` appplication to ensure it is distinct from the other CS50 Projects in this course:
 
-**Complex Event Model:** Flourish utilizes a robust Django data model with intricate relationships between users, events, categories, and registrations. This surpasses the simpler models used in "network" or "commerce" projects. It demands a thorough understanding of data normalization, relational database design principles, and proper implementation of Django Models and ForeignKey relationships.
+- **Complex Event Model:** Flourish utilizes a robust Django data model with intricate relationships between users, events, categories, and registrations. This surpasses the simpler models used in "network" or "commerce" projects. It demands a thorough understanding of data normalization, relational database design principles, and proper implementation of Django Models and ForeignKey relationships.
 
 ![image](https://github.com/basuabhirup/flourish/assets/69730155/29b3d610-579e-4773-8d43-b6ecdbd9babb)
 
@@ -19,11 +19,11 @@ Here is what I have implemented in the `Fluorish` appplication to ensure it is d
 <p align="center"><i>Data Model of the Application</i></p>
 
 
-**Asynchronous User Experience:** Flourish prioritizes a smooth and responsive user experience by incorporating asynchronous operations on the frontend. This means minimizing page reloads and creating a more interactive feel. Techniques like the `fetch` API is used to achieve asynchronous data fetching and manipulation. This approach reduces latency and improves user interaction, making Flourish feel more dynamic and engaging.
+- **Asynchronous User Experience:** Flourish prioritizes a smooth and responsive user experience by incorporating asynchronous operations on the frontend. This means minimizing page reloads and creating a more interactive feel. Techniques like the `fetch` API is used to achieve asynchronous data fetching and manipulation. This approach reduces latency and improves user interaction, making Flourish feel more dynamic and engaging.
 
-**Role-Based Access Control (RBAC):** Flourish takes user privacy seriously. It implements robust user authentication with granular control over data access.  This ensures that unauthenticated users have limited access to information. Importantly, sensitive data like event attendee phone numbers is only accessible to event organizers.
+- **Role-Based Access Control (RBAC):** Flourish takes user privacy seriously. It implements robust user authentication with granular control over data access.  This ensures that unauthenticated users have limited access to information. Importantly, sensitive data like event attendee phone numbers is only accessible to event organizers.
 
-**Mobile-First Design for All Devices:** Flourish prioritizes mobile responsiveness by adopting a mobile-first design approach. This means the UI is optimized for smaller screens first and then adapts to larger displays. CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes.  This approach ensures optimal user experience for all users regardless of the device they're using.
+- **Mobile-First Design for All Devices:** Flourish prioritizes mobile responsiveness by adopting a mobile-first design approach. This means the UI is optimized for smaller screens first and then adapts to larger displays. CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes.  This approach ensures optimal user experience for all users regardless of the device they're using.
 
 These features elevate Flourish from a simple event board to a comprehensive and user-centric platform and I believe that it showcases a deeper understanding of Django, JavaScript, and web development best practices as compared to the previous CS50 projects.
 
