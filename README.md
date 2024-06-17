@@ -1,6 +1,6 @@
 # Flourish: Capstone Project for CS50W-2024
 
-Flourish is more than just an event board. It's a vibrant community hub connecting event organizers and participants, fostering a space for unforgettable local experiences. Discover a diverse range of upcoming events, filter them based on your interests, and register with just a tap. Organizers can seamlessly create and manage their events, track registrations, and connect with attendees, all within one convenient platform.
+Flourish is a vibrant community hub connecting event organizers and participants, fostering a space for unforgettable local experiences. The users cab discover a diverse range of upcoming events, filter them based on their interests, and register with just a tap. Organizers can seamlessly create and manage their events, track registrations, and connect with attendees, all within one convenient platform.
 
 ## Technology Stack
 
