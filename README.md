@@ -30,21 +30,23 @@ These features elevate Flourish from a simple event board to a comprehensive and
 ## File Structure
 
 - This project has one application named `events` which is the entirety of this project
-- The root `urls.py` file in `/community_event_board/urls.py` includes `events.urls` in its urlpatterns agains path `''` to make sure all the urls made in this prohect will be redirected to the `events` application
+- The root `urls.py` file in `/community_event_board/urls.py` includes `events.urls` in its urlpatterns for path `''` to make sure all the urls made in this project will be redirected to the `events` application
 - The `events` application is installed in the project by including it in the `INSTALLED_APPS` list inside `/community_event_board/settings.py` file
-- All the url paths are defined inside `events/urls.py` file and the paths specific to API responses are distinguished separately
+- All the url paths are defined inside `events/urls.py` file and the paths specific to API responses are distinguished separately under a heading `# API Views`
 - The overall data model is defined in `events/models.py` file
 - All the view handler functions are defined in `events/views.py` file. This is the most important file and almost the entirety of the backend logic is defined in this file
 - All the frontend jinja templates and `.html` UI files are defined in `/events/templates/events/` directory. The `layout.html` file is the base file and all other templates are extending this base layout.
 - All the static assets like icons, images, stylesheets (CSS) and scripts (JavaScript) are defined in `/events/static/events/` directory which are getting fetched by the frontend as and when required
+- The single most important file for frontend is `/events/static/events/scripts.js` where the entirety of the frontend logic is defined
 
 ## How to Run the Application ?
 
-1. Make sure that `Python` and `Django` is already installed in your system
+1. Make sure that `Python` (v3.0+) and `Django` is already installed in your system
 2. Clone this repository to your local by using the following command in your system terminal:
-   `git clone git@github.com:basuabhirup/flourish.git`
-3. Go to the root directory of project using `cd flourish`
-4. Make the migration files for the db model if required: `python3 manage.py makemigrations events`
-5. Migrate the databse: `python3 manage.py migrate`
-4. Run the the Django server by executing the following command: `python3 manage.py runserver`
+   `git clone git@github.com:me50/basuabhirup.git`
+3. Go to the root directory of project using `cd basuabhirup`
+4. Make sure you are on the right branch by executing the command: `git checkout web50/projects/2020/x/capstone`
+4. Make the migration files for the db model if required: `python manage.py makemigrations events`
+5. Migrate the databse: `python manage.py migrate`
+4. Run the Django server in local by executing the following command: `python manage.py runserver`
 
