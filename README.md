@@ -19,11 +19,11 @@ Here is what I have implemented in the `Fluorish` appplication to ensure it is d
 <p align="center"><i>Data Model of the Application</i></p>
 
 
-**Asynchronous User Experience:** Flourish prioritizes a smooth user experience by implementing asynchronous operations using vanilla JavaScript on the frontend. This minimizes page reloads and provides a more responsive feel. Techniques like `fetch` API is employed to achieve asynchronous data fetching and manipulation, reducing latency and improving user interaction.
+**Asynchronous User Experience:** Flourish prioritizes a smooth and responsive user experience by incorporating asynchronous operations on the frontend. This means minimizing page reloads and creating a more interactive feel. Techniques like the `fetch` API is used to achieve asynchronous data fetching and manipulation. This approach reduces latency and improves user interaction, making Flourish feel more dynamic and engaging.
 
-**Role-Based Access Control (RBAC):** Flourish implements robust user authentication with granular control over data access. This ensures user privacy by limiting publicly available information for unauthenticated users. Sensitive data like event attendee phone numbers is only accessible to event organizers.
+**Role-Based Access Control (RBAC):** Flourish takes user privacy seriously. It implements robust user authentication with granular control over data access.  This ensures that unauthenticated users have limited access to information. Importantly, sensitive data like event attendee phone numbers is only accessible to event organizers.
 
-**Mobile-First Design with CSS Frameworks:** Flourish prioritizes mobile responsiveness by implementing a mobile-first design approach. CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes. This ensures optimal user experience for all users regardless of their device.
+**Mobile-First Design for All Devices:** Flourish prioritizes mobile responsiveness by adopting a mobile-first design approach. This means the UI is optimized for smaller screens first and then adapts to larger displays. CSS `Flexbox` and `Grid` layouts are utilized extensively, often leveraging Bootstrap classes, to ensure seamless UI rendering across a wide range of devices and screen sizes.  This approach ensures optimal user experience for all users regardless of the device they're using.
 
 These features elevate Flourish from a simple event board to a comprehensive and user-centric platform and I believe that it showcases a deeper understanding of Django, JavaScript, and web development best practices as compared to the previous CS50 projects.
 
