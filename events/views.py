@@ -1,6 +1,11 @@
-from django.shortcuts import render, get_object_or_404
 from .models import Event, User, Group, Registration, Category, UserProfile
-# from .serializers import EventSerializer, GroupSerializer, UserSerializer, RegistrationSerializer, CategorySerializer
+from .serializers import EventSerializer, GroupSerializer, UserSerializer, RegistrationSerializer, CategorySerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
@@ -13,7 +18,6 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.paginator import Paginator
 
 
-# Create your views here
 def index(request):
     events = Event.objects.filter(date__gte=timezone.now().date()).order_by('date')[:4]
     groups = Group.objects.filter(privacy_setting='public').order_by('-created_at')[:4]
@@ -63,55 +67,63 @@ def group_detail(request, group_id):
     return render(request, 'events/404.html')
 
     
+@api_view(['GET'])
 def all_events(request):
-  """Fetches upcoming events and public groups with pagination, search, and category filtering."""
-  search_query = request.GET.get('search', '')
-  category_id = request.GET.get('category_id', '')
+    """Fetches upcoming events and public groups with pagination, search, and category filtering."""
+    search_query = request.GET.get('search', '')
+    category_id = request.GET.get('category_id', '')
 
-  # Base filters
-  events = Event.objects.filter(date__gte=timezone.now().date())
-  groups = Group.objects.filter(privacy_setting='public')
+    # Base filters
+    events = Event.objects.filter(date__gte=timezone.now().date())
+    groups = Group.objects.filter(privacy_setting='public')
 
-  # Filter by category ID (if provided) for events
-  if category_id:
-    try:
-      category_id = int(category_id)
-      events = events.filter(category_id=category_id)
-    except ValueError:
-      return JsonResponse({'error': 'Invalid category id.'}, status=400)
-    
+    # Filter by category ID (if provided) for events
+    if category_id:
+        try:
+            category_id = int(category_id)
+            events = events.filter(category_id=category_id)
+        except ValueError:
+            return Response({'error': 'Invalid category id.'}, status=400)
 
-  # Apply search query filter (if provided) for both events and groups
-  if search_query:
-    events = events.filter(
-      Q(title__icontains=search_query) | Q(location__icontains=search_query) | Q(description__icontains=search_query)
-    )
-    groups = groups.filter(
-      Q(name__icontains=search_query) | Q(description__icontains=search_query)
-    )
+    # Apply search query filter (if provided) for both events and groups
+    if search_query:
+        events = events.filter(
+            Q(title__icontains=search_query) | Q(location__icontains=search_query) | Q(description__icontains=search_query)
+        )
+        groups = groups.filter(
+            Q(name__icontains=search_query) | Q(description__icontains=search_query)
+        )
 
-  # Apply default ordering
-  events = events.order_by('date')
-  groups = groups.order_by('-created_at')
-  
-    
-  # Get the page number from the request (default to 1)
-  page_number = request.GET.get('page', 1)
+    # Apply default ordering
+    events = events.order_by('date')
+    groups = groups.order_by('-created_at')
 
-  # Pagination for events
-  paginator_events = Paginator(events, 8)
-  page_obj_events = paginator_events.get_page(page_number)
+    # Get the page number from the request (default to 1)
+    page_number = request.GET.get('page', 1)
 
-  # Pagination for groups
-  paginator_groups = Paginator(groups, 8)
-  page_obj_groups = paginator_groups.get_page(page_number)
-    
-  return render(request, "events/events.html", {
-      "events": page_obj_events,
-      "paginator_events": paginator_events,
-      "groups": page_obj_groups,
-      "paginator_groups":paginator_groups
-  })
+    # Pagination for events
+    paginator_events = Paginator(events, 8)
+    page_obj_events = paginator_events.get_page(page_number)
+
+    # Pagination for groups
+    paginator_groups = Paginator(groups, 8)
+    page_obj_groups = paginator_groups.get_page(page_number)
+
+    events_serializer = EventSerializer(page_obj_events, many=True)
+    groups_serializer = GroupSerializer(page_obj_groups, many=True)
+
+    return Response({
+        "events": events_serializer.data,
+        "paginator_events": {
+            "count": paginator_events.count,
+            "num_pages": paginator_events.num_pages,
+        },
+        "groups": groups_serializer.data,
+        "paginator_groups": {
+            "count": paginator_groups.count,
+            "num_pages": paginator_groups.num_pages,
+        }
+    })
 
 
 def login_view(request):
