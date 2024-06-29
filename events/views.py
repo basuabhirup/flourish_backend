@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Event, User, Group, Registration, Category, UserProfile
+# from .serializers import EventSerializer, GroupSerializer, UserSerializer, RegistrationSerializer, CategorySerializer
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
