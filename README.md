@@ -15,9 +15,8 @@ This is the codebase for the backend of Flourish project. Flourish is a vibrant 
 1. Make sure that `Python` (v3.0+) and `Django` is already installed in your system
 2. Clone this repository to your local by using the following command in your system terminal:
    `git clone git@github.com:basuabhirup/flourish_backend.git`
-3. Go to the root directory of project using `cd basuabhirup`
-4. Make sure you are on the right branch by executing the command: `git checkout web50/projects/2020/x/capstone`
+3. Go to the root directory of project using `cd flourish_backend`
 4. Make the migration files for the db model if required: `python manage.py makemigrations events`
 5. Migrate the databse: `python manage.py migrate`
-4. Run the Django server in local by executing the following command: `python manage.py runserver`
+6. Run the Django server in local by executing the following command: `python manage.py runserver`
 
