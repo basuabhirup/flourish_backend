@@ -27,44 +27,50 @@ def index(request):
     })
     
 
+@api_view(['GET'])
 def event_detail(request, event_id):
-  try:
-    event = Event.objects.get(pk=event_id)
-    registrations = Registration.objects.filter(event=event)
-    # Fetch user details (optional)
-    registered_users = [registration.user for registration in registrations]
-    return render(request, 'events/event_detail.html', {
-      'event': event,
-      'registered_users': registered_users
-      })
-  except Event.DoesNotExist:
-    return JsonResponse({'error': 'Event not found.'}, status=404)
-  except Exception as e:
-    return JsonResponse({'error_message': str(e)}, status=500)
+    try:
+        event = Event.objects.get(pk=event_id)
+        registrations = Registration.objects.filter(event=event)
+        registered_users = [registration.user for registration in registrations]
 
+        event_serializer = EventSerializer(event)
+        registered_users_serializer = UserSerializer(registered_users, many=True)
+
+        return Response({
+            'event': event_serializer.data,
+            'registered_users': registered_users_serializer.data
+        })
+    except Event.DoesNotExist:
+        return Response({'error': 'Event not found.'}, status=404)
+    except Exception as e:
+        return Response({'error_message': str(e)}, status=500)
   
   
+@api_view(['GET'])
 def group_detail(request, group_id):
-  try:
-    group = Group.objects.get(pk=group_id)
-    
-    if group.privacy_setting == 'public' or (request.user.is_authenticated and group.members.filter(pk=request.user.pk).exists()):
-      upcoming_events = group.events.filter(date__gte=timezone.now().date())
-      past_events = group.events.filter(date__lt=timezone.now().date())
-      members = group.members.all()
-      owner = group.owner
-      
-      return render(request, 'events/group_detail.html', {
-        'group': group,
-        'upcoming_events': upcoming_events,
-        'past_events': past_events,
-        'members': members,
-        'owner': owner
-      })
-    else:
-      return render(request, 'events/404.html')
-  except Group.DoesNotExist:
-    return render(request, 'events/404.html')
+    try:
+        group = Group.objects.get(pk=group_id)
+        
+        if group.privacy_setting == 'public' or (request.user.is_authenticated and group.members.filter(pk=request.user.pk).exists()):
+            upcoming_events = group.events.filter(date__gte=timezone.now().date())
+            past_events = group.events.filter(date__lt=timezone.now().date())
+            
+            group_serializer = GroupSerializer(group)
+            upcoming_events_serializer = EventSerializer(upcoming_events, many=True)
+            past_events_serializer = EventSerializer(past_events, many=True)
+            
+            return Response({
+                'group': group_serializer.data,
+                'upcoming_events': upcoming_events_serializer.data,
+                'past_events': past_events_serializer.data
+            })
+        else:
+            return Response({'error': 'Unauthorized access.'}, status=403)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group not found.'}, status=404)
+    except Exception as e:
+        return Response({'error_message': str(e)}, status=500)
 
     
 @api_view(['GET'])

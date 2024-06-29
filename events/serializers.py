@@ -18,7 +18,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'time', 'location', 'category', 'host', 'image']
+        fields = ['id', 'title', 'description', 'date', 'time', 'location', 'category', 'host', 'group', 'image']
 
 class GroupSerializer(serializers.ModelSerializer):
     owner = UserSerializer()
